@@ -10,13 +10,21 @@ brand-matched to `qa-forge-core/docs/qa-engine-one-pager.html` (emerald `#10b981
 
 ```
 certusqa-site/
-├── index.html                  ← the whole landing page (self-contained CSS + tiny JS)
+├── index.html                  ← Platform landing (agentic GenAI product) → certusqa.com
+├── deployshield.html           ← DeployShield Suite services page → certusqa.com/deployshield
 ├── assets/
+│   ├── styles.css              ← shared design system (both pages link this)
 │   ├── certusqa-icon-mark.png  ← hexagon check-probe logo mark (nav + favicon)
 │   └── certusqa-logo-horizontal-light.png
 ├── _headers                    ← Cloudflare Pages security headers
 └── .gitignore
 ```
+
+Two pages, cross-linked in nav + footer:
+- **`/` (index.html)** — the CertusQA agentic product; CTAs → `mailto:hello@certusqa.com`.
+- **`/deployshield`** — the managed DeployShield Suite services offer (migrated from Bolt); CTAs → Tally intake `https://tally.so/r/MePK9X`.
+
+Cloudflare Pages serves `deployshield.html` at the clean URL `/deployshield` automatically.
 
 ## Preview locally
 
@@ -74,7 +82,8 @@ Give DNS 5–60 min, then `https://certusqa.com` serves this site (Cloudflare is
 
 ## Wiring
 
-- All CTAs currently point to `mailto:hello@certusqa.com?subject=Live Sandbox Demo Request`.
-  To route demos through **Calendly** or the **Tally** intake instead, search `index.html` for
-  `mailto:hello@certusqa.com` and swap the `href` (e.g. your Calendly link).
-- The **one-pager PDF button** (`qa-forge-core/docs/qa-engine-one-pager.html`) already points to `https://certusqa.com`.
+- **Platform page (`index.html`)** CTAs → `mailto:hello@certusqa.com?subject=Live Sandbox Demo Request`.
+  To route demos through **Calendly** instead, swap those `href`s.
+- **Services page (`deployshield.html`)** CTAs → Tally intake `https://tally.so/r/MePK9X` (the existing lead funnel).
+- The **one-pager PDF button** (`qa-forge-core/docs/qa-engine-one-pager.html`) points to `https://certusqa.com`.
+- Cross-repo alignment (brand, URLs, pricing) is governed by `qa-forge-core/.cursor/rules/certusqa-cross-repo-sync.mdc`.

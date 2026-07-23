@@ -120,7 +120,7 @@
       </div>
     </div>
     <p class="roi-anchor">The average SaaS team burns <b>$250K–$350K a year</b> on QA overhead and flaky pipelines. CertusQA gives it back.</p>
-    <p class="verify-line">Every number here is reproducible in a 5-minute offline sandbox — verify it before you buy.</p>
+    <p class="verify-line">Sandbox-verified · reference catalog shows 3 of 20 specs selected (85% fewer) — not a client metric · verify before you buy.</p>
   </div>
 </section>
 
@@ -147,7 +147,8 @@
       <span class="guard-chip">Max 2 heal attempts</span>
       <span class="guard-chip">Never softens a failing test</span>
       <span class="guard-chip">Deny-by-default scopes</span>
-      <span class="guard-chip">Every AI action audited</span>
+      <span class="guard-chip">Regression memory</span>
+      <span class="guard-chip">Live Playwright MCP</span>
     </div>
   </div>
 </section>
@@ -231,9 +232,9 @@
       <p>No chat message, no vibes. Each run emits a versioned Proof Artifact — JSON + Markdown — with root cause, severity, and the gate call included.</p>
       <ul class="proof-list">
         <li><svg viewBox="0 0 24 24"><path d="m9 12 2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg> Real output from a sandbox bug-hunt — a $499 item priced at $0.00, caught and blocked.</li>
-        <li><svg viewBox="0 0 24 24"><path d="m9 12 2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg> Deterministic and reproducible — run it yourself in a 5-minute offline sandbox.</li>
         <li><svg viewBox="0 0 24 24"><path d="m9 12 2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg> From a ticket to a runnable spec to a gate verdict — authored, run, and blocked automatically.</li>
-        <li><svg viewBox="0 0 24 24"><path d="m9 12 2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg> Deny-by-default scopes: agents can't soften a failing test, and every action is audited.</li>
+        <li><svg viewBox="0 0 24 24"><path d="m9 12 2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg> Past regression recalled on a later PR — forced back into the run and blocked again (never shipped twice).</li>
+        <li><svg viewBox="0 0 24 24"><path d="m9 12 2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg> Deny-by-default scopes + live Playwright MCP: agents can't soften a failing test, and every action is audited.</li>
       </ul>
     </div>
     <div>
@@ -267,15 +268,15 @@
       <p>Not a script library — a coordinated system where each engine owns one job.</p>
     </div>
     <div class="engines-grid">
-      <div class="engine"><span class="no">01</span><span class="tx"><b>Impact</b><span>Risk-ranked test selection</span></span></div>
-      <div class="engine"><span class="no">02</span><span class="tx"><b>Regression Memory</b><span>Recalls past hotfixes</span></span></div>
-      <div class="engine"><span class="no">03</span><span class="tx"><b>Self-Healing</b><span>Auto-repairs broken locators</span></span></div>
+      <div class="engine"><span class="no">01</span><span class="tx"><b>Impact</b><span>Risk-ranked selection (e.g. 3 of 20)</span></span></div>
+      <div class="engine"><span class="no">02</span><span class="tx"><b>Regression Memory</b><span>Recalls past hotfixes so they can't ship twice</span></span></div>
+      <div class="engine"><span class="no">03</span><span class="tx"><b>Self-Healing</b><span>Guardrailed repair, max 2 tries</span></span></div>
       <div class="engine"><span class="no">04</span><span class="tx"><b>Bug Hunter</b><span>Catches behavioral regressions</span></span></div>
       <div class="engine"><span class="no">05</span><span class="tx"><b>Proof Artifacts</b><span>Evidence for every finding</span></span></div>
       <div class="engine"><span class="no">06</span><span class="tx"><b>Quality Gate</b><span>Tests mapped to requirements</span></span></div>
-      <div class="engine"><span class="no">07</span><span class="tx"><b>Ticket-to-Gate</b><span>Ticket → spec → gate</span></span></div>
+      <div class="engine"><span class="no">07</span><span class="tx"><b>Ticket-to-Gate</b><span>Ticket → runnable spec → gate</span></span></div>
       <div class="engine"><span class="no">08</span><span class="tx"><b>Sprint Trend</b><span>Flags chronic, deferred fixes</span></span></div>
-      <div class="engine"><span class="no">09</span><span class="tx"><b>Governance</b><span>Deny-by-default scopes + AI audit</span></span></div>
+      <div class="engine"><span class="no">09</span><span class="tx"><b>Governance</b><span>Deny-by-default scopes + live MCP + audit</span></span></div>
     </div>
   </div>
 </section>

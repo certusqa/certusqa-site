@@ -1,0 +1,8 @@
+# Files that must NOT be served publicly by Cloudflare (Worker static assets)
+.git/
+.gitignore
+.assetsignore
+wrangler.jsonc
+README.md
+preview-*.png
+.DS_Store

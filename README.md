@@ -45,59 +45,53 @@ Re-render preview screenshots (matches how the site was verified):
 
 ## Go live — click-by-click
 
-Two manual jobs, ~15 min total: **(A)** deploy on Cloudflare Pages, **(B)** point Porkbun DNS at it.
-The repo is already on GitHub, so use the Git-connected path (auto-deploys on every `git push`).
+`certusqa.com` is an **apex** domain, and Cloudflare only serves an apex when its nameservers are on
+Cloudflare. To keep DNS **and email at Porkbun** (zero email risk), we serve the site on
+**`www.certusqa.com`** (a subdomain — Pages supports these via an external CNAME) and **forward the bare
+`certusqa.com` → `www`**. This is why we use **Pages**, not a Worker (Workers can't use external DNS at all).
 
 ### A. Deploy on Cloudflare Pages (Git-connected)
 
-- [ ] 1. Go to **dash.cloudflare.com** → left sidebar **Workers & Pages** → blue **Create** button.
-- [ ] 2. Pick the **Pages** tab → **Connect to Git** → **Connect GitHub** → authorize the **certusqa** account.
-- [ ] 3. Select the repo **`certusqa/certusqa-site`** → **Begin setup**.
-- [ ] 4. Build settings — leave them empty (it's static):
-       - **Framework preset:** `None`
-       - **Build command:** _(blank)_
-       - **Build output directory:** `/`
-- [ ] 5. Click **Save and Deploy**. Wait ~1 min → you get a live URL like **`certusqa-site.pages.dev`**.
-- [ ] 6. Open that `.pages.dev` URL and check both pages: `/` and `/deployshield`.
+> If you already created a **Worker** named `certusqa-site`, delete it first so it doesn't double-deploy:
+> **Workers & Pages → `certusqa-site` → Settings → Delete**.
 
-> From now on, `git push` to `main` auto-deploys. (No Git? Instead use **Create → Pages → Upload assets** and drag this folder in.)
+- [ ] 1. **dash.cloudflare.com** → **Workers & Pages** → **Create** → **Pages** tab → **Connect to Git**
+       (if there's no Pages tab, use the **"Looking to deploy Pages? Get started"** link).
+- [ ] 2. Authorize the **certusqa** GitHub account → select repo **`certusqa/certusqa-site`** → **Begin setup**.
+- [ ] 3. Build settings (it's static): **Framework preset = None**, **Build command = blank**, **Build output directory = `/`** → **Save and Deploy**.
+- [ ] 4. Wait ~1 min → note your live URL, e.g. **`certusqa-site.pages.dev`** (yours may differ). Open it and check `/` and `/deployshield`.
 
-### B. Point certusqa.com at it (keep Porkbun DNS — protects your email)
+> No Git? Instead: **Create → Pages → Upload assets** and drag this folder in.
 
-**B1 — add the domain in Cloudflare:**
-- [ ] 1. In your new Pages project → **Custom domains** tab → **Set up a custom domain**.
-- [ ] 2. Enter **`certusqa.com`** → Continue. Repeat for **`www.certusqa.com`**.
-- [ ] 3. Cloudflare shows a **CNAME target** — copy it (it's your project host, e.g. `certusqa-site.pages.dev`). It'll say "verifying / pending" until step B2 is done.
+### B. Custom domain: www + apex forward (keeps Porkbun DNS + email)
 
-**B2 — update DNS at Porkbun** (**porkbun.com** → sign in → **Domain Management** → `certusqa.com` → **DNS / Details → Edit DNS Records**):
-- [ ] 4. **Delete** the existing parking records so the `l.ink` redirect stops winning:
-       - the `A` records on host `@` and `www` pointing to `207.207.210.36` / `207.207.210.50`
-       - any `ALIAS`/`CNAME` on `@` or `www` that points to `*.l.ink` or the parking page
-- [ ] 5. **Add** these two records (paste the target from step B3):
+**B1 — add www in Cloudflare Pages:**
+- [ ] 1. Your Pages project → **Custom domains** → **Set up a custom domain** → enter **`www.certusqa.com`** → Continue.
+- [ ] 2. Cloudflare shows a **CNAME target** (your `*.pages.dev` host) — copy it. It stays "pending" until B2 is done.
 
-       | Type  | Host  | Answer / Value            | TTL  |
-       |-------|-------|---------------------------|------|
-       | ALIAS | `@`   | `certusqa-site.pages.dev` | 600  |
-       | CNAME | `www` | `certusqa-site.pages.dev` | 600  |
+**B2 — Porkbun DNS** (porkbun.com → **Domain Management** → `certusqa.com` → **DNS → Edit**):
+- [ ] 3. **Add** a record → Type **CNAME**, Host **`www`**, Answer **`<your-project>.pages.dev`**, TTL 600.
+- [ ] 4. Delete any old record on host `www` that points to the parking page (`*.l.ink`) so the new CNAME wins.
+- [ ] 5. **Do NOT touch** the `MX` records (`fwd1/fwd2.porkbun.com`) or the SPF `TXT` — those keep `hello@certusqa.com` forwarding.
 
-- [ ] 6. **Do NOT touch** the `MX` records or any `TXT` (SPF) — those keep `hello@certusqa.com` forwarding alive.
-- [ ] 7. Save. Wait 5–60 min. Back in Cloudflare the custom domains flip to **Active** and SSL is issued automatically.
-- [ ] 8. Visit **https://certusqa.com** and **https://certusqa.com/deployshield** — done.
+**B3 — forward the bare domain → www** (Porkbun → `certusqa.com` → **URL Forwarding**):
+- [ ] 6. Add a forward: from **`certusqa.com`** (subdomain blank) → to **`https://www.certusqa.com`**, type **301 (permanent)**, cloaking **off**.
 
-> Why **ALIAS** (not CNAME) on `@`: DNS forbids a CNAME on the bare/apex domain; Porkbun's ALIAS does the
-> equivalent via CNAME-flattening. `www` uses a normal CNAME.
+- [ ] 7. Wait 5–30 min → in Cloudflare Pages the `www` domain flips to **Active** (auto-SSL).
+- [ ] 8. Check **https://www.certusqa.com** + `/deployshield`, and that **https://certusqa.com** redirects to www.
 
-### Quick verification (optional, from your Mac)
+### Quick verification (from your Mac)
 
 ```bash
-dig +short certusqa.com          # should show Cloudflare IPs (104.x / 172.67.x), not 207.207.210.x
-curl -sSI https://certusqa.com | head -1   # expect: HTTP/2 200
+dig +short www.certusqa.com                    # your *.pages.dev / Cloudflare, not 207.207.210.x
+curl -sSI https://www.certusqa.com | head -1   # expect: HTTP/2 200
+curl -sSI https://certusqa.com | head -1       # expect: 301 → https://www.certusqa.com
+dig +short certusqa.com MX                      # still fwd1/fwd2.porkbun.com (email intact)
 ```
 
-### Alternative — move nameservers to Cloudflare
-Faster domain hookup (one click in Pages), **but** you must re-create your Porkbun email-forwarding
-records (`MX` + SPF `TXT`) in Cloudflare or `hello@certusqa.com` stops working. Only do this if you're
-comfortable re-adding email DNS. The Porkbun path above avoids that entirely.
+### Want the bare `certusqa.com` as the primary URL instead?
+That needs the nameservers moved to Cloudflare (Cloudflare imports your `fwd1/fwd2` MX + SPF so email keeps
+forwarding). Cleaner apex URL, bigger DNS change — ask and I'll write those steps.
 
 ## Wiring
 

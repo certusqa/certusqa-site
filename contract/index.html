@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CertusQA Contract SUT — Dashboard + Media Card</title>
+  <style>
+    :root {
+      --navy: #0b1220;
+      --soft: #f3f5f9;
+      --line: #e2e8f0;
+      --emerald: #10b981;
+      --ink: #0b1220;
+      --ink-2: #4a5568;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: system-ui, sans-serif; color: var(--ink); background: var(--soft); }
+    nav {
+      display: flex; gap: 16px; align-items: center;
+      background: var(--navy); color: #fff; padding: 12px 20px;
+    }
+    nav a { color: #c7d0e0; text-decoration: none; font-size: 14px; }
+    main { padding: 24px; max-width: 960px; margin: 0 auto; }
+    h1 { font-size: 22px; margin: 0 0 8px; }
+    .lede { color: var(--ink-2); font-size: 14px; margin-bottom: 20px; }
+    .filters { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+    [data-testid="filter-chip"], [data-filter] {
+      border: 1px solid var(--line); background: #fff; border-radius: 999px;
+      padding: 6px 14px; font-size: 13px; cursor: pointer;
+    }
+    [data-filter].is-active { border-color: var(--emerald); background: rgba(16,185,129,0.12); }
+    [aria-live] {
+      min-height: 1.4em; font-size: 13px; color: var(--emerald);
+      margin-bottom: 20px;
+    }
+    .grid { display: grid; grid-template-columns: repeat(2, 265px); gap: 20px; }
+    [data-testid="media-card"] {
+      position: relative; width: 265px; background: #fff;
+      border: 1px solid var(--line); border-radius: 12px; overflow: hidden;
+    }
+    [data-testid="media-frame"] {
+      width: 265px; height: 250px; background: #111827;
+      display: flex; align-items: center; justify-content: center; overflow: hidden;
+    }
+    [data-testid="media-image"] {
+      width: 100%; height: 100%; object-fit: contain; display: block;
+    }
+    [data-testid="media-title"] {
+      margin: 10px 12px 12px; font-size: 14px; line-height: 1.3;
+      display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+      overflow: hidden; max-height: calc(1.3em * 2);
+    }
+    [data-testid="media-actions"] {
+      position: absolute; top: 8px; right: 8px; display: none; gap: 6px;
+    }
+    [data-testid="media-card"]:hover [data-testid="media-actions"] { display: flex; }
+    [data-testid="rotate-btn"] {
+      background: #fff; border: 1px solid var(--line); border-radius: 8px;
+      padding: 6px 10px; font-size: 12px; cursor: pointer;
+    }
+    [data-testid="media-image"].is-rotated { transform: rotate(90deg); }
+    dialog, [data-testid="dialog"], [data-testid="lightbox"] {
+      border: 1px solid var(--line); border-radius: 12px; padding: 20px;
+      max-width: 360px;
+    }
+    dialog::backdrop, [data-testid="lightbox"]::backdrop { background: rgba(0,0,0,0.4); }
+    .toolbar { display: flex; gap: 10px; margin-bottom: 20px; }
+    button.primary {
+      background: var(--emerald); color: #fff; border: 0; border-radius: 8px;
+      padding: 8px 14px; font-weight: 600; cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <nav aria-label="Primary">
+    <strong>Contract SUT</strong>
+    <a href="#main">Dashboard</a>
+    <a href="#media">Media</a>
+  </nav>
+
+  <main id="main" role="main">
+    <h1>Operator dashboard contract</h1>
+    <p class="lede">Public proof page for DashboardShellFlow + ResponsiveMediaCardFlow + scenario steps. No client data.</p>
+
+    <div class="filters" role="group" aria-label="Filters">
+      <button type="button" data-testid="filter-chip" data-filter="all" class="is-active">All</button>
+      <button type="button" data-testid="filter-chip" data-filter="pricing">Pricing</button>
+      <button type="button" data-testid="filter-chip" data-filter="auth">Auth</button>
+    </div>
+
+    <div aria-live="polite" id="live-status">Showing all items</div>
+
+    <div class="toolbar">
+      <button type="button" class="primary" id="open-dialog-btn">Open settings</button>
+      <button type="button" class="primary" id="open-lightbox-btn" data-testid="lightbox-trigger">Open lightbox</button>
+    </div>
+
+    <dialog id="settings-dialog" data-testid="dialog">
+      <p>Settings dialog for DashboardShellFlow.openDialog</p>
+      <form method="dialog"><button>Close</button></form>
+    </dialog>
+
+    <dialog id="media-lightbox" data-testid="lightbox" aria-modal="true">
+      <p>Lightbox shell for DashboardShellFlow.openLightbox</p>
+      <form method="dialog"><button>Close</button></form>
+    </dialog>
+
+    <h2 id="media">Media cards</h2>
+    <div class="grid">
+      <!-- Landscape 400×200 SVG -->
+      <article data-testid="media-card">
+        <div data-testid="media-frame">
+          <img
+            data-testid="media-image"
+            width="400"
+            height="200"
+            alt="Landscape sample"
+            src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='200'%3E%3Crect width='400' height='200' fill='%2334d399'/%3E%3Ctext x='200' y='110' text-anchor='middle' fill='%230b1220' font-size='28'%3ELandscape%3C/text%3E%3C/svg%3E"
+          />
+        </div>
+        <div data-testid="media-actions">
+          <button type="button" data-testid="rotate-btn">Rotate</button>
+        </div>
+        <h3 data-testid="media-title">Landscape media card title that is intentionally very long so two-line clamp is exercised when needed for proof</h3>
+      </article>
+
+      <!-- Portrait 200×400 SVG -->
+      <article data-testid="media-card">
+        <div data-testid="media-frame">
+          <img
+            data-testid="media-image"
+            width="200"
+            height="400"
+            alt="Portrait sample"
+            src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='400'%3E%3Crect width='200' height='400' fill='%237dd3fc'/%3E%3Ctext x='100' y='210' text-anchor='middle' fill='%230b1220' font-size='22'%3EPortrait%3C/text%3E%3C/svg%3E"
+          />
+        </div>
+        <div data-testid="media-actions">
+          <button type="button" data-testid="rotate-btn">Rotate</button>
+        </div>
+        <h3 data-testid="media-title">Portrait card</h3>
+      </article>
+    </div>
+  </main>
+
+  <script>
+    const live = document.getElementById('live-status');
+    const labels = { all: 'Showing all items', pricing: 'Filtered to pricing', auth: 'Filtered to auth' };
+    document.querySelectorAll('[data-filter]').forEach((chip) => {
+      chip.addEventListener('click', () => {
+        document.querySelectorAll('[data-filter]').forEach((c) => c.classList.remove('is-active'));
+        chip.classList.add('is-active');
+        const key = chip.getAttribute('data-filter');
+        live.textContent = labels[key] || ('Filtered to ' + key);
+      });
+    });
+    document.getElementById('open-dialog-btn').addEventListener('click', () => {
+      document.getElementById('settings-dialog').showModal();
+    });
+    document.getElementById('open-lightbox-btn').addEventListener('click', () => {
+      document.getElementById('media-lightbox').showModal();
+    });
+    document.querySelectorAll('[data-testid="rotate-btn"]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const card = btn.closest('[data-testid="media-card"]');
+        const img = card.querySelector('[data-testid="media-image"]');
+        img.classList.toggle('is-rotated');
+        live.textContent = 'Media rotated';
+      });
+    });
+  </script>
+</body>
+</html>

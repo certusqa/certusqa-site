@@ -1,0 +1,1311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CertusQA — Engine Workflow Showcase</title>
+  <meta name="description" content="45s interactive storyboard: brittle CI → GenAI Playwright authoring → SmartLocatorEngine self-heal → Proof Artifact → CTA." />
+  <link rel="canonical" href="https://www.certusqa.com/showcase/" />
+  <meta name="robots" content="index,follow" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --slate: #0b1220;
+      --slate-2: #131c2e;
+      --slate-3: #1a2438;
+      --emerald: #10b981;
+      --emerald-dark: #059669;
+      --emerald-light: #34d399;
+      --emerald-soft: #d1fae5;
+      --ink: #1a2230;
+      --muted: #5b6577;
+      --line: #e4e8ee;
+      --red: #ef4444;
+      --red-soft: #fee2e2;
+      --amber: #f59e0b;
+      --orange: #f97316;
+      --white: #ffffff;
+      --font-display: "Sora", -apple-system, "Segoe UI", sans-serif;
+      --font-body: "Inter", -apple-system, "Segoe UI", sans-serif;
+      --font-mono: "JetBrains Mono", "SF Mono", Menlo, monospace;
+      --stage-w: min(1120px, 96vw);
+      --radius: 14px;
+      --dur-total: 45000;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      min-height: 100%;
+      background: radial-gradient(120% 80% at 50% -10%, #1a2740 0%, var(--slate) 55%, #070b14 100%);
+      color: var(--white);
+      font-family: var(--font-body);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .page {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 28px 16px 48px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      align-items: center;
+    }
+
+    .page-head {
+      width: var(--stage-w);
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .page-head h1 {
+      font-family: var(--font-display);
+      font-size: 1.05rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+    .page-head h1 span { color: var(--emerald-light); }
+    .page-head p {
+      color: #94a3b8;
+      font-size: 0.82rem;
+    }
+
+    /* —— Stage —— */
+    .stage-shell {
+      width: var(--stage-w);
+      aspect-ratio: 16 / 9;
+      border-radius: var(--radius);
+      overflow: hidden;
+      position: relative;
+      background: var(--slate-2);
+      box-shadow:
+        0 0 0 1px rgba(255,255,255,0.06),
+        0 24px 60px rgba(0,0,0,0.45);
+    }
+
+    .stage {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+    }
+
+    .scene {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(8px);
+      transition: opacity 0.45s ease, transform 0.45s ease;
+      padding: 28px 28px 64px;
+      display: flex;
+      flex-direction: column;
+    }
+    .scene.is-active {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+
+    .scene-label {
+      font-family: var(--font-display);
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--emerald-light);
+      margin-bottom: 10px;
+    }
+
+    .caption-bar {
+      position: absolute;
+      left: 0; right: 0; bottom: 0;
+      padding: 12px 28px;
+      background: linear-gradient(180deg, transparent, rgba(7,11,20,0.92) 30%);
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: clamp(0.85rem, 1.6vw, 1.05rem);
+      letter-spacing: -0.01em;
+      line-height: 1.35;
+      min-height: 52px;
+      display: flex;
+      align-items: flex-end;
+      z-index: 5;
+    }
+    .caption-bar span { color: #e2e8f0; }
+    .caption-bar em {
+      font-style: normal;
+      color: var(--emerald-light);
+    }
+
+    .progress-track {
+      position: absolute;
+      left: 0; right: 0; top: 0;
+      height: 3px;
+      background: rgba(255,255,255,0.08);
+      z-index: 6;
+    }
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--emerald-dark), var(--emerald-light));
+      transition: width 0.08s linear;
+    }
+
+    /* —— Scene 1: CI —— */
+    .ci-layout {
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      gap: 18px;
+      flex: 1;
+      min-height: 0;
+    }
+    .pipeline {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 12px;
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .pipeline h3 {
+      font-size: 0.75rem;
+      color: #94a3b8;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    .nodes {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .node {
+      padding: 8px 14px;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: #cbd5e1;
+      transition: background 0.35s, border-color 0.35s, color 0.35s, box-shadow 0.35s;
+    }
+    .node.is-run {
+      background: rgba(245,158,11,0.15);
+      border-color: var(--amber);
+      color: #fde68a;
+      animation: pulse-amber 1s ease infinite;
+    }
+    .node.is-fail {
+      background: rgba(239,68,68,0.2);
+      border-color: var(--red);
+      color: #fecaca;
+      box-shadow: 0 0 20px rgba(239,68,68,0.25);
+      animation: none;
+    }
+    .node.is-ok {
+      background: rgba(16,185,129,0.18);
+      border-color: var(--emerald);
+      color: var(--emerald-soft);
+      animation: none;
+    }
+    .node.is-blocked {
+      opacity: 0.4;
+      filter: grayscale(0.6);
+    }
+    .node-arrow { color: #475569; font-size: 0.9rem; }
+    @keyframes pulse-amber {
+      50% { box-shadow: 0 0 16px rgba(245,158,11,0.35); }
+    }
+
+    .terminal {
+      background: #070b14;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 12px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      line-height: 1.55;
+    }
+    .terminal-bar {
+      padding: 8px 12px;
+      background: rgba(255,255,255,0.04);
+      color: #64748b;
+      font-size: 0.65rem;
+      letter-spacing: 0.04em;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .terminal-body {
+      padding: 14px 16px;
+      flex: 1;
+      color: #94a3b8;
+    }
+    .terminal-body .err { color: #fca5a5; }
+    .terminal-body .fail { color: var(--red); font-weight: 500; }
+    .terminal-body .line {
+      opacity: 0;
+      transform: translateY(4px);
+      transition: opacity 0.3s, transform 0.3s;
+    }
+    .terminal-body .line.show {
+      opacity: 1;
+      transform: none;
+    }
+    .cursor-blink::after {
+      content: "▋";
+      margin-left: 2px;
+      color: var(--emerald);
+      animation: blink 0.9s step-end infinite;
+    }
+    @keyframes blink { 50% { opacity: 0; } }
+
+    /* —— Scene 2: Author —— */
+    .author-layout {
+      display: grid;
+      grid-template-columns: 0.9fr 1.2fr;
+      gap: 16px;
+      flex: 1;
+      min-height: 0;
+    }
+    .app-card, .editor {
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.08);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+    }
+    .app-card { background: #f8fafc; color: var(--ink); }
+    .app-card-bar {
+      padding: 8px 12px;
+      background: #e2e8f0;
+      font-size: 0.65rem;
+      font-weight: 600;
+      color: var(--muted);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    .app-card-body { padding: 16px; flex: 1; }
+    .price {
+      font-family: var(--font-display);
+      font-size: 1.8rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: var(--slate);
+    }
+    .price small {
+      display: block;
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: var(--muted);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+    .scan-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 12px;
+      padding: 5px 10px;
+      border-radius: 6px;
+      background: var(--emerald-soft);
+      color: var(--emerald-dark);
+      font-size: 0.68rem;
+      font-weight: 600;
+      font-family: var(--font-mono);
+      opacity: 0;
+      transition: opacity 0.4s;
+    }
+    .scan-chip.show { opacity: 1; }
+    .scan-chip .dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--emerald);
+      animation: pulse-amber 1s ease infinite;
+    }
+    .cta-fake {
+      margin-top: 18px;
+      width: 100%;
+      padding: 12px;
+      border: 0;
+      border-radius: 8px;
+      background: var(--slate);
+      color: white;
+      font-weight: 600;
+      font-size: 0.85rem;
+      font-family: var(--font-body);
+    }
+    .cta-fake .id-tag {
+      display: block;
+      margin-top: 4px;
+      font-family: var(--font-mono);
+      font-size: 0.62rem;
+      color: #94a3b8;
+      font-weight: 500;
+    }
+
+    .editor { background: #0a0f1a; }
+    .editor-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      background: rgba(255,255,255,0.04);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      font-size: 0.7rem;
+      color: #94a3b8;
+    }
+    .editor-bar .tab {
+      padding: 4px 10px;
+      border-radius: 6px;
+      background: rgba(16,185,129,0.12);
+      color: var(--emerald-light);
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+    }
+    .editor-bar .badge {
+      margin-left: auto;
+      font-size: 0.62rem;
+      padding: 3px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(16,185,129,0.35);
+      color: var(--emerald-light);
+      opacity: 0;
+      transition: opacity 0.4s;
+    }
+    .editor-bar .badge.show { opacity: 1; }
+    .editor-body {
+      padding: 14px 16px;
+      flex: 1;
+      overflow: hidden;
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      line-height: 1.55;
+      color: #94a3b8;
+      white-space: pre-wrap;
+    }
+    .editor-body .kw { color: #c084fc; }
+    .editor-body .str { color: #86efac; }
+    .editor-body .fn { color: #67e8f9; }
+    .editor-body .cm { color: #64748b; }
+    .editor-body .hi {
+      background: rgba(16,185,129,0.15);
+      border-radius: 2px;
+      box-shadow: 0 0 0 2px rgba(16,185,129,0.15);
+    }
+
+    /* —— Scene 3: Heal —— */
+    .heal-layout {
+      display: grid;
+      grid-template-columns: 1fr 1.15fr;
+      gap: 16px;
+      flex: 1;
+      min-height: 0;
+    }
+    .dom-panel, .ladder-panel {
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.03);
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      min-height: 0;
+    }
+    .panel-title {
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #94a3b8;
+    }
+    .dom-btn {
+      margin-top: 8px;
+      align-self: flex-start;
+      padding: 12px 20px;
+      border-radius: 8px;
+      border: 2px dashed #64748b;
+      background: rgba(255,255,255,0.04);
+      color: #e2e8f0;
+      font-weight: 600;
+      font-size: 0.9rem;
+      position: relative;
+      transition: border-color 0.35s, box-shadow 0.35s, transform 0.25s;
+    }
+    .dom-btn .broken-id {
+      display: block;
+      margin-top: 4px;
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      color: #fca5a5;
+    }
+    .dom-btn.is-target {
+      border-style: solid;
+      border-color: var(--emerald);
+      box-shadow: 0 0 24px rgba(16,185,129,0.35);
+      transform: scale(1.03);
+    }
+    .dom-btn.is-target .broken-id { color: var(--emerald-light); }
+    .toast {
+      margin-top: auto;
+      padding: 10px 12px;
+      border-radius: 8px;
+      background: rgba(16,185,129,0.12);
+      border: 1px solid rgba(16,185,129,0.35);
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--emerald-soft);
+      opacity: 0;
+      transform: translateY(6px);
+      transition: opacity 0.4s, transform 0.4s;
+    }
+    .toast.show { opacity: 1; transform: none; }
+
+    .ladder { display: flex; flex-direction: column; gap: 8px; }
+    .step {
+      display: grid;
+      grid-template-columns: 28px 1fr auto;
+      gap: 10px;
+      align-items: center;
+      padding: 10px 12px;
+      border-radius: 8px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.06);
+      opacity: 0.45;
+      transition: opacity 0.3s, border-color 0.3s, background 0.3s;
+    }
+    .step.is-active {
+      opacity: 1;
+      border-color: rgba(245,158,11,0.5);
+      background: rgba(245,158,11,0.08);
+    }
+    .step.is-miss {
+      opacity: 1;
+      border-color: rgba(239,68,68,0.45);
+      background: rgba(239,68,68,0.08);
+    }
+    .step.is-hit {
+      opacity: 1;
+      border-color: rgba(16,185,129,0.55);
+      background: rgba(16,185,129,0.12);
+    }
+    .step.is-skip { opacity: 0.3; }
+    .step-ico {
+      width: 22px; height: 22px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      font-size: 0.7rem;
+      font-weight: 700;
+      background: rgba(255,255,255,0.08);
+      color: #94a3b8;
+    }
+    .step.is-miss .step-ico { background: var(--red); color: white; }
+    .step.is-hit .step-ico { background: var(--emerald); color: var(--slate); }
+    .step-name {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      color: #e2e8f0;
+    }
+    .step-name small {
+      display: block;
+      color: #64748b;
+      font-size: 0.6rem;
+      margin-top: 2px;
+    }
+    .step-status {
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #64748b;
+    }
+    .step.is-miss .step-status { color: #fca5a5; }
+    .step.is-hit .step-status { color: var(--emerald-light); }
+
+    .mini-pipe {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+      margin-top: auto;
+      font-size: 0.7rem;
+      color: #94a3b8;
+    }
+
+    /* —— Scene 4: Proof —— */
+    .proof-layout {
+      display: grid;
+      grid-template-columns: 1.15fr 0.95fr;
+      gap: 16px;
+      flex: 1;
+      min-height: 0;
+    }
+    .proof-card {
+      border-radius: 12px;
+      border: 1px solid rgba(16,185,129,0.35);
+      background: linear-gradient(160deg, rgba(16,185,129,0.08), rgba(255,255,255,0.02));
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+    }
+    .proof-tabs {
+      display: flex;
+      gap: 4px;
+      padding: 8px 10px;
+      background: rgba(0,0,0,0.25);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .proof-tabs button {
+      border: 0;
+      background: transparent;
+      color: #94a3b8;
+      font-family: var(--font-body);
+      font-size: 0.72rem;
+      font-weight: 600;
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: default;
+    }
+    .proof-tabs button.is-on {
+      background: rgba(16,185,129,0.2);
+      color: var(--emerald-light);
+    }
+    .proof-json {
+      padding: 14px 16px;
+      font-family: var(--font-mono);
+      font-size: 0.66rem;
+      line-height: 1.55;
+      color: #94a3b8;
+      white-space: pre;
+      overflow: hidden;
+      flex: 1;
+    }
+    .proof-json .k { color: #7dd3fc; }
+    .proof-json .s { color: #86efac; }
+    .proof-json .n { color: #fbbf24; }
+    .proof-json .flash {
+      background: rgba(16,185,129,0.18);
+      border-radius: 2px;
+    }
+
+    .md-card {
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: #f8fafc;
+      color: var(--ink);
+      padding: 14px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      font-size: 0.72rem;
+      line-height: 1.45;
+      overflow: hidden;
+    }
+    .md-card h4 {
+      font-family: var(--font-display);
+      font-size: 0.85rem;
+      font-weight: 700;
+    }
+    .md-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .chip {
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: #e2e8f0;
+      color: var(--muted);
+      font-weight: 600;
+    }
+    .chip.ok { background: var(--emerald-soft); color: var(--emerald-dark); }
+    .chip.jira {
+      background: #dbeafe;
+      color: #1d4ed8;
+      opacity: 0;
+      transition: opacity 0.4s;
+    }
+    .chip.jira.show { opacity: 1; }
+    .md-card p { color: var(--muted); }
+    .md-card .fix-box {
+      margin-top: 4px;
+      padding: 8px 10px;
+      border-radius: 8px;
+      background: #fff;
+      border: 1px solid var(--line);
+      font-family: var(--font-mono);
+      font-size: 0.62rem;
+      color: var(--ink);
+      opacity: 0;
+      transform: translateY(4px);
+      transition: opacity 0.4s, transform 0.4s;
+    }
+    .md-card .fix-box.show { opacity: 1; transform: none; }
+
+    /* —— Scene 5: CTA —— */
+    .cta-scene {
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      gap: 18px;
+      background:
+        radial-gradient(60% 50% at 50% 40%, rgba(16,185,129,0.12), transparent 70%),
+        var(--slate-2);
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .mark {
+      width: 52px; height: 52px;
+      flex-shrink: 0;
+    }
+    .wordmark {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: clamp(1.6rem, 3.5vw, 2.2rem);
+      letter-spacing: -0.03em;
+      line-height: 1;
+    }
+    .wordmark .qa { color: var(--emerald-light); }
+    .tagline {
+      color: #94a3b8;
+      font-size: 0.85rem;
+      letter-spacing: 0.04em;
+    }
+    .stats {
+      display: flex;
+      gap: 28px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 6px;
+    }
+    .stat strong {
+      display: block;
+      font-family: var(--font-display);
+      font-size: clamp(1.6rem, 3vw, 2rem);
+      font-weight: 800;
+      color: var(--emerald-light);
+      letter-spacing: -0.03em;
+    }
+    .stat span {
+      font-size: 0.72rem;
+      color: #94a3b8;
+      font-weight: 500;
+    }
+    .cta-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 8px;
+      padding: 14px 28px;
+      border-radius: 10px;
+      border: 0;
+      background: var(--orange);
+      color: var(--slate);
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 0.95rem;
+      text-decoration: none;
+      box-shadow: 0 8px 28px rgba(249,115,22,0.35);
+      transform: scale(0.96);
+      opacity: 0;
+      transition: opacity 0.4s, transform 0.4s;
+      pointer-events: auto;
+    }
+    .cta-btn.show { opacity: 1; transform: scale(1); }
+    .cta-btn:hover { filter: brightness(1.05); }
+    .fine {
+      font-size: 0.62rem;
+      color: #64748b;
+      max-width: 420px;
+      line-height: 1.4;
+    }
+
+    /* —— Controls —— */
+    .controls {
+      width: var(--stage-w);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 12px;
+    }
+    .controls button {
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.06);
+      color: #e2e8f0;
+      font-family: var(--font-body);
+      font-size: 0.78rem;
+      font-weight: 600;
+      padding: 8px 14px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .controls button:hover { background: rgba(255,255,255,0.1); }
+    .controls button.primary {
+      background: rgba(16,185,129,0.2);
+      border-color: rgba(16,185,129,0.45);
+      color: var(--emerald-light);
+    }
+    .scrub {
+      flex: 1;
+      min-width: 140px;
+      accent-color: var(--emerald);
+      height: 4px;
+    }
+    .time-readout {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: #94a3b8;
+      min-width: 72px;
+      text-align: right;
+    }
+    .scene-dots {
+      display: flex;
+      gap: 6px;
+      margin-left: 4px;
+    }
+    .scene-dots button {
+      width: 28px;
+      height: 28px;
+      padding: 0;
+      border-radius: 50%;
+      font-size: 0.68rem;
+    }
+    .scene-dots button.is-on {
+      background: var(--emerald);
+      border-color: var(--emerald);
+      color: var(--slate);
+    }
+
+    .help {
+      width: var(--stage-w);
+      color: #64748b;
+      font-size: 0.75rem;
+      line-height: 1.5;
+    }
+    .help a { color: var(--emerald-light); }
+
+    /* Embed mode (?embed=1) — clean iframe for the landing page */
+    html.is-embed, html.is-embed body {
+      background: transparent;
+      min-height: 0;
+    }
+    html.is-embed .page {
+      padding: 0;
+      max-width: none;
+      gap: 10px;
+    }
+    html.is-embed .page-head,
+    html.is-embed .help { display: none; }
+    html.is-embed .stage-shell,
+    html.is-embed .controls {
+      width: 100%;
+      max-width: none;
+      border-radius: 12px;
+    }
+    html.is-embed .controls {
+      background: rgba(11,18,32,0.92);
+      border-color: rgba(255,255,255,0.1);
+    }
+
+    @media (max-width: 720px) {
+      .scene { padding: 18px 16px 58px; }
+      .ci-layout, .author-layout, .heal-layout, .proof-layout {
+        grid-template-columns: 1fr;
+      }
+      .app-card { display: none; }
+      .stats { gap: 16px; }
+      .caption-bar { font-size: 0.8rem; padding: 10px 16px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .scene, .terminal-body .line, .toast, .cta-btn, .fix-box, .chip.jira {
+        transition: none !important;
+      }
+      .node.is-run, .scan-chip .dot, .cursor-blink::after { animation: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header class="page-head">
+      <h1>Certus<span>QA</span> · Engine Workflow</h1>
+      <p>45s interactive storyboard · recordable WebM/MP4 source</p>
+    </header>
+
+    <div class="stage-shell" id="stageShell" role="region" aria-label="CertusQA video showcase">
+      <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+      <div class="stage" id="stage">
+
+        <!-- SCENE 1 -->
+        <section class="scene is-active" data-scene="1" aria-hidden="false">
+          <div class="scene-label">Scene 1 · The Problem</div>
+          <div class="ci-layout">
+            <div class="pipeline">
+              <h3>ci · deploy-gate · main</h3>
+              <div class="nodes">
+                <div class="node is-ok" id="nodeBuild">Build</div>
+                <span class="node-arrow">→</span>
+                <div class="node is-run" id="nodeTest">Test</div>
+                <span class="node-arrow">→</span>
+                <div class="node" id="nodeDeploy">Deploy</div>
+              </div>
+              <p style="font-size:0.75rem;color:#64748b;line-height:1.4;margin-top:auto">
+                Hand-maintained selectors break when the UI ships a dynamic id rename.
+              </p>
+            </div>
+            <div class="terminal">
+              <div class="terminal-bar">playwright · checkout.spec.js</div>
+              <div class="terminal-body" id="termBody">
+                <div class="line" data-t="800"><span class="fail">✗</span> checkout.spec.js › Place Secure Order</div>
+                <div class="line err" data-t="1600">   Error: Element #checkout-submit-btn not found</div>
+                <div class="line err" data-t="2400">   Timeout 30000ms exceeded</div>
+                <div class="line cursor-blink" data-t="3200"></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- SCENE 2 -->
+        <section class="scene" data-scene="2" aria-hidden="true">
+          <div class="scene-label">Scene 2 · Spec Generation</div>
+          <div class="author-layout">
+            <div class="app-card">
+              <div class="app-card-bar">Application state · sandbox checkout</div>
+              <div class="app-card-body">
+                <div class="price"><small>Display price</small>$499</div>
+                <div class="scan-chip" id="scanChip"><span class="dot"></span> scanning DOM · aria roles</div>
+                <button class="cta-fake" type="button" tabindex="-1">
+                  Place Secure Order
+                  <span class="id-tag">#checkout-submit-btn · role=button</span>
+                </button>
+              </div>
+            </div>
+            <div class="editor">
+              <div class="editor-bar">
+                <span class="tab">checkout.spec.js</span>
+                <span class="badge" id="genBadge">generated · runnable</span>
+              </div>
+              <pre class="editor-body" id="editorBody" aria-live="polite"></pre>
+            </div>
+          </div>
+        </section>
+
+        <!-- SCENE 3 -->
+        <section class="scene" data-scene="3" aria-hidden="true">
+          <div class="scene-label">Scene 3 · SmartLocatorEngine</div>
+          <div class="heal-layout">
+            <div class="dom-panel">
+              <div class="panel-title">Live DOM · bug1 selector shift</div>
+              <button class="dom-btn" id="domBtn" type="button" tabindex="-1">
+                Place Secure Order
+                <span class="broken-id" id="domId">id="#btn-x7k2" · primary miss</span>
+              </button>
+              <div class="toast" id="healToast">healed: true · strategy: role-name-fallback</div>
+              <div class="mini-pipe">
+                Pipeline
+                <span class="node" id="healPipeTest" style="padding:4px 10px;font-size:0.65rem">Test</span>
+              </div>
+            </div>
+            <div class="ladder-panel">
+              <div class="panel-title">Heal ladder · AppDriver.smartClick</div>
+              <div class="ladder" id="ladder">
+                <div class="step" data-step="0">
+                  <div class="step-ico">1</div>
+                  <div class="step-name">original-selector<small>#checkout-submit-btn</small></div>
+                  <div class="step-status">—</div>
+                </div>
+                <div class="step" data-step="1">
+                  <div class="step-ico">2</div>
+                  <div class="step-name">role-name-fallback<small>getByRole('button', { name: 'Place Secure Order' })</small></div>
+                  <div class="step-status">—</div>
+                </div>
+                <div class="step" data-step="2">
+                  <div class="step-ico">3</div>
+                  <div class="step-name">text-fallback<small>getByText('Place Secure Order')</small></div>
+                  <div class="step-status">—</div>
+                </div>
+                <div class="step" data-step="3">
+                  <div class="step-ico">4</div>
+                  <div class="step-name">css candidates<small>injected descriptors</small></div>
+                  <div class="step-status">—</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- SCENE 4 -->
+        <section class="scene" data-scene="4" aria-hidden="true">
+          <div class="scene-label">Scene 4 · Proof Artifact</div>
+          <div class="proof-layout">
+            <div class="proof-card">
+              <div class="proof-tabs">
+                <button type="button" class="is-on">JSON</button>
+                <button type="button">Markdown</button>
+                <span style="margin-left:auto;font-size:0.62rem;color:#64748b;align-self:center;font-family:var(--font-mono)">schemaVersion 1.0.0</span>
+              </div>
+              <pre class="proof-json" id="proofJson"></pre>
+            </div>
+            <div class="md-card">
+              <h4>QA Forge Proof Artifact</h4>
+              <div class="md-meta">
+                <span class="chip ok">SELECTOR_HEALED</span>
+                <span class="chip ok">HEALED</span>
+                <span class="chip">INFO</span>
+                <span class="chip jira" id="jiraChip">Ready for Jira</span>
+              </div>
+              <p><strong>Root cause</strong> — Primary locator missed the target control; a semantic fallback resolved the element and the journey continued.</p>
+              <p><strong>Owner hint</strong> · <code>test-inventory</code> · confidence <code>high</code></p>
+              <div class="fix-box" id="fixBox">Prefer role+name, data-testid, or data-action over the failed primary selector; commit the healed locator so the next run does not need runtime recovery.</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- SCENE 5 -->
+        <section class="scene cta-scene" data-scene="5" aria-hidden="true">
+          <div class="brand">
+            <svg class="mark" viewBox="0 0 64 64" aria-hidden="true">
+              <polygon points="32,4 56,18 56,46 32,60 8,46 8,18" fill="#131c2e" stroke="#10b981" stroke-width="3"/>
+              <path d="M20 33l8 8 16-18" fill="none" stroke="#10b981" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+              <circle cx="44" cy="22" r="2.5" fill="#34d399"/>
+            </svg>
+            <div>
+              <div class="wordmark">Certus<span class="qa">QA</span></div>
+              <div class="tagline">Certainty, Verified.</div>
+            </div>
+          </div>
+          <div class="stats">
+            <div class="stat"><strong>80%</strong><span>Faster Test Execution</span></div>
+            <div class="stat"><strong>90%</strong><span>Less Test Maintenance</span></div>
+          </div>
+          <a class="cta-btn" id="ctaBtn" href="mailto:hello@certusqa.com?subject=Live%20Sandbox%20Demo%20Request" target="_top">Run Live Sandbox Demo →</a>
+          <p class="fine">80% / 90% are collateral targets — not yet client-measured. Sandbox-verified · design partners welcome.</p>
+        </section>
+      </div>
+      <div class="caption-bar"><span id="caption">Brittle test scripts fail every time your UI changes.</span></div>
+    </div>
+
+    <div class="controls">
+      <button type="button" class="primary" id="btnPlay" aria-pressed="true">Pause</button>
+      <button type="button" id="btnReplay">Replay</button>
+      <input class="scrub" id="scrub" type="range" min="0" max="45000" value="0" aria-label="Timeline scrub" />
+      <div class="time-readout" id="timeReadout">0:00 / 0:45</div>
+      <div class="scene-dots" id="sceneDots" role="tablist" aria-label="Jump to scene">
+        <button type="button" data-jump="0" class="is-on">1</button>
+        <button type="button" data-jump="5000">2</button>
+        <button type="button" data-jump="15000">3</button>
+        <button type="button" data-jump="30000">4</button>
+        <button type="button" data-jump="40000">5</button>
+      </div>
+    </div>
+
+    <p class="help">
+      Interactive 45s walkthrough of the CertusQA agentic loop —
+      brittle fail → authored Playwright → <code>SmartLocatorEngine</code> self-heal → Proof Artifact → gate.
+      Press space to pause. Prefer a full-page view?
+      <a href="/showcase/">Open showcase</a> ·
+      <a href="mailto:hello@certusqa.com?subject=Live%20Sandbox%20Demo%20Request">Book a live sandbox demo</a>.
+    </p>
+  </div>
+
+  <script>
+    (function () {
+      if (new URLSearchParams(location.search).has('embed')) {
+        document.documentElement.classList.add('is-embed');
+      }
+      const TOTAL = 45000;
+      const CAPTIONS = [
+        { at: 0, text: 'Brittle test scripts fail every time your UI changes.' },
+        { at: 5000, text: 'Our GenAI engine generates robust Playwright suites from real app state.' },
+        { at: 15000, text: 'Self-heal in real time — <em>role → text → CSS</em>. Zero pipeline downtime.' },
+        { at: 30000, text: 'Instant Proof Artifacts — root cause, severity, suggested fix.' },
+        { at: 40000, text: 'CertusQA — <em>Certainty, Verified.</em>' },
+      ];
+
+      const SPEC_LINES = [
+        { html: `<span class="cm">// Autogenerated · CertusQA engine adapters</span>\n` },
+        { html: `<span class="kw">const</span> { SmartLocatorEngine } = <span class="fn">require</span>(<span class="str">'certusqa/core'</span>);\n` },
+        { html: `<span class="kw">const</span> { generateTriageReport } = <span class="fn">require</span>(<span class="str">'certusqa/core'</span>);\n\n` },
+        { html: `<span class="fn">test</span>(<span class="str">'Pass 2: Proactive Self-Healing'</span>, <span class="kw">async</span> ({ page }) => {\n` },
+        { html: `  <span class="kw">const</span> engine = <span class="kw">new</span> <span class="hi">SmartLocatorEngine</span>(page);\n` },
+        { html: `  <span class="kw">const</span> result = <span class="kw">await</span> engine.<span class="hi">smartClick</span>({\n` },
+        { html: `    originalSelector: <span class="str">'#checkout-submit-btn'</span>,\n` },
+        { html: `    fallbackText: <span class="str">'Place Secure Order'</span>,\n` },
+        { html: `    context: <span class="str">'Main checkout submission'</span>,\n` },
+        { html: `  });\n` },
+        { html: `  expect(result.healed).<span class="fn">toBe</span>(<span class="kw">true</span>);\n` },
+        { html: `});` },
+      ];
+
+      const PROOF_HTML = `<span class="k">"</span><span class="k">schemaVersion</span><span class="k">"</span>: <span class="s">"1.0.0"</span>,
+<span class="k">"</span><span class="k">classification</span><span class="k">"</span>: {
+  <span class="flash"><span class="k">"category"</span>: <span class="s">"SELECTOR_HEALED"</span>,
+  <span class="k">"severity"</span>: <span class="s">"INFO"</span>,
+  <span class="k">"outcome"</span>: <span class="s">"HEALED"</span></span>
+},
+<span class="k">"</span><span class="k">remediation</span><span class="k">"</span>: {
+  <span class="k">"ownerHint"</span>: <span class="s">"test-inventory"</span>,
+  <span class="k">"confidence"</span>: <span class="s">"high"</span>,
+  <span class="flash"><span class="k">"suggestedCodeFix"</span>: <span class="s">"Prefer role+name…"</span></span>
+},
+<span class="k">"</span><span class="k">evidence</span><span class="k">"</span>: {
+  <span class="k">"locator"</span>: {
+    <span class="k">"originalSelector"</span>: <span class="s">"#checkout-submit-btn"</span>,
+    <span class="k">"healedStrategy"</span>: <span class="s">"role-name-fallback"</span>
+  }
+}`;
+
+      const els = {
+        scenes: [...document.querySelectorAll('.scene')],
+        caption: document.getElementById('caption'),
+        progress: document.getElementById('progressFill'),
+        scrub: document.getElementById('scrub'),
+        time: document.getElementById('timeReadout'),
+        play: document.getElementById('btnPlay'),
+        replay: document.getElementById('btnReplay'),
+        dots: [...document.querySelectorAll('#sceneDots button')],
+        termLines: [...document.querySelectorAll('#termBody .line')],
+        nodeTest: document.getElementById('nodeTest'),
+        nodeDeploy: document.getElementById('nodeDeploy'),
+        scanChip: document.getElementById('scanChip'),
+        genBadge: document.getElementById('genBadge'),
+        editor: document.getElementById('editorBody'),
+        ladderSteps: [...document.querySelectorAll('#ladder .step')],
+        domBtn: document.getElementById('domBtn'),
+        domId: document.getElementById('domId'),
+        healToast: document.getElementById('healToast'),
+        healPipe: document.getElementById('healPipeTest'),
+        proofJson: document.getElementById('proofJson'),
+        jiraChip: document.getElementById('jiraChip'),
+        fixBox: document.getElementById('fixBox'),
+        ctaBtn: document.getElementById('ctaBtn'),
+      };
+
+      els.proofJson.innerHTML = PROOF_HTML;
+
+      let t = 0;
+      let playing = true;
+      let lastTs = null;
+      let reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      function sceneIndex(ms) {
+        if (ms < 5000) return 0;
+        if (ms < 15000) return 1;
+        if (ms < 30000) return 2;
+        if (ms < 40000) return 3;
+        return 4;
+      }
+
+      function fmt(ms) {
+        const s = Math.min(TOTAL, Math.max(0, ms));
+        const sec = Math.floor(s / 1000);
+        return `0:${String(sec).padStart(2, '0')} / 0:45`;
+      }
+
+      function setCaption(ms) {
+        let text = CAPTIONS[0].text;
+        for (const c of CAPTIONS) {
+          if (ms >= c.at) text = c.text;
+        }
+        if (els.caption.innerHTML !== text) els.caption.innerHTML = text;
+      }
+
+      function activateScene(idx) {
+        els.scenes.forEach((sc, i) => {
+          const on = i === idx;
+          sc.classList.toggle('is-active', on);
+          sc.setAttribute('aria-hidden', on ? 'false' : 'true');
+        });
+        els.dots.forEach((d, i) => d.classList.toggle('is-on', i === idx));
+      }
+
+      /* Scene-local resets + progressive reveals keyed to absolute timeline */
+      function render(ms) {
+        const idx = sceneIndex(ms);
+        activateScene(idx);
+        setCaption(ms);
+        els.progress.style.width = `${(ms / TOTAL) * 100}%`;
+        els.scrub.value = String(Math.floor(ms));
+        els.time.textContent = fmt(ms);
+
+        /* Scene 1 local (0–5000) */
+        const s1 = ms;
+        els.termLines.forEach((line) => {
+          const at = Number(line.dataset.t);
+          line.classList.toggle('show', s1 >= at || reduced);
+        });
+        if (s1 >= 3500) {
+          els.nodeTest.classList.remove('is-run');
+          els.nodeTest.classList.add('is-fail');
+          els.nodeDeploy.classList.add('is-blocked');
+        } else if (s1 >= 500) {
+          els.nodeTest.classList.add('is-run');
+          els.nodeTest.classList.remove('is-fail');
+          els.nodeDeploy.classList.remove('is-blocked');
+        } else {
+          els.nodeTest.classList.remove('is-run', 'is-fail');
+          els.nodeDeploy.classList.remove('is-blocked');
+        }
+
+        /* Scene 2 local (5000–15000) */
+        const s2 = ms - 5000;
+        if (idx === 1 || (ms >= 5000 && ms < 15000)) {
+          els.scanChip.classList.toggle('show', s2 >= 400 || reduced);
+          const linesToShow = reduced
+            ? SPEC_LINES.length
+            : Math.min(SPEC_LINES.length, Math.max(0, Math.floor((s2 - 800) / 550) + 1));
+          els.editor.innerHTML = SPEC_LINES.slice(0, Math.max(0, linesToShow)).map((l) => l.html).join('');
+          els.genBadge.classList.toggle('show', linesToShow >= SPEC_LINES.length || reduced);
+        }
+
+        /* Scene 3 local (15000–30000) */
+        const s3 = ms - 15000;
+        els.ladderSteps.forEach((step) => {
+          step.classList.remove('is-active', 'is-miss', 'is-hit', 'is-skip');
+          const st = step.querySelector('.step-status');
+          const ico = step.querySelector('.step-ico');
+          st.textContent = '—';
+          ico.textContent = String(Number(step.dataset.step) + 1);
+        });
+        els.domBtn.classList.remove('is-target');
+        els.domId.textContent = 'id="#btn-x7k2" · primary miss';
+        els.healToast.classList.remove('show');
+        els.healPipe.classList.remove('is-ok');
+        els.healPipe.classList.remove('is-fail');
+
+        if (ms >= 15000 && ms < 30000) {
+          // step 0 miss @ 2s
+          if (s3 >= 2000) {
+            const s0 = els.ladderSteps[0];
+            s0.classList.add('is-miss');
+            s0.querySelector('.step-status').textContent = 'miss';
+            s0.querySelector('.step-ico').textContent = '✕';
+          } else if (s3 >= 800) {
+            els.ladderSteps[0].classList.add('is-active');
+            els.ladderSteps[0].querySelector('.step-status').textContent = 'try';
+          }
+          // step 1 hit @ 5s
+          if (s3 >= 5500) {
+            const s1s = els.ladderSteps[1];
+            s1s.classList.add('is-hit');
+            s1s.querySelector('.step-status').textContent = 'hit';
+            s1s.querySelector('.step-ico').textContent = '✓';
+            els.domBtn.classList.add('is-target');
+            els.domId.textContent = "role=button · name='Place Secure Order'";
+            els.healToast.classList.add('show');
+            els.ladderSteps[2].classList.add('is-skip');
+            els.ladderSteps[3].classList.add('is-skip');
+            els.ladderSteps[2].querySelector('.step-status').textContent = 'skip';
+            els.ladderSteps[3].querySelector('.step-status').textContent = 'skip';
+          } else if (s3 >= 3500) {
+            els.ladderSteps[1].classList.add('is-active');
+            els.ladderSteps[1].querySelector('.step-status').textContent = 'try';
+          }
+          if (s3 >= 9000) {
+            els.healPipe.classList.add('is-ok');
+            els.healPipe.textContent = 'Test ✓';
+          }
+        }
+
+        /* Scene 4 */
+        if (ms >= 30000 && ms < 40000) {
+          const s4 = ms - 30000;
+          els.fixBox.classList.toggle('show', s4 >= 2500 || reduced);
+          els.jiraChip.classList.toggle('show', s4 >= 4500 || reduced);
+        } else {
+          els.fixBox.classList.remove('show');
+          els.jiraChip.classList.remove('show');
+        }
+
+        /* Scene 5 */
+        els.ctaBtn.classList.toggle('show', ms >= 42000 || (reduced && ms >= 40000));
+      }
+
+      function tick(ts) {
+        if (lastTs == null) lastTs = ts;
+        const dt = ts - lastTs;
+        lastTs = ts;
+        if (playing) {
+          t += dt;
+          if (t >= TOTAL) {
+            t = TOTAL;
+            playing = false;
+            els.play.textContent = 'Play';
+            els.play.setAttribute('aria-pressed', 'false');
+          }
+          render(t);
+        }
+        requestAnimationFrame(tick);
+      }
+
+      function seek(ms) {
+        t = Math.max(0, Math.min(TOTAL, ms));
+        lastTs = null;
+        render(t);
+      }
+
+      els.play.addEventListener('click', () => {
+        if (t >= TOTAL) seek(0);
+        playing = !playing;
+        els.play.textContent = playing ? 'Pause' : 'Play';
+        els.play.setAttribute('aria-pressed', playing ? 'true' : 'false');
+        lastTs = null;
+      });
+
+      els.replay.addEventListener('click', () => {
+        seek(0);
+        playing = true;
+        els.play.textContent = 'Pause';
+        els.play.setAttribute('aria-pressed', 'true');
+      });
+
+      els.scrub.addEventListener('input', () => {
+        playing = false;
+        els.play.textContent = 'Play';
+        els.play.setAttribute('aria-pressed', 'false');
+        seek(Number(els.scrub.value));
+      });
+
+      els.dots.forEach((btn) => {
+        btn.addEventListener('click', () => {
+          seek(Number(btn.dataset.jump));
+          playing = true;
+          els.play.textContent = 'Pause';
+          els.play.setAttribute('aria-pressed', 'true');
+          lastTs = null;
+        });
+      });
+
+      window.addEventListener('keydown', (e) => {
+        if (
+          e.code === 'Space' &&
+          (e.target === document.body || e.target === document.documentElement)
+        ) {
+          e.preventDefault();
+          els.play.click();
+        }
+      });
+
+      render(0);
+      requestAnimationFrame(tick);
+    })();
+  </script>
+</body>
+</html>

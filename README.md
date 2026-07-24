@@ -13,6 +13,8 @@ Repo: [`certusqa/certusqa-site`](https://github.com/certusqa/certusqa-site) (pub
 certusqa-site/
 ├── index.html                  ← Platform landing (agentic GenAI product) → certusqa.com
 ├── deployshield.html           ← DeployShield Suite services page → certusqa.com/deployshield
+├── showcase/index.html         ← Interactive 45s engine walkthrough (iframe’d from `/#showcase`)
+├── contract/index.html         ← Public contract SUT mirror (online deferred proof)
 ├── assets/
 │   ├── styles.css              ← shared design system (both pages link this)
 │   ├── certusqa-icon-mark.png  ← hexagon check-probe logo mark (nav + favicon)
@@ -22,7 +24,8 @@ certusqa-site/
 ```
 
 Two pages, cross-linked in nav + footer:
-- **`/` (index.html)** — the CertusQA agentic product; CTAs → `mailto:hello@certusqa.com`.
+- **`/` (index.html)** — the CertusQA agentic product; CTAs → `mailto:hello@certusqa.com`. Includes `#showcase` iframe of the walkthrough.
+- **`/showcase/`** — standalone interactive walkthrough (also `?embed=1` for clean iframe chrome).
 - **`/deployshield`** — the managed DeployShield Suite services offer (migrated from Bolt); CTAs → Tally intake `https://tally.so/r/MePK9X`.
 
 Cloudflare Pages serves `deployshield.html` at the clean URL `/deployshield` automatically.

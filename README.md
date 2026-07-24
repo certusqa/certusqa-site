@@ -14,6 +14,7 @@ certusqa-site/
 ├── index.html                  ← Platform landing (agentic GenAI product) → certusqa.com
 ├── deployshield.html           ← DeployShield Suite services page → certusqa.com/deployshield
 ├── showcase/index.html         ← Interactive 45s engine walkthrough (iframe’d from `/#showcase`)
+├── showcase/live-ae/           ← Live Automation Exercise WebM + sanitized triage + VO script
 ├── contract/index.html         ← Public contract SUT mirror (online deferred proof)
 ├── assets/
 │   ├── styles.css              ← shared design system (both pages link this)
@@ -24,8 +25,9 @@ certusqa-site/
 ```
 
 Two pages, cross-linked in nav + footer:
-- **`/` (index.html)** — the CertusQA agentic product; CTAs → `mailto:hello@certusqa.com`. Includes `#showcase` iframe of the walkthrough.
+- **`/` (index.html)** — the CertusQA agentic product; CTAs → `mailto:hello@certusqa.com`. Includes `#showcase` iframe walkthrough **and** `#live-run` WebM from `showcase/live-ae/`.
 - **`/showcase/`** — standalone interactive walkthrough (also `?embed=1` for clean iframe chrome).
+- **`/showcase/live-ae/`** — outcomes-only live storefront recording (no engine source).
 - **`/deployshield`** — the managed DeployShield Suite services offer (migrated from Bolt); CTAs → Tally intake `https://tally.so/r/MePK9X`.
 
 Cloudflare Pages serves `deployshield.html` at the clean URL `/deployshield` automatically.

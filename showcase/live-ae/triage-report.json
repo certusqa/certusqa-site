@@ -1,0 +1,164 @@
+{
+  "schemaVersion": "1.0.0",
+  "artifactType": "SHOWCASE_TRIAGE_REPORT",
+  "generatedAt": "2026-07-24T13:03:14.166Z",
+  "targetApp": "https://automationexercise.com/",
+  "enginesHighlighted": [
+    "01 Impact-Risk-Ranked Selection",
+    "02 Regression Memory (PRF context)",
+    "03 Self-Healing",
+    "04 Bug Hunter",
+    "05 Proof Artifacts",
+    "06 Quality Gate",
+    "07 Ticket-to-Gate"
+  ],
+  "impact": {
+    "summary": {
+      "changedFiles": 4,
+      "always": 0,
+      "must": 1,
+      "suggested": 0,
+      "totalToRun": 1,
+      "topRisk": "cart-checkout-pipeline",
+      "topRiskScore": 100
+    },
+    "prf": {
+      "matchCount": 1,
+      "riskScore": 68
+    },
+    "mustCount": 1
+  },
+  "outcome": "DEFECT_CONFIRMED",
+  "category": "FUNCTIONAL_REGRESSION",
+  "severity": "HIGH",
+  "expected": "Rs. 500",
+  "observed": "Rs. 250",
+  "gate": "BLOCK_DEPLOY",
+  "artifacts": [
+    {
+      "schemaVersion": "1.0.0",
+      "artifactType": "PROOF_ARTIFACT",
+      "id": "pa_selector_healed_fea0ac7b",
+      "summary": "Selector healed via css-current-submit (HEALED)",
+      "classification": {
+        "category": "SELECTOR_HEALED",
+        "severity": "INFO",
+        "outcome": "HEALED"
+      },
+      "rootCause": {
+        "statement": "Primary locator missed the target control; a semantic fallback resolved the element and the journey continued.",
+        "signals": [
+          "selector=#submit-search-legacy-v1",
+          "heal=css-current-submit",
+          "context=Product search submit — intentional stale inventory selector"
+        ]
+      },
+      "remediation": {
+        "recommendation": "Replace brittle dynamic ids with a stable semantic locator in the page object / tenant inventory.",
+        "confidence": "high",
+        "ownerHint": "test-inventory"
+      },
+      "evidence": {
+        "baseline": {
+          "expected": null
+        },
+        "observed": {
+          "actual": null
+        },
+        "locator": {
+          "originalSelector": "#submit-search-legacy-v1",
+          "healedStrategy": "css-current-submit"
+        },
+        "run": {
+          "context": "Product search submit — intentional stale inventory selector",
+          "testName": "search heal",
+          "url": "https://automationexercise.com/products?search=Blue%20Top"
+        }
+      }
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "artifactType": "PROOF_ARTIFACT",
+      "id": "pa_selector_healed_ae30fae6",
+      "summary": "Selector healed via text-fallback (HEALED)",
+      "classification": {
+        "category": "SELECTOR_HEALED",
+        "severity": "INFO",
+        "outcome": "HEALED"
+      },
+      "rootCause": {
+        "statement": "Primary locator missed the target control; a semantic fallback resolved the element and the journey continued.",
+        "signals": [
+          "selector=#add-to-cart-btn-legacy",
+          "heal=text-fallback",
+          "context=Add to cart — intentional stale inventory selector"
+        ]
+      },
+      "remediation": {
+        "recommendation": "Replace brittle dynamic ids with a stable semantic locator in the page object / tenant inventory.",
+        "confidence": "high",
+        "ownerHint": "test-inventory"
+      },
+      "evidence": {
+        "baseline": {
+          "expected": null
+        },
+        "observed": {
+          "actual": null
+        },
+        "locator": {
+          "originalSelector": "#add-to-cart-btn-legacy",
+          "healedStrategy": "text-fallback"
+        },
+        "run": {
+          "context": "Add to cart — intentional stale inventory selector",
+          "testName": "add-to-cart heal",
+          "url": "https://automationexercise.com/products?search=Blue%20Top"
+        }
+      }
+    },
+    {
+      "schemaVersion": "1.0.0",
+      "artifactType": "PROOF_ARTIFACT",
+      "id": "pa_functional_regression_dfba27b4",
+      "summary": "Functional regression: expected Rs. 500, observed Rs. 250",
+      "classification": {
+        "category": "FUNCTIONAL_REGRESSION",
+        "severity": "HIGH",
+        "outcome": "DEFECT_CONFIRMED",
+        "failKind": "regression"
+      },
+      "rootCause": {
+        "statement": "Application state diverged from the trusted baseline (expected Rs. 500, got Rs. 250).",
+        "signals": [
+          "baseline=Rs. 500",
+          "observed=Rs. 250",
+          "context=Cart line total vs unit×qty baseline (injected pricing drift for showcase)"
+        ]
+      },
+      "remediation": {
+        "recommendation": "Treat as an application defect. Do not weaken the assertion until product confirms the new baseline.",
+        "confidence": "high",
+        "ownerHint": "application"
+      },
+      "evidence": {
+        "baseline": {
+          "expected": "Rs. 500"
+        },
+        "observed": {
+          "actual": "Rs. 250"
+        },
+        "locator": {
+          "originalSelector": null,
+          "healedStrategy": null
+        },
+        "run": {
+          "context": "Cart line total vs unit×qty baseline (injected pricing drift for showcase)",
+          "testName": "cart total bug hunt",
+          "url": "https://automationexercise.com/view_cart"
+        }
+      }
+    }
+  ],
+  "honestyNote": "Pricing defect in this recording is an intentional client-side injection to demonstrate Bug Hunter + Quality Gate on a healthy public practice site."
+}

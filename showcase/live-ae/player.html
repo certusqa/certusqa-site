@@ -54,7 +54,9 @@
       color: var(--emerald-light); margin-bottom: 10px;
     }
     .beat {
-      border-left: 3px solid transparent; padding: 8px 10px; margin-bottom: 6px;
+      display: block; width: 100%; text-align: left; color: inherit; font: inherit;
+      background: transparent; border: 0; border-left: 3px solid transparent;
+      padding: 8px 10px; margin-bottom: 6px;
       border-radius: 0 8px 8px 0; cursor: pointer;
     }
     .beat:hover { background: rgba(255,255,255,.04); }
@@ -150,12 +152,13 @@
     const rail = document.getElementById('rail');
 
     BEATS.forEach((b, i) => {
-      const div = document.createElement('div');
-      div.className = 'beat';
-      div.dataset.i = String(i);
-      div.innerHTML = `<div class="t">${fmt(b.t)}</div><div class="s">${b.step}</div><div class="d">${b.did}</div><div class="v">${b.value}</div>`;
-      div.addEventListener('click', () => { vid.currentTime = b.t; vid.play(); });
-      beatsEl.appendChild(div);
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'beat';
+      btn.dataset.i = String(i);
+      btn.innerHTML = `<div class="t">${fmt(b.t)}</div><div class="s">${b.step}</div><div class="d">${b.did}</div><div class="v">${b.value}</div>`;
+      btn.addEventListener('click', () => { vid.currentTime = b.t; vid.play(); });
+      beatsEl.appendChild(btn);
     });
 
     function fmt(s) {

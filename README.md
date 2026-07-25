@@ -1,7 +1,7 @@
 # CertusQA — Marketing Site (certusqa.com)
 
-Static two-page site for **CertusQA** — no build step — brand-matched to
-`qa-forge-core/docs/qa-engine-one-pager.html` (emerald `#10b981` / navy `#0B1220`, Inter + JetBrains Mono).
+Static two-page site for **CertusQA** — no build step — brand-matched to the
+CertusQA one-pager (emerald `#10b981` / navy `#0B1220`, Inter + JetBrains Mono).
 Repo: [`certusqa/certusqa-site`](https://github.com/certusqa/certusqa-site) (public).
 
 > This repo is the **public marketing site only**. It contains no engine IP — the private engine must never be copied here.
@@ -47,11 +47,11 @@ Re-render preview screenshots (matches how the site was verified):
   --hide-scrollbars --screenshot=preview-desktop.png --window-size=1280,4200 "file://$PWD/index.html"
 ```
 
-DNS / email / Pages go-live steps live in the private ops doc `docs/OPS-dns-email.md` (gitignored — not published with this repo).
+DNS / email / Pages go-live steps live in the private ops repo.
 
 ## Wiring
 
 - **Platform page (`index.html`)** CTAs → `mailto:hello@certusqa.com?subject=Live Sandbox Demo Request`.
   To route demos through **Calendly** instead, swap those `href`s.
 - **Services page (`deployshield.html`)** CTAs → Tally intake `https://tally.so/r/MePK9X` (the existing lead funnel).
-- The **one-pager PDF button** (`qa-forge-core/docs/qa-engine-one-pager.html`) points to `https://certusqa.com`.
+- The **one-pager** button points to `https://certusqa.com`.

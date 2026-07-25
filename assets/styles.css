@@ -52,8 +52,6 @@ section { scroll-margin-top: 80px; }
 .btn-ghost:hover { border-color: var(--emerald-light); color: var(--emerald-light); }
 .btn-dark { background: var(--navy); color: #fff; }
 .btn-dark:hover { background: var(--navy-alt); }
-.btn-emerald { background: var(--emerald); color: #fff; }
-.btn-emerald:hover { background: var(--emerald-dark); }
 
 /* ---------- Nav ---------- */
 .nav {
@@ -364,7 +362,6 @@ section { scroll-margin-top: 80px; }
 .footer { background: #070c16; color: var(--on-dark-2); padding: 42px 0 34px; }
 .footer-inner { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 18px; }
 .footer .brand-name { font-size: 17px; }
-.footer-meta { font-size: 12.5px; }
 .footer-links { display: flex; gap: 22px; font-size: 13px; }
 .footer-links a:hover { color: var(--emerald-light); }
 .footer-bottom { margin-top: 24px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.07); font-size: 12px; color: #6b7688; }
@@ -409,9 +406,7 @@ section { scroll-margin-top: 80px; }
   .nav-toggle { display: inline-flex; background: none; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; padding: 7px 10px; color: #fff; cursor: pointer; }
 }
 @media (max-width: 560px) {
-  .wrap { padding: 0 16px; }
   .hero { padding: 44px 0 52px; }
-  .hero h1 { font-size: 30px; letter-spacing: -0.02em; line-height: 1.12; }
   .hero .subhead { font-size: 15px; }
   .category-tag { font-size: 10px; letter-spacing: 0.12em; padding: 6px 12px; }
   .band { padding: 52px 0; }

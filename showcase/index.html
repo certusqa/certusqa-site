@@ -71,6 +71,10 @@
       color: #94a3b8;
       font-size: 0.82rem;
     }
+    .visually-hidden {
+      position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+      overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+    }
 
     /* —— Stage —— */
     .stage-shell {
@@ -848,6 +852,7 @@
     </header>
 
     <div class="stage-shell" id="stageShell" role="region" aria-label="CertusQA video showcase">
+      <h2 class="visually-hidden">Storyboard scenes</h2>
       <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
       <div class="stage" id="stage">
 
@@ -955,8 +960,8 @@
           <div class="proof-layout">
             <div class="proof-card">
               <div class="proof-tabs">
-                <button type="button" class="is-on">JSON</button>
-                <button type="button">Markdown</button>
+                <button type="button" class="is-on" tabindex="-1">JSON</button>
+                <button type="button" tabindex="-1">Markdown</button>
                 <span style="margin-left:auto;font-size:0.62rem;color:#64748b;align-self:center;font-family:var(--font-mono)">schemaVersion 1.0.0</span>
               </div>
               <pre class="proof-json" id="proofJson"></pre>
@@ -993,7 +998,7 @@
             <div class="stat"><strong>80%</strong><span>Faster Test Execution</span></div>
             <div class="stat"><strong>90%</strong><span>Less Test Maintenance</span></div>
           </div>
-          <a class="cta-btn" id="ctaBtn" href="mailto:hello@certusqa.com?subject=Live%20Sandbox%20Demo%20Request" target="_top">Run Live Sandbox Demo →</a>
+          <a class="cta-btn" id="ctaBtn" href="mailto:hello@certusqa.com?subject=Live%20Sandbox%20Demo%20Request" target="_top" tabindex="-1">Run Live Sandbox Demo →</a>
           <p class="fine">80% / 90% are collateral targets — not yet client-measured. Sandbox-verified · design partners welcome.</p>
         </section>
       </div>
@@ -1005,7 +1010,7 @@
       <button type="button" id="btnReplay">Replay</button>
       <input class="scrub" id="scrub" type="range" min="0" max="45000" value="0" aria-label="Timeline scrub" />
       <div class="time-readout" id="timeReadout">0:00 / 0:45</div>
-      <div class="scene-dots" id="sceneDots" role="tablist" aria-label="Jump to scene">
+      <div class="scene-dots" id="sceneDots" aria-label="Jump to scene">
         <button type="button" data-jump="0" class="is-on">1</button>
         <button type="button" data-jump="5000">2</button>
         <button type="button" data-jump="15000">3</button>

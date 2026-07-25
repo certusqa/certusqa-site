@@ -39,7 +39,7 @@
     </nav>
     <div class="nav-cta">
       <a class="btn btn-primary" href="mailto:hello@certusqa.com?subject=Live%20Sandbox%20Demo%20Request">Book a Demo</a>
-      <button class="nav-toggle" id="navToggle" aria-label="Menu">☰</button>
+      <button class="nav-toggle" id="navToggle" aria-label="Menu" aria-expanded="false" aria-controls="navLinks">☰</button>
     </div>
   </div>
 </header>
@@ -384,8 +384,16 @@
 <script>
   document.getElementById('year').textContent = new Date().getFullYear();
   var t = document.getElementById('navToggle'), l = document.getElementById('navLinks');
-  if (t) t.addEventListener('click', function () { l.classList.toggle('open'); });
-  if (l) l.querySelectorAll('a').forEach(function (a) { a.addEventListener('click', function () { l.classList.remove('open'); }); });
+  if (t && l) t.addEventListener('click', function () {
+    var open = l.classList.toggle('open');
+    t.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+  if (l && t) l.querySelectorAll('a').forEach(function (a) {
+    a.addEventListener('click', function () {
+      l.classList.remove('open');
+      t.setAttribute('aria-expanded', 'false');
+    });
+  });
 </script>
 
 </body>

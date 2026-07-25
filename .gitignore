@@ -1,3 +1,7 @@
 # local previews (not deployed)
 preview-*.png
 .DS_Store
+
+# private audit / ops — never publish (repo is deployed to certusqa.com)
+docs/AUDIT-*.md
+docs/OPS-*.md

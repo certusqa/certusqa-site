@@ -1,21 +1,22 @@
 {
   "schemaVersion": "1.0.0",
   "artifactType": "SHOWCASE_TRIAGE_REPORT",
-  "generatedAt": "2026-07-24T13:03:14.166Z",
+  "generatedAt": "2026-07-25T18:35:40.016Z",
   "targetApp": "https://automationexercise.com/",
   "enginesHighlighted": [
-    "01 Impact-Risk-Ranked Selection",
-    "02 Regression Memory (PRF context)",
+    "01 Impact",
+    "02 Regression Memory",
     "03 Self-Healing",
     "04 Bug Hunter",
     "05 Proof Artifacts",
     "06 Quality Gate",
-    "07 Ticket-to-Gate"
+    "07 Ticket-to-Gate",
+    "08 Sprint Trend",
+    "09 Governance"
   ],
   "impact": {
     "summary": {
       "changedFiles": 4,
-      "always": 0,
       "must": 1,
       "suggested": 0,
       "totalToRun": 1,
@@ -71,7 +72,6 @@
         },
         "run": {
           "context": "Product search submit — intentional stale inventory selector",
-          "testName": "search heal",
           "url": "https://automationexercise.com/products?search=Blue%20Top"
         }
       }
@@ -112,7 +112,6 @@
         },
         "run": {
           "context": "Add to cart — intentional stale inventory selector",
-          "testName": "add-to-cart heal",
           "url": "https://automationexercise.com/products?search=Blue%20Top"
         }
       }
@@ -154,11 +153,10 @@
         },
         "run": {
           "context": "Cart line total vs unit×qty baseline (injected pricing drift for showcase)",
-          "testName": "cart total bug hunt",
           "url": "https://automationexercise.com/view_cart"
         }
       }
     }
   ],
-  "honestyNote": "Pricing defect in this recording is an intentional client-side injection to demonstrate Bug Hunter + Quality Gate on a healthy public practice site."
+  "honestyNote": "Pricing defect in this recording is an intentional client-side injection to demonstrate Bug Hunter + Quality Gate on a healthy public practice site. On-screen cards are the voiceover for all nine engines."
 }

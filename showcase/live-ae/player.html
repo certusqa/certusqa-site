@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CertusQA — Live storefront showcase (9 engines)</title>
+  <meta name="description" content="Captioned live run: Predict → Heal → Hunt → Gate across all nine CertusQA engines on a public practice storefront." />
+  <link rel="canonical" href="https://www.certusqa.com/showcase/live-ae/" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --slate: #0b1220;
+      --emerald: #10b981;
+      --emerald-light: #34d399;
+      --orange: #f97316;
+      --muted: #94a3b8;
+      --line: rgba(255,255,255,.1);
+      --font: Inter, system-ui, sans-serif;
+      --mono: "JetBrains Mono", ui-monospace, monospace;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      min-height: 100vh;
+      background: radial-gradient(120% 80% at 50% -10%, #1a2740 0%, var(--slate) 55%, #070b14 100%);
+      color: #fff;
+      font-family: var(--font);
+      -webkit-font-smoothing: antialiased;
+    }
+    .wrap { max-width: 1120px; margin: 0 auto; padding: 28px 16px 48px; }
+    .brand { color: var(--emerald-light); font-weight: 800; letter-spacing: -0.02em; }
+    h1 { font-size: clamp(1.4rem, 3vw, 1.85rem); margin: 8px 0 8px; letter-spacing: -0.03em; }
+    .lede { color: var(--muted); font-size: 0.95rem; line-height: 1.5; max-width: 62ch; }
+    .grid {
+      margin-top: 22px;
+      display: grid;
+      grid-template-columns: 1.45fr 1fr;
+      gap: 18px;
+      align-items: start;
+    }
+    @media (max-width: 900px) { .grid { grid-template-columns: 1fr; } }
+    .player {
+      border-radius: 14px; overflow: hidden;
+      border: 1px solid var(--line); background: #000;
+      box-shadow: 0 24px 60px rgba(0,0,0,.35);
+    }
+    video { width: 100%; display: block; aspect-ratio: 16/9; background: #000; }
+    .panel {
+      border: 1px solid var(--line); border-radius: 14px;
+      background: rgba(19,28,46,.85); padding: 14px 14px 10px;
+      max-height: min(70vh, 560px); overflow: auto;
+    }
+    .panel h2 {
+      font-size: 0.72rem; letter-spacing: .1em; text-transform: uppercase;
+      color: var(--emerald-light); margin-bottom: 10px;
+    }
+    .beat {
+      border-left: 3px solid transparent; padding: 8px 10px; margin-bottom: 6px;
+      border-radius: 0 8px 8px 0; cursor: pointer;
+    }
+    .beat:hover { background: rgba(255,255,255,.04); }
+    .beat.active {
+      border-left-color: var(--emerald);
+      background: rgba(16,185,129,.12);
+    }
+    .beat .t { font-size: 0.72rem; color: var(--emerald-light); font-family: var(--mono); margin-bottom: 2px; }
+    .beat .s { font-size: 0.88rem; font-weight: 700; margin-bottom: 3px; }
+    .beat .d { font-size: 0.8rem; color: #cbd5e1; line-height: 1.35; }
+    .beat .v { font-size: 0.75rem; color: var(--muted); margin-top: 4px; line-height: 1.35; }
+    .engines {
+      margin-top: 16px; display: grid; grid-template-columns: repeat(9, 1fr); gap: 4px;
+    }
+    .engines span {
+      text-align: center; font: 700 10px/1 var(--mono); padding: 6px 0; border-radius: 6px;
+      color: #64748b; background: rgba(255,255,255,.05); border: 1px solid var(--line);
+    }
+    .engines span.on { color: #0b1220; background: var(--emerald); border-color: var(--emerald-light); }
+    .note {
+      margin-top: 16px; font-size: 0.82rem; color: var(--muted); line-height: 1.45;
+    }
+    .note a { color: var(--emerald-light); font-weight: 600; text-decoration: none; }
+    .note a:hover { text-decoration: underline; }
+    .gate {
+      display: inline-block; margin-top: 10px; padding: 4px 10px; border-radius: 999px;
+      background: rgba(249,115,22,.15); color: var(--orange); font: 700 12px/1.2 var(--mono);
+      border: 1px solid rgba(249,115,22,.45);
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="brand">Certus<span style="color:#fff">QA</span></div>
+    <h1>Live storefront run — all 9 engines, captioned</h1>
+    <p class="lede">
+      On-screen voiceover cards explain each engine as it runs against
+      <a href="https://automationexercise.com/" style="color:var(--emerald-light)">automationexercise.com</a>.
+      Pricing drift is injected on purpose so Bug Hunter + Quality Gate are visible on a healthy practice site.
+    </p>
+    <div class="gate">GATE · BLOCK_DEPLOY</div>
+
+    <div class="engines" id="rail" aria-hidden="true">
+      <span data-e="1">01</span><span data-e="2">02</span><span data-e="3">03</span>
+      <span data-e="4">04</span><span data-e="5">05</span><span data-e="6">06</span>
+      <span data-e="7">07</span><span data-e="8">08</span><span data-e="9">09</span>
+    </div>
+
+    <div class="grid">
+      <div class="player">
+        <video id="vid" controls playsinline preload="metadata">
+          <source src="certusqa-showcase.webm" type="video/webm" />
+          <track kind="captions" srclang="en" label="English voiceover" src="captions.vtt" default />
+        </video>
+      </div>
+      <aside class="panel" aria-label="Voiceover transcript">
+        <h2>Voiceover / transcript</h2>
+        <div id="beats"></div>
+      </aside>
+    </div>
+
+    <p class="note">
+      Prefer the interactive sandbox storyboard?
+      <a href="/showcase/">Open the 45s walkthrough</a>
+      ·
+      <a href="exec-narrative.md">Executive script (Markdown)</a>
+      ·
+      <a href="triage-report.json">triage-report.json</a>
+      ·
+      <a href="mailto:hello@certusqa.com?subject=Live%20Sandbox%20Demo%20Request">Book a demo</a>
+    </p>
+  </div>
+
+  <script>
+    const BEATS = [
+      { t: 8, eng: 0, step: 'Intro: Nine engines', did: 'Closed-loop demo with on-screen voiceover for every engine.', value: 'Buyers can follow without reading code.' },
+      { t: 13, eng: 1, step: 'Engine 01: Impact', did: 'Risk-ranked cart/checkout PR — must-run specs only.', value: 'Fewer CI minutes without revenue blind spots.' },
+      { t: 18, eng: 2, step: 'Engine 02: Regression Memory', did: 'Prior pricing fingerprint matched; guard spec forced in.', value: 'Same defect cannot ship twice.' },
+      { t: 21, eng: 0, step: 'Journey: Sign-up', did: 'Ephemeral practice account created.', value: 'Real SaaS onboarding coverage.' },
+      { t: 33, eng: 3, step: 'Engine 03: Self-Healing', did: 'Stale search selector healed via semantic fallback.', value: 'Cuts locator maintenance toil.' },
+      { t: 43, eng: 3, step: 'Engine 03: Self-Healing', did: 'Add to cart healed; 3rd attempt would be denied.', value: 'Max 2 tries · never softens asserts.' },
+      { t: 54, eng: 4, step: 'Engine 04: Bug Hunter', did: 'Expected Rs. 500 vs observed Rs. 250 — DEFECT_CONFIRMED.', value: 'Exact math asserts catch revenue bugs.' },
+      { t: 59, eng: 5, step: 'Engine 05: Proof Artifacts', did: 'Schema 1.0.0 evidence for heals + defect.', value: 'Jira-ready root cause, not stack-trace noise.' },
+      { t: 64, eng: 6, step: 'Engine 06: Quality Gate', did: 'Aggregated verdict BLOCK_DEPLOY.', value: 'One proof-backed ship/block call.' },
+      { t: 69, eng: 7, step: 'Engine 07: Ticket-to-Gate', did: 'Same loop as ticket → runnable spec → gate.', value: 'Design-partner demo under 30 minutes.' },
+      { t: 74, eng: 8, step: 'Engine 08: Sprint Trend', did: 'Chronic heal flagged as advisory escalation.', value: 'Deferred locator debt becomes visible.' },
+      { t: 80, eng: 9, step: 'Engine 09: Governance', did: 'Deny-by-default scopes · assert softening banned.', value: 'Agents cannot quietly weaken the suite.' },
+      { t: 86, eng: 0, step: 'Outro', did: 'Closed loop complete · BLOCK_DEPLOY.', value: 'Certainty, verified.' },
+    ];
+
+    const beatsEl = document.getElementById('beats');
+    const vid = document.getElementById('vid');
+    const rail = document.getElementById('rail');
+
+    BEATS.forEach((b, i) => {
+      const div = document.createElement('div');
+      div.className = 'beat';
+      div.dataset.i = String(i);
+      div.innerHTML = `<div class="t">${fmt(b.t)}</div><div class="s">${b.step}</div><div class="d">${b.did}</div><div class="v">${b.value}</div>`;
+      div.addEventListener('click', () => { vid.currentTime = b.t; vid.play(); });
+      beatsEl.appendChild(div);
+    });
+
+    function fmt(s) {
+      const m = Math.floor(s / 60);
+      const r = s % 60;
+      return `${m}:${String(r).padStart(2, '0')}`;
+    }
+
+    function activeIndex(t) {
+      let idx = 0;
+      for (let i = 0; i < BEATS.length; i += 1) {
+        if (t >= BEATS[i].t) idx = i;
+      }
+      return idx;
+    }
+
+    vid.addEventListener('timeupdate', () => {
+      const i = activeIndex(vid.currentTime);
+      [...beatsEl.children].forEach((el, j) => el.classList.toggle('active', j === i));
+      const eng = BEATS[i].eng;
+      [...rail.children].forEach((el) => {
+        const n = Number(el.dataset.e);
+        el.classList.toggle('on', eng > 0 && n === eng);
+      });
+    });
+  </script>
+</body>
+</html>

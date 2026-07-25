@@ -1,0 +1,80 @@
+WEBVTT
+
+1
+00:00:08.049 --> 00:00:13.068
+Intro: Nine engines
+Opened the closed-loop demo on a public practice storefront with on-screen voiceover cards for every engine.
+Value: Buyers can follow the story without reading code.
+
+2
+00:00:13.068 --> 00:00:18.080
+Engine 01: Impact
+Ranked the cart/checkout PR and selected 1 must-run spec(s); skipped marketing footer.
+Value: Runs only high-blast-radius tests per change set.
+
+3
+00:00:18.080 --> 00:00:21.259
+Engine 02: Regression Memory
+Matched 1 prior fingerprint(s); kept the guard spec in the run set.
+Value: Stops the same pricing defect from shipping twice.
+
+4
+00:00:21.259 --> 00:00:33.032
+Journey: Sign-up
+Completed account creation with ephemeral fake credentials.
+Value: Covers real SaaS onboarding paths.
+
+5
+00:00:33.032 --> 00:00:43.518
+Engine 03: Self-Healing (search)
+Healed stale #submit-search-legacy-v1 via css-current-submit.
+Value: Cuts locator maintenance; keeps pipelines green on UI renames.
+
+6
+00:00:43.518 --> 00:00:54.489
+Engine 03: Self-Healing (Add to cart)
+Healed #add-to-cart-btn-legacy via text-fallback; 3rd attempt blocked by guardrails.
+Value: Self-heal is capped — no silent infinite retries, no false greens.
+
+7
+00:00:54.489 --> 00:00:59.503
+Engine 04: Bug Hunter
+Confirmed pricing regression expected Rs. 500 vs observed Rs. 250.
+Value: Catches revenue-breaking math bugs with exact asserts.
+
+8
+00:00:59.503 --> 00:01:04.727
+Engine 05: Proof Artifacts
+Generated 3 Proof Artifacts (schema 1.0.0) including heals and the pricing defect.
+Value: Every finding ships as actionable evidence.
+
+9
+00:01:04.727 --> 00:01:09.739
+Engine 06: Quality Gate
+Aggregated gate=BLOCK_DEPLOY from Proof Artifacts.
+Value: One proof-backed deploy verdict.
+
+10
+00:01:09.739 --> 00:01:14.751
+Engine 07: Ticket-to-Gate
+Closed loop mirrors ticket → runnable spec → heal → gate (proven offline by demo:ticket-to-gate).
+Value: A ticket becomes a ship/block call with evidence attached.
+
+11
+00:01:14.751 --> 00:01:20.263
+Engine 08: Sprint Trend
+Flagged chronic-heal pattern as advisory escalation (inventory suggestion, not auto-commit).
+Value: Makes deferred locator debt visible across sprints.
+
+12
+00:01:20.263 --> 00:01:26.277
+Engine 09: Governance
+Enforced max-2 heal budget and deny-by-default scope policy; assertion softening banned.
+Value: Trust & governance is mechanism, not marketing copy.
+
+13
+00:01:26.277 --> 00:01:31.277
+Outro
+Closed loop finished with gate=BLOCK_DEPLOY.
+Value: Certainty, verified.
+

@@ -145,6 +145,7 @@
     <div class="loop-guards">
       <span class="guard-chip">Max 2 heal attempts</span>
       <span class="guard-chip">Never softens a failing test</span>
+      <span class="guard-chip">Never learns from guessed passes</span>
       <span class="guard-chip">Deny-by-default scopes</span>
       <span class="guard-chip">Regression memory</span>
       <span class="guard-chip">Live Playwright MCP</span>
@@ -169,7 +170,7 @@
       <div class="pillar">
         <div class="pillar-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2"/></svg></div>
         <h3>Accuracy</h3>
-        <p><b>Never chase a false alarm.</b> Knows a broken script from a real bug — instantly.</p>
+        <p><b>Never chase a false alarm.</b> Execution Judge separates app bugs from flake, soft passes, and heal guesswork.</p>
       </div>
       <div class="pillar">
         <div class="pillar-icon"><svg viewBox="0 0 24 24"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
@@ -179,7 +180,7 @@
       <div class="pillar">
         <div class="pillar-icon"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg></div>
         <h3>Trust &amp; Governance</h3>
-        <p><b>Deny-by-default by design.</b> Scoped agents that can't soften a failing test — governance you can prove to leadership.</p>
+        <p><b>Zero-hallucination learning.</b> Soft or guessed passes go to HITL — never seed the replay corpus. Deny-by-default scopes stay enforceable.</p>
       </div>
     </div>
   </div>
@@ -329,7 +330,7 @@
       <div class="engine"><span class="no">06</span><span class="tx"><b>Quality Gate</b><span>Tests mapped to requirements</span></span></div>
       <div class="engine"><span class="no">07</span><span class="tx"><b>Ticket-to-Gate</b><span>Ticket → runnable spec → gate</span></span></div>
       <div class="engine"><span class="no">08</span><span class="tx"><b>Sprint Trend</b><span>Flags chronic, deferred fixes</span></span></div>
-      <div class="engine"><span class="no">09</span><span class="tx"><b>Governance</b><span>Deny-by-default scopes + MCP families + audit</span></span></div>
+      <div class="engine"><span class="no">09</span><span class="tx"><b>Governance</b><span>Execution Judge · deny-by-default scopes · MCP audit</span></span></div>
     </div>
   </div>
 </section>

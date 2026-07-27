@@ -204,7 +204,7 @@
       <div class="step">
         <div class="no">02</div>
         <h3>Heal</h3>
-        <p>Broken locators are auto-repaired mid-run — no red build from a moved button.</p>
+        <p>Broken locators are auto-repaired mid-run, then promoted into a selector bank so the next run skips recovery.</p>
         <span class="arrow">→</span>
       </div>
       <div class="step">
@@ -307,7 +307,7 @@
   <span class="k">"gate"</span>:     <span class="r">"BLOCK_DEPLOY"</span>
 }</div>
         <div class="proof-cap"><b>Real output from a sandbox bug-hunt.</b> Root cause, severity, and gate call included — the evidence your team acts on.</div>
-        <div class="lifecycle-line">Latest sandbox run · <b>1</b> defect caught · <b>0</b> shipped · <b>2</b> selectors self-healed</div>
+        <div class="lifecycle-line">Latest sandbox run · <b>1</b> defect caught · <b>0</b> shipped · <b>2</b> selectors self-healed · selector bank advisory</div>
       </div>
     </div>
   </div>
@@ -324,13 +324,13 @@
     <div class="engines-grid">
       <div class="engine"><span class="no">01</span><span class="tx"><b>Impact</b><span>Risk-ranked selection (e.g. 3 of 20)</span></span></div>
       <div class="engine"><span class="no">02</span><span class="tx"><b>Regression Memory</b><span>Recalls past hotfixes so they can't ship twice</span></span></div>
-      <div class="engine"><span class="no">03</span><span class="tx"><b>Self-Healing</b><span>Guardrailed repair, max 2 tries</span></span></div>
+      <div class="engine"><span class="no">03</span><span class="tx"><b>Self-Healing</b><span>Guardrailed repair · selector bank · Tier-0 flywheel</span></span></div>
       <div class="engine"><span class="no">04</span><span class="tx"><b>Bug Hunter</b><span>Catches behavioral regressions</span></span></div>
       <div class="engine"><span class="no">05</span><span class="tx"><b>Proof Artifacts</b><span>Evidence for every finding</span></span></div>
       <div class="engine"><span class="no">06</span><span class="tx"><b>Quality Gate</b><span>Tests mapped to requirements</span></span></div>
       <div class="engine"><span class="no">07</span><span class="tx"><b>Ticket-to-Gate</b><span>Ticket → runnable spec → gate</span></span></div>
       <div class="engine"><span class="no">08</span><span class="tx"><b>Sprint Trend</b><span>Flags chronic, deferred fixes</span></span></div>
-      <div class="engine"><span class="no">09</span><span class="tx"><b>Governance</b><span>Execution Judge · deny-by-default scopes · MCP audit</span></span></div>
+      <div class="engine"><span class="no">09</span><span class="tx"><b>Governance</b><span>Execution Judge · offline triage · deny-by-default scopes</span></span></div>
     </div>
   </div>
 </section>

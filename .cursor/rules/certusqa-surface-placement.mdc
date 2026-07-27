@@ -1,0 +1,55 @@
+---
+description: CertusQA surface placement — where UI, marketing, and engine work go (core / site / app)
+alwaysApply: true
+---
+
+# CertusQA — Where to build (surface placement)
+
+Use this whenever the user asks for dashboards, pages, UI, demos, or “put it on the website.”
+
+## Surfaces
+
+| Surface | Path | Visibility | URL | Put here |
+|---|---|---|---|---|
+| Engine | `~/qa-forge-core` | Private | n/a | `qa/ai/core/**`, adapters, publish scripts, offline demos under `demo/` |
+| Marketing | `~/certusqa-site` | **Public** | `certusqa.com` | Public landing, DeployShield, showcase — outcomes only |
+| Ops console | `~/certusqa-app` | **Private** + Cloudflare Access | `app.certusqa.com` | Private dashboards, evidence viewers, internal tooling UI |
+
+Business/ops docs stay in `~/QA_Package` (offer, runbooks, funnel — **not** a product UI host; no Cloudflare Pages app UI here).
+
+When editing this rule, keep copies identical across: `qa-forge-core`, `certusqa-site`, `certusqa-app`, `QA_Package`.
+
+## UI / dashboard requests
+
+- **Private product UI** (ops dashboards, pack browsers, sprint views, judgments panels) → **`~/certusqa-app` only**
+- **Public marketing pages** → **`~/certusqa-site` only**
+- **Engine behavior / gate logic / fixture publishers** → **`~/qa-forge-core`** (e.g. `npm run publish:app-fixtures`); never ship `qa/ai/core/**` into site or app
+
+If the Cursor workspace is `qa-forge-core` but the ask is a private dashboard, still implement under `~/certusqa-app` and say so.
+
+## Hard boundaries
+
+- Never copy `qa/ai/core/**` into `certusqa-site` or `certusqa-app`
+- Never add nav/footer links from public `certusqa.com` to `app.certusqa.com`
+- Ops console data = sanitized **fixture JSON** (or future API), not live engine imports
+- Gate verdicts in the app are **precomputed at publish time** in `qa-forge-core`; the app displays them
+
+## Good prompt shape (for the user / agent)
+
+```text
+In ~/certusqa-app, add a private page for <goal>.
+Data: fixtures/ (or name the evidence pack).
+Show: <specific tiles/lists>.
+Do not: engine source in app; no link from certusqa.com.
+```
+
+## After UI changes in certusqa-app
+
+Commit/push `certusqa-app` so Cloudflare Pages redeploys. New evidence → publish from engine:
+
+```bash
+cd ~/qa-forge-core
+npm run publish:app-fixtures -- <evidenceDir> --id <pack-id>
+```
+
+Then commit/push updated `fixtures/` in `certusqa-app`.

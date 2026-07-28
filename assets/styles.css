@@ -162,6 +162,22 @@ section { scroll-margin-top: 80px; }
 .roi-anchor b { color: var(--emerald-dark); font-weight: 700; }
 .verify-line { text-align: center; margin-top: 8px; font-size: 13px; color: var(--ink-2); font-style: italic; }
 
+/* ---------- Guarantee band (replaces the KPI design-target band) ---------- */
+.guar-band { background: var(--navy); color: var(--on-dark); padding: 52px 0; }
+.guar-band .section-eyebrow .lead { color: var(--on-dark-2); }
+.guar-band .section-eyebrow .sub { color: var(--on-dark-3, #8593AC); }
+.guar-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; margin-top: 32px; }
+.guar-item { border-left: 3px solid var(--emerald); padding-left: 18px; }
+.guar-item h3 { font-size: 19px; font-weight: 700; line-height: 1.24; letter-spacing: -0.015em; color: #fff; }
+.guar-item p { font-size: 14px; line-height: 1.5; color: var(--on-dark-2); margin-top: 10px; }
+.guar-tax { display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px 26px; margin-top: 34px; padding-top: 22px; border-top: 1px solid rgba(255,255,255,0.1); }
+.guar-tax .half { display: flex; align-items: baseline; gap: 12px; }
+.guar-tax .lab { font-size: 11px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; white-space: nowrap; padding: 4px 10px; border-radius: 5px; }
+.guar-tax .lab.ok { color: var(--emerald-light); background: rgba(16,185,129,0.14); border: 1px solid rgba(52,211,153,0.35); }
+.guar-tax .lab.no { color: #F0A0A0; background: rgba(248,113,113,0.12); border: 1px solid rgba(248,113,113,0.32); }
+.guar-tax .list { font-size: 13.5px; color: var(--on-dark-2); line-height: 1.4; }
+@media (max-width: 900px) { .guar-row { grid-template-columns: 1fr; gap: 22px; } }
+
 /* ---------- Generic section header ---------- */
 .band { padding: 74px 0; }
 .band.alt { background: var(--soft); }

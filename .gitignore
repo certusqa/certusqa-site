@@ -2,5 +2,9 @@
 preview-*.png
 .DS_Store
 
+# secrets — never commit
+.env
+.env.local
+
 # private audit — never publish (repo is deployed to certusqa.com)
 docs/AUDIT-*.md

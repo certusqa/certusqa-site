@@ -3,16 +3,16 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>CertusQA — Ship Faster. Break Nothing.</title>
-<meta name="description" content="Ship faster, break nothing. An agentic GenAI QA platform for SaaS teams that builds your entire test suite, runs it on every deploy, and repairs it as your product changes — while a real regression is reported, never rewritten. No existing tests required to start." />
+<title>CertusQA — Tests That Evolve With Your App</title>
+<meta name="description" content="An agentic GenAI QA platform for SaaS teams. We write your end-to-end Playwright suite, run it on every deploy, and repair it as your product changes — while a real regression is reported, never rewritten. No existing tests required, and the specs stay in your repo." />
 <meta name="theme-color" content="#0B1220" />
 <link rel="icon" type="image/png" href="assets/certusqa-icon-mark.png" />
 <link rel="canonical" href="https://www.certusqa.com/" />
 
 <!-- Open Graph / social -->
 <meta property="og:type" content="website" />
-<meta property="og:title" content="CertusQA — Agentic GenAI QA Platform" />
-<meta property="og:description" content="Autonomous QA that predicts, heals, hunts & decides. Nine AI engines returning one proof-backed deploy verdict." />
+<meta property="og:title" content="CertusQA — Tests That Evolve With Your App and Reveal Your Bugs" />
+<meta property="og:description" content="We write your end-to-end suite, run it on every deploy, and repair it as your product changes — while a real regression is reported, never rewritten." />
 <meta property="og:url" content="https://www.certusqa.com/" />
 <meta property="og:image" content="https://www.certusqa.com/assets/certusqa-icon-mark.png" />
 <meta name="twitter:card" content="summary" />
@@ -50,14 +50,14 @@
 <section class="hero">
   <div class="wrap hero-grid">
     <div>
-      <span class="category-tag">Agentic GenAI QA Platform for SaaS Teams</span>
-      <h1>Ship Faster. <span class="accent">Break Nothing.</span></h1>
-      <p class="subhead">An agentic QA platform that <b>builds your entire test suite</b>, runs it on every deploy, and repairs it as your product changes — while a real regression is reported, never rewritten. <b>No existing tests required to start.</b></p>
+      <span class="category-tag">Agentic GenAI QA Platform</span>
+      <h1>Tests That Evolve With Your App <span class="accent">and Reveal Your Bugs.</span></h1>
+      <p class="subhead">We write your end-to-end suite, run it on every deploy, and repair it as your product changes — while <b>a real regression gets reported, never rewritten</b>. <b>No existing tests required. Standard Playwright specs, in your repo: if you fire us, your suite still runs.</b></p>
       <div class="hero-actions">
         <a class="btn btn-primary" href="mailto:hello@certusqa.com?subject=Live%20Sandbox%20Demo%20Request">Book a Live Sandbox Demo →</a>
         <a class="btn btn-ghost" href="#showcase">Watch the 45s walkthrough</a>
       </div>
-      <p class="hero-trust">No existing tests needed · Runs offline · Verify every number yourself · No credit card</p>
+      <p class="hero-trust">No existing tests needed · The specs are yours · Gate starts in report-only · Verify every number yourself</p>
     </div>
 
     <div>
@@ -95,7 +95,7 @@
       </div>
       <div class="guar-item">
         <h3>It cannot force a test green.</h3>
-        <p>Softening an assertion is blocked by policy: no loosening an exact match, no downgrading a visibility check. Two attempts, then it stops and asks a person.</p>
+        <p>No loosening an exact match, no downgrading a visibility check. That's <b>a static check on the proposed diff, not a prompt instruction</b> — deterministic rules plus an AST scan, no LLM calls. Two attempts, then it asks a person.</p>
       </div>
       <div class="guar-item">
         <h3>Your code never leaves your infra.</h3>
@@ -300,6 +300,35 @@
 }</div>
         <div class="proof-cap"><b>Real output from a sandbox bug-hunt.</b> Root cause, severity, and gate call included — the evidence your team acts on.</div>
         <div class="lifecycle-line">Latest sandbox run · <b>1</b> defect caught · <b>0</b> shipped · <b>1</b> selector self-healed · selector bank advisory</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= EVIDENCE ================= -->
+<section class="band alt" id="evidence">
+  <div class="wrap">
+    <div class="band-head">
+      <div class="tag">Measured, and Not</div>
+      <h2>What we've measured — and what we haven't</h2>
+      <p>The failure mode that matters isn't accuracy in aggregate. It's <em>which</em> way the misses go.</p>
+    </div>
+    <div class="evid">
+      <div class="yes">
+        <h4>Measured</h4>
+        <ul>
+          <li><b>Zero real regressions missed.</b> On 37 hand-labelled failures, all 7 genuine bugs were caught — that's the error class we treat as unacceptable.</li>
+          <li><b>4 misses, all in the safe direction.</b> False positives escalated for review. Cost: a triage hour, never a shipped bug.</li>
+          <li>Labelled by hand, not by the model it grades. The set is frozen — rerun it yourself with <code>npm run eval:golden</code>.</li>
+        </ul>
+      </div>
+      <div class="no">
+        <h4>Not yet</h4>
+        <ul>
+          <li><b>No production deployment.</b> Verified in our sandbox, not on a live pipeline — which is exactly why the gate starts in report-only.</li>
+          <li><b>n=37 is small.</b> It grows from every triaged run; the set stays frozen so the score remains comparable.</li>
+          <li><b>No customer case study.</b> That's precisely what the design-partner rate buys.</li>
+        </ul>
       </div>
     </div>
   </div>

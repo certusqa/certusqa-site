@@ -1,0 +1,6 @@
+# Dotfile guard. This repo is served in full at certusqa.com, so anything
+# tracked in the root is public. These paths must never resolve, even if a
+# dotfile is committed by accident or lingers in an edge cache.
+/.cursor/*   /   301
+/.git/*      /   301
+/.env        /   301

@@ -8,3 +8,6 @@ preview-*.png
 
 # private audit — never publish (repo is deployed to certusqa.com)
 docs/AUDIT-*.md
+
+# Cursor rules — keep locally, never deploy (this repo is served at certusqa.com)
+.cursor/

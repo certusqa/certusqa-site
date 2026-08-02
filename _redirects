@@ -1,6 +1,6 @@
-# Pretty paths for legal pages (static files are privacy.html / terms.html).
-/privacy    /privacy.html   200
-/terms      /terms.html     200
+# Legal pages: privacy.html / terms.html are served by Cloudflare Pages
+# Pretty URLs at /privacy and /terms. Do NOT add /privacy → privacy.html
+# rewrites here — they loop with the automatic .html → clean-URL 308.
 
 # Dotfile guard. This repo is served in full at certusqa.com, so anything
 # tracked in the root is public. These paths must never resolve, even if a

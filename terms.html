@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Terms of Service — CertusQA</title>
+<meta name="description" content="CertusQA website terms and DeployShield commercial limitations, including the green-build guarantee scope." />
+<meta name="theme-color" content="#0B1220" />
+<link rel="icon" type="image/png" href="assets/certusqa-icon-mark.png" />
+<link rel="canonical" href="https://www.certusqa.com/terms" />
+<link rel="stylesheet" href="assets/fonts.css" />
+<link rel="stylesheet" href="assets/styles.css" />
+<style>
+  .legal { max-width: 720px; margin: 0 auto; padding: 48px 20px 80px; color: var(--ink, #0B1220); }
+  .legal h1 { font-size: 32px; margin: 0 0 8px; font-weight: 800; }
+  .legal .meta { color: var(--ink-2, #4a5568); font-size: 14px; margin-bottom: 28px; }
+  .legal .banner { background: #f3f5f9; border: 1px solid var(--line, #E2E8F0); padding: 12px 14px; font-size: 13px; margin-bottom: 28px; border-radius: 6px; }
+  .legal h2 { font-size: 18px; margin: 28px 0 10px; }
+  .legal p, .legal li { font-size: 15px; line-height: 1.65; color: #1a2332; }
+  .legal ul { padding-left: 1.2em; }
+  .legal a { color: #047857; }
+</style>
+</head>
+<body>
+<header class="nav">
+  <div class="wrap nav-inner">
+    <a class="brand" href="/">
+      <img src="assets/certusqa-icon-mark.png" alt="" />
+      <span class="brand-name">Certus<span class="qa">QA</span></span>
+    </a>
+    <nav class="nav-links" id="navLinks">
+      <a href="/">Platform</a>
+      <a href="/deployshield">DeployShield</a>
+      <a href="/privacy">Privacy</a>
+    </nav>
+  </div>
+</header>
+
+<main class="legal">
+  <h1>Terms of Service</h1>
+  <p class="meta">Last updated: 2 August 2026 · Contact: <a href="mailto:hello@certusqa.com">hello@certusqa.com</a></p>
+  <div class="banner">
+    <strong>Draft for design-partner use — not legal advice.</strong>
+    Paid DeployShield engagements are governed by the signed Client Agreement
+    (and DPA if executed). These website terms apply to use of certusqa.com and
+    summarize commercial limitations referenced in marketing copy.
+  </div>
+
+  <h2>1. Website</h2>
+  <p>The CertusQA marketing site is provided “as is” for information about our platform and DeployShield Suite. Demo/showcase materials are illustrative; offline sandbox proof is not a warranty for your production application.</p>
+
+  <h2>2. DeployShield services</h2>
+  <p>Paid services are scoped in your Client Agreement: critical-flow automated regression on agreed staging, CI integration, and failure alerts. We do not guarantee zero bugs in your application. We maintain an automated safety net on <strong>covered flows</strong> listed in Schedule A.</p>
+
+  <h2 id="green-build">3. Green-build guarantee — scope &amp; remedy</h2>
+  <p>Marketing statements such as a “green build before production, guaranteed” refer to the DeployShield pre-deploy gate on <strong>covered flows</strong> when:</p>
+  <ul>
+    <li>Client staging is available and stable;</li>
+    <li>Client has not shipped intentional product changes without notice that invalidate covered tests; and</li>
+    <li>Failures are either repaired as test maintenance (drift) or surfaced as application defects for Client to fix.</li>
+  </ul>
+  <p>The gate may ship in <strong>report-only</strong> mode first (records a verdict, blocks nothing) until Client enables blocking. <strong>Remedy:</strong> Provider will restore covered-flow gate health within the maintenance SLA in the Client Agreement. <strong>Liability</strong> remains capped as stated in that agreement (fees paid in the 30 days prior to a claim). This section does not expand that cap.</p>
+
+  <h2>4. AI agents (Premium / optional)</h2>
+  <p>When enabled, AI-assisted authoring and healing run against non-production targets only unless a Production Rider is signed. Destructive actions and production origins are denied by policy. Inventory promotions stay human-gated. See your AI Processing Addendum.</p>
+
+  <h2>5. Acceptable use</h2>
+  <p>You may not misuse the site, attempt to access the private ops console without authorization, or submit unlawful content via intake forms.</p>
+
+  <h2>6. Privacy</h2>
+  <p>See our <a href="/privacy">Privacy Policy</a>.</p>
+
+  <h2>7. Contact</h2>
+  <p><a href="mailto:hello@certusqa.com">hello@certusqa.com</a></p>
+</main>
+
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer-inner">
+      <div class="brand">
+        <img src="assets/certusqa-icon-mark.png" alt="" style="height:26px;width:26px;" />
+        <span class="brand-name">Certus<span class="qa">QA</span></span>
+      </div>
+      <div class="footer-links">
+        <a href="/">Platform</a>
+        <a href="/deployshield">DeployShield Suite</a>
+        <a href="/terms">Terms</a>
+        <a href="/privacy">Privacy</a>
+        <a href="mailto:hello@certusqa.com">Contact</a>
+      </div>
+    </div>
+    <div class="footer-bottom">© <span id="year"></span> CertusQA</div>
+  </div>
+</footer>
+<script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+</body>
+</html>

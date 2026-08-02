@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Privacy Policy — CertusQA</title>
+<meta name="description" content="CertusQA privacy policy for the marketing site, intake forms, and DeployShield delivery." />
+<meta name="theme-color" content="#0B1220" />
+<link rel="icon" type="image/png" href="assets/certusqa-icon-mark.png" />
+<link rel="canonical" href="https://www.certusqa.com/privacy" />
+<link rel="stylesheet" href="assets/fonts.css" />
+<link rel="stylesheet" href="assets/styles.css" />
+<style>
+  .legal { max-width: 720px; margin: 0 auto; padding: 48px 20px 80px; color: var(--ink, #0B1220); }
+  .legal h1 { font-size: 32px; margin: 0 0 8px; font-weight: 800; }
+  .legal .meta { color: var(--ink-2, #4a5568); font-size: 14px; margin-bottom: 28px; }
+  .legal .banner { background: #f3f5f9; border: 1px solid var(--line, #E2E8F0); padding: 12px 14px; font-size: 13px; margin-bottom: 28px; border-radius: 6px; }
+  .legal h2 { font-size: 18px; margin: 28px 0 10px; }
+  .legal p, .legal li { font-size: 15px; line-height: 1.65; color: #1a2332; }
+  .legal ul { padding-left: 1.2em; }
+  .legal a { color: #047857; }
+</style>
+</head>
+<body>
+<header class="nav">
+  <div class="wrap nav-inner">
+    <a class="brand" href="/">
+      <img src="assets/certusqa-icon-mark.png" alt="" />
+      <span class="brand-name">Certus<span class="qa">QA</span></span>
+    </a>
+    <nav class="nav-links" id="navLinks">
+      <a href="/">Platform</a>
+      <a href="/deployshield">DeployShield</a>
+      <a href="/terms">Terms</a>
+    </nav>
+  </div>
+</header>
+
+<main class="legal">
+  <h1>Privacy Policy</h1>
+  <p class="meta">Last updated: 2 August 2026 · Contact: <a href="mailto:hello@certusqa.com">hello@certusqa.com</a></p>
+  <div class="banner">
+    <strong>Draft for design-partner use — not legal advice.</strong>
+    This page describes how CertusQA handles information on the public site and in DeployShield delivery.
+    Have counsel review before relying on it for regulated procurement.
+  </div>
+
+  <h2>Who we are</h2>
+  <p>CertusQA (“we”) operates <a href="https://www.certusqa.com">certusqa.com</a> and delivers the DeployShield Suite and related QA services. The private ops console at <code>app.certusqa.com</code> is operator-only and is not linked from this marketing site.</p>
+
+  <h2>What we collect</h2>
+  <ul>
+    <li><strong>Site visitors:</strong> standard server/CDN logs (IP, user agent, path) via Cloudflare. We do not load third-party analytics or ad trackers on this static site.</li>
+    <li><strong>Intake &amp; scheduling:</strong> if you use our Tally form or Calendly link, those providers process the fields you submit (name, email, company, notes).</li>
+    <li><strong>Billing:</strong> Stripe processes payment details when you purchase DeployShield.</li>
+    <li><strong>Client delivery:</strong> staging URLs, test credentials, CI logs, screenshots, and failure artifacts needed to run and maintain your suite — under your agreement and, where applicable, a DPA.</li>
+  </ul>
+
+  <h2>How we use information</h2>
+  <p>To respond to inquiries, schedule kickoffs, bill for services, deliver and maintain automated regression coverage, and improve our service quality. We do not sell personal information.</p>
+
+  <h2>AI tooling</h2>
+  <p>When Premium / agent features are in scope, staging UI text and logs may be processed by AI tooling (including Cursor) as described in your agreement and our subprocessor list. We treat page content as untrusted and apply scrubbing controls where implemented. Agents target non-production environments unless a Production Rider is signed.</p>
+
+  <h2>Retention</h2>
+  <p>Marketing/lead records are kept as needed to respond to you. Evidence packs from delivery default to <strong>90 days</strong> unless your agreement says otherwise, or you request earlier deletion.</p>
+
+  <h2>Your choices</h2>
+  <p>Email <a href="mailto:hello@certusqa.com">hello@certusqa.com</a> to request access, correction, or deletion of personal data we hold about you as a prospect or client contact.</p>
+
+  <h2>International &amp; security</h2>
+  <p>We use reputable subprocessors (see your agreement materials). The marketing site is static and served over HTTPS with HSTS. Client secrets must not be emailed in plaintext; use env/secret stores.</p>
+
+  <h2>Changes</h2>
+  <p>We may update this page; the “Last updated” date will change. Material changes for clients will be communicated as required by your agreement.</p>
+</main>
+
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer-inner">
+      <div class="brand">
+        <img src="assets/certusqa-icon-mark.png" alt="" style="height:26px;width:26px;" />
+        <span class="brand-name">Certus<span class="qa">QA</span></span>
+      </div>
+      <div class="footer-links">
+        <a href="/">Platform</a>
+        <a href="/deployshield">DeployShield Suite</a>
+        <a href="/terms">Terms</a>
+        <a href="/privacy">Privacy</a>
+        <a href="mailto:hello@certusqa.com">Contact</a>
+      </div>
+    </div>
+    <div class="footer-bottom">© <span id="year"></span> CertusQA</div>
+  </div>
+</footer>
+<script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+</body>
+</html>

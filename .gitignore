@@ -11,3 +11,9 @@ docs/AUDIT-*.md
 
 # Cursor rules — keep locally, never deploy (this repo is served at certusqa.com)
 .cursor/
+
+# Agent context — keep locally, never deploy (same reason as .cursor/)
+CLAUDE.md
+
+# Unfinished legal drafts — never deploy
+*.draft.html

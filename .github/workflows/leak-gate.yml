@@ -27,18 +27,34 @@ jobs:
 
       # The engine is private IP. No path into qa/ai/core should appear in a
       # repo that is served to the public internet.
-      # The exclusion is not cosmetic: this file contains the pattern it
-      # searches for, so without it the gate matches its own source and fails
-      # every run. Same for the secret-shape step below. Any grep-based gate
-      # that lives in the tree it scans has to exclude itself.
-      - name: No engine source or engine paths
+      # Checks for engine source, NOT for mentions of it — and excludes this
+      # file, which contains every pattern it searches for.
+      #
+      # Two lessons are baked in here. A grep-based gate living in the tree it
+      # scans matches its own source unless it excludes itself; the first
+      # version of this file failed on exactly that. And the ops console's
+      # equivalent step failed on its own .cursor rules and on a wiki page whose
+      # purpose is to describe the engine — proving that "mentions the path" and
+      # "contains the code" are different questions, and only the second one is
+      # a leak.
+      - name: No engine source files
         run: |
           set -euo pipefail
-          if git grep -nE 'qa/ai/core/' -- . ':(exclude).github/**'; then
-            echo "::error::Engine path referenced in a public repo."
+          hits=$(git ls-files 'qa/*' '*/qa/ai/core/*' || true)
+          if [ -n "${hits}" ]; then
+            echo "::error::Engine source files are tracked in a PUBLIC repo: ${hits}"
             exit 1
           fi
-          echo "clean: no engine paths"
+          echo "clean: no engine source files tracked"
+
+      - name: No code importing engine modules
+        run: |
+          set -euo pipefail
+          if git grep -nE "(require|from)[[:space:]]*\(?['\"][^'\"]*qa/ai/core" -- '*.js' '*.mjs' '*.html' ':(exclude).github/**'; then
+            echo "::error::Public site code imports an engine module path."
+            exit 1
+          fi
+          echo "clean: no engine imports"
 
       # docs/AUDIT-*.md is gitignored precisely because this repo is deployed.
       # An ignore rule protects nothing once a file is already tracked, and

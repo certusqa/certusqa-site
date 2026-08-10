@@ -27,10 +27,14 @@ jobs:
 
       # The engine is private IP. No path into qa/ai/core should appear in a
       # repo that is served to the public internet.
+      # The exclusion is not cosmetic: this file contains the pattern it
+      # searches for, so without it the gate matches its own source and fails
+      # every run. Same for the secret-shape step below. Any grep-based gate
+      # that lives in the tree it scans has to exclude itself.
       - name: No engine source or engine paths
         run: |
           set -euo pipefail
-          if git grep -nE 'qa/ai/core/'; then
+          if git grep -nE 'qa/ai/core/' -- . ':(exclude).github/**'; then
             echo "::error::Engine path referenced in a public repo."
             exit 1
           fi
@@ -65,7 +69,7 @@ jobs:
       - name: No secret-shaped strings
         run: |
           set -euo pipefail
-          if git grep -nE '(ghp_|github_pat_|whsec_|sk_live_|rk_live_|BEGIN [A-Z ]*PRIVATE KEY)[A-Za-z0-9_-]*'; then
+          if git grep -nE '(ghp_|github_pat_|whsec_|sk_live_|rk_live_|BEGIN [A-Z ]*PRIVATE KEY)[A-Za-z0-9_-]*' -- . ':(exclude).github/**'; then
             echo "::error::Secret-shaped string found in a public repo. Rotate it before doing anything else — see QA_Package/automation/SECRET_ROTATION.md."
             exit 1
           fi

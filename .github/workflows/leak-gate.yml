@@ -1,0 +1,126 @@
+# Public-repo leak gate.
+#
+# Everything committed here is published: Cloudflare Pages serves this
+# directory from its root, so a mistake is live on certusqa.com before anyone
+# reviews it. The rules this enforces were already written down — in
+# .gitignore, in the four-repo rule file, and in NOTES.md as a manual grep run
+# before pushing. A gate a human has to remember is a gate that holds until the
+# day it matters.
+name: Leak gate
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  leak-gate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # The engine is private IP. No path into qa/ai/core should appear in a
+      # repo that is served to the public internet.
+      - name: No engine source or engine paths
+        run: |
+          set -euo pipefail
+          if git grep -nE 'qa/ai/core/'; then
+            echo "::error::Engine path referenced in a public repo."
+            exit 1
+          fi
+          echo "clean: no engine paths"
+
+      # docs/AUDIT-*.md is gitignored precisely because this repo is deployed.
+      # An ignore rule protects nothing once a file is already tracked, and
+      # `git add -f` is one keystroke.
+      - name: No private audit documents tracked
+        run: |
+          set -euo pipefail
+          tracked=$(git ls-files 'docs/AUDIT-*.md' || true)
+          if [ -n "${tracked}" ]; then
+            echo "::error::Private audit document is tracked and would be published: ${tracked}"
+            exit 1
+          fi
+          echo "clean: no audit documents tracked"
+
+      # Agent context and Cursor rules are local-only for the same reason.
+      - name: No agent context tracked
+        run: |
+          set -euo pipefail
+          tracked=$(git ls-files 'CLAUDE.md' '.cursor' '.cursor/**' || true)
+          if [ -n "${tracked}" ]; then
+            echo "::error::Local-only agent context is tracked and would be served: ${tracked}"
+            exit 1
+          fi
+          echo "clean: no agent context tracked"
+
+      # Secret-shaped strings. Narrow on purpose — a noisy pattern here would be
+      # switched off within a month.
+      - name: No secret-shaped strings
+        run: |
+          set -euo pipefail
+          if git grep -nE '(ghp_|github_pat_|whsec_|sk_live_|rk_live_|BEGIN [A-Z ]*PRIVATE KEY)[A-Za-z0-9_-]*'; then
+            echo "::error::Secret-shaped string found in a public repo. Rotate it before doing anything else — see QA_Package/automation/SECRET_ROTATION.md."
+            exit 1
+          fi
+          echo "clean: no secret-shaped strings"
+
+      # The legal pages are linked from the footer of both public pages and are
+      # cited in the security questionnaire and the counsel pack. A rename that
+      # 404s them is a compliance regression, not a broken link.
+      - name: Legal pages present
+        run: |
+          set -euo pipefail
+          for f in privacy.html terms.html index.html deployshield.html 404.html _headers robots.txt; do
+            [ -f "$f" ] || { echo "::error::missing required public file: $f"; exit 1; }
+          done
+          echo "ok: all required public files present"
+
+      # Every inline script must be allow-listed by hash in _headers, or the CSP
+      # silently drops it. Nothing about a blocked inline script is visible from
+      # the server side: the page still returns 200 and still looks right at a
+      # glance. Found on 2026-08-03 — privacy.html and terms.html share a footer
+      # script whose hash is not among the three in _headers, so the copyright
+      # year has been rendering blank on both legal pages. That is cosmetic; the
+      # same failure on a page that does real work is not, and it would be just
+      # as invisible.
+      - name: Inline scripts are hash-allowlisted in the CSP
+        run: |
+          set -euo pipefail
+          node -e '
+            const fs = require("fs"), crypto = require("crypto");
+            const headers = fs.readFileSync("_headers", "utf8");
+            const allowed = new Set([...headers.matchAll(/'"'"'sha256-([A-Za-z0-9+\/=]+)'"'"'/g)].map((m) => m[1]));
+            const pages = fs.readdirSync(".").filter((f) => f.endsWith(".html"));
+            let bad = 0;
+            for (const page of pages) {
+              const html = fs.readFileSync(page, "utf8");
+              for (const [, body] of html.matchAll(/<script(?![^>]*\bsrc=)[^>]*>([\s\S]*?)<\/script>/g)) {
+                const hash = crypto.createHash("sha256").update(body, "utf8").digest("base64");
+                if (!allowed.has(hash)) {
+                  console.error(`${page}: inline script not allow-listed — add '"'"'sha256-${hash}'"'"' to the CSP in _headers`);
+                  bad++;
+                }
+              }
+            }
+            if (bad) process.exit(1);
+            console.log(`ok: every inline script across ${pages.length} page(s) is hash-allowlisted`);
+          '
+
+      # The standing rule is that certusqa.com never links to the Access-gated
+      # ops console. Naming the host in prose is a deliberate disclosure; an
+      # anchor is the thing the rule forbids.
+      - name: No link to the private ops console
+        run: |
+          set -euo pipefail
+          if grep -rnE '<a[^>]+href="[^"]*app\.certusqa\.com' --include='*.html' .; then
+            echo "::error::Public site links to the private ops console."
+            exit 1
+          fi
+          echo "clean: no anchor to the ops console"

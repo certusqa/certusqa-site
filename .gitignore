@@ -2,7 +2,11 @@
 preview-*.png
 .DS_Store
 
-# secrets — never commit
+# secrets — never commit.
+# Any env file, not only the two named below: this repo is served from its root,
+# so a committed .env.production would be both in git and publicly readable.
+.env*
+!.env.example
 .env
 .env.local
 

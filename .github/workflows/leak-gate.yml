@@ -102,6 +102,66 @@ jobs:
           done
           echo "ok: all required public files present"
 
+      # The deploy allowlist. `.gitignore` and the `_redirects` dotfile guard both
+      # name what must NOT ship; scripts/build-dist.sh names what must. Four
+      # tracked files were named by neither and were serving 200 on 2026-08-11 —
+      # README.md, .gitignore, this workflow, and showcase/live-ae/README.md.
+      #
+      # What this defends is the direction of the default. A step that only
+      # checked "the pages are present" would pass just as happily on the old
+      # opt-out behaviour, so the exclusion and fail-closed cases below matter
+      # more than the inclusion one.
+      - name: Deploy allowlist ships the site and nothing else
+        run: |
+          set -euo pipefail
+          DIST=dist bash scripts/build-dist.sh
+
+          for p in README.md .gitignore .github .cursor .claude docs scripts \
+                   CLAUDE.md .env showcase/live-ae/README.md; do
+            [ -e "dist/$p" ] && { echo "::error::$p must never ship"; exit 1; }
+          done
+
+          # Pages reads _headers and _redirects from the OUTPUT directory. Losing
+          # either breaks no page: the CSP or the dotfile guard just stops
+          # applying, and everything still renders.
+          for f in index.html deployshield.html privacy.html terms.html 404.html \
+                   _headers _redirects robots.txt sitemap.xml \
+                   showcase/live-ae/exec-narrative.md \
+                   showcase/live-ae/triage-report.json; do
+            [ -f "dist/$f" ] || { echo "::error::dist is missing $f"; exit 1; }
+          done
+
+          # Nothing untracked may reach the deploy. cp -R copies from the working
+          # tree, not from git, so this is the check that would catch a stray file
+          # a clean CI checkout happens not to have.
+          git ls-files | sort > /tmp/tracked
+          (cd dist && find . -type f | sed 's|^\./||' | sort) > /tmp/shipped
+          extra=$(comm -13 /tmp/tracked /tmp/shipped)
+          [ -z "$extra" ] || { echo "::error::untracked files in dist: $extra"; exit 1; }
+
+          echo "ok: dist ships $(find dist -type f | wc -l | tr -d ' ') tracked file(s)"
+
+      # Negative control. Without it every assertion above still passes on a
+      # script that silently skipped whatever it could not find, and the site
+      # deploys half-built with a 404 where /privacy used to be.
+      - name: Build refuses an incomplete site
+        run: |
+          set -euo pipefail
+          fake=$(mktemp -d)
+          mkdir -p "$fake/scripts" "$fake/assets" "$fake/contract" "$fake/showcase"
+          cp scripts/build-dist.sh "$fake/scripts/"
+          for d in assets contract showcase; do : > "$fake/$d/placeholder.txt"; done
+          # index.html deliberately absent.
+          for f in deployshield.html privacy.html terms.html 404.html \
+                   _headers _redirects robots.txt sitemap.xml; do : > "$fake/$f"; done
+          if DIST="$fake/dist" bash "$fake/scripts/build-dist.sh" 2>"$fake/err"; then
+            echo "::error::a missing page must fail the build"; exit 1
+          fi
+          grep -q 'MISSING file index.html' "$fake/err" \
+            || { echo "::error::wrong failure reason:"; cat "$fake/err"; exit 1; }
+          [ -e "$fake/dist" ] && { echo "::error::a refused build left a partial dist"; exit 1; }
+          echo "ok: build fails closed and leaves nothing behind"
+
       # Every inline script must be allow-listed by hash in _headers, or the CSP
       # silently drops it. Nothing about a blocked inline script is visible from
       # the server side: the page still returns 200 and still looks right at a

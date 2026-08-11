@@ -21,3 +21,6 @@ CLAUDE.md
 
 # Unfinished legal drafts — never deploy
 *.draft.html
+
+# build output — assembled by scripts/build-dist.sh, never committed
+dist/

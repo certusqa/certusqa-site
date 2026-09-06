@@ -73,3 +73,11 @@ All inline scripts were extracted to `assets/site.js`, `assets/cta.js`, `showcas
 `showcase/live-ae/player.js` and `contract/contract.js`, so the CSP is `script-src 'self'` plus
 the Cloudflare Web Analytics origin. Add a new `<script>` as an external file; the leak gate fails
 on any unhashed inline script anywhere in the tree.
+
+## Evidence page (`/proof/`) is generated, not written
+
+`showcase/evidence/golden-eval.json` is produced by `qa-forge-core` (`npm run publish:site-evidence`,
+and its CI on every merge to `main` once `CERTUSQA_SITE_TOKEN` is set there). Do not hand-edit it;
+the next publish would overwrite the edit. `proof/proof.js` renders it at runtime, so every number
+on the evidence page traces to that file and to the engine commit stamped inside it.
+

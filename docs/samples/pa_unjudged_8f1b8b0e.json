@@ -1,0 +1,49 @@
+{
+  "schemaVersion": "1.1.0",
+  "artifactType": "PROOF_ARTIFACT",
+  "id": "pa_unjudged_8f1b8b0e",
+  "summary": "Failed after 2 attempt(s): checkout › price regression",
+  "classification": {
+    "category": "NEEDS_TRIAGE",
+    "severity": "HIGH",
+    "outcome": "INCONCLUSIVE",
+    "failKind": "unjudged"
+  },
+  "rootCause": {
+    "statement": "The test failed on every attempt. Whether the application regressed or the test is at fault is not decided here.",
+    "signals": [
+      "attempts=failed,failed",
+      "error=Error: displayed price expect(received).toBe(expected) // Object.is equality Expected: \"Rs. 500\"",
+      "spec=sample.spec.js:5"
+    ]
+  },
+  "remediation": {
+    "recommendation": "Triage against the last known-good run. Do not loosen the assertion until the expected value is confirmed.",
+    "confidence": "none",
+    "ownerHint": "unknown",
+    "note": "Classification (regression vs flake vs test defect) is produced by the CertusQA judge, not by this action."
+  },
+  "evidence": {
+    "test": {
+      "title": "checkout › price regression",
+      "file": "sample.spec.js",
+      "line": 5,
+      "project": null
+    },
+    "attempts": [
+      "failed",
+      "failed"
+    ],
+    "error": "Error: displayed price expect(received).toBe(expected) // Object.is equality Expected: \"Rs. 500\"",
+    "media": [
+      "test-results/sample-checkout-price-regression/test-failed-1.png",
+      "test-results/sample-checkout-price-regression/video.webm"
+    ],
+    "durationMs": 5
+  },
+  "gate": {
+    "verdict": "BLOCK_DEPLOY",
+    "mode": "report-only"
+  },
+  "generatedAt": "2026-09-06T13:44:26.669Z"
+}

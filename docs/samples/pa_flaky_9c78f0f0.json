@@ -1,0 +1,46 @@
+{
+  "schemaVersion": "1.1.0",
+  "artifactType": "PROOF_ARTIFACT",
+  "id": "pa_flaky_9c78f0f0",
+  "summary": "Passed only on retry: checkout › flaky login",
+  "classification": {
+    "category": "FLAKY",
+    "severity": "LOW",
+    "outcome": "INCONCLUSIVE",
+    "failKind": "unjudged"
+  },
+  "rootCause": {
+    "statement": "The test failed and then passed on retry. Whether that is a timing race in the test or an intermittent defect in the application is not decided here.",
+    "signals": [
+      "attempts=failed,passed",
+      "error=Error: Timeout 30000ms exceeded waiting for locator(#login)",
+      "spec=sample.spec.js:6"
+    ]
+  },
+  "remediation": {
+    "recommendation": "Review the retry. Do not raise the timeout or add a retry to make it go away; find what changed between attempts.",
+    "confidence": "none",
+    "ownerHint": "unknown",
+    "note": "Classification (regression vs flake vs test defect) is produced by the CertusQA judge, not by this action."
+  },
+  "evidence": {
+    "test": {
+      "title": "checkout › flaky login",
+      "file": "sample.spec.js",
+      "line": 6,
+      "project": null
+    },
+    "attempts": [
+      "failed",
+      "passed"
+    ],
+    "error": "Error: Timeout 30000ms exceeded waiting for locator(#login)",
+    "media": [],
+    "durationMs": 0
+  },
+  "gate": {
+    "verdict": "BLOCK_DEPLOY",
+    "mode": "report-only"
+  },
+  "generatedAt": "2026-09-06T13:44:26.669Z"
+}

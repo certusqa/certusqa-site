@@ -1,0 +1,52 @@
+{
+  "schemaVersion": "1.0.0",
+  "product": "CertusQA Gate",
+  "generatedAt": "2026-09-06T13:44:26.669Z",
+  "mode": "report-only",
+  "strict": false,
+  "verdict": "BLOCK_DEPLOY",
+  "reportStatus": "parsed",
+  "reportPath": "test-results/results.json",
+  "summary": {
+    "passed": 1,
+    "failed": 1,
+    "flaky": 1,
+    "skipped": 1,
+    "total": 4
+  },
+  "note": null,
+  "failures": [
+    {
+      "title": "checkout › price regression",
+      "file": "sample.spec.js",
+      "line": 5,
+      "status": "unexpected",
+      "attempts": [
+        "failed",
+        "failed"
+      ],
+      "error": "Error: displayed price expect(received).toBe(expected) // Object.is equality Expected: \"Rs. 500\""
+    },
+    {
+      "title": "checkout › flaky login",
+      "file": "sample.spec.js",
+      "line": 6,
+      "status": "flaky",
+      "attempts": [
+        "failed",
+        "passed"
+      ],
+      "error": "Error: Timeout 30000ms exceeded waiting for locator(#login)"
+    }
+  ],
+  "proofArtifacts": [
+    "pa_unjudged_8f1b8b0e",
+    "pa_flaky_9c78f0f0"
+  ],
+  "media": [
+    "test-results/sample-checkout-price-regression/test-failed-1.png",
+    "test-results/sample-checkout-price-regression/video.webm"
+  ],
+  "mediaDir": "test-results",
+  "outputDirRelative": "certusqa-gate"
+}

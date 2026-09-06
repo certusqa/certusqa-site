@@ -116,7 +116,7 @@ jobs:
           set -euo pipefail
           DIST=dist bash scripts/build-dist.sh
 
-          for p in README.md .gitignore .github .cursor .claude docs scripts \
+          for p in README.md .gitignore .github .cursor .claude notes scripts \
                    CLAUDE.md .env showcase/live-ae/README.md; do
             [ -e "dist/$p" ] && { echo "::error::$p must never ship"; exit 1; }
           done

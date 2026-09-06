@@ -5,7 +5,7 @@
 #
 # This repo has no build step, so Cloudflare Pages publishes the repository root
 # and every tracked file goes live at certusqa.com. That was already known here —
-# `.gitignore` keeps `.cursor/`, `CLAUDE.md`, `docs/AUDIT-*.md` and `*.draft.html`
+# `.gitignore` keeps `.cursor/`, `CLAUDE.md`, `notes/` and `*.draft.html`
 # out of git precisely because being committed means being published, and
 # `_redirects` carries a dotfile guard for `.cursor/*`, `.git/*` and `.env`.
 #
@@ -44,7 +44,7 @@ DIST="${DIST:-$ROOT/dist}"
 # The allowlist. Adding a file to the repo does NOT publish it; adding it here
 # does. Keep this list boring and explicit.
 # ---------------------------------------------------------------------------
-DIRS=(assets contract showcase proof)
+DIRS=(assets contract showcase proof docs)
 FILES=(
   index.html deployshield.html privacy.html terms.html 404.html
   _headers _redirects robots.txt sitemap.xml
@@ -59,7 +59,7 @@ PRUNE=(showcase/live-ae/README.md)
 # Belt and braces. The allowlist above should already make these impossible, so a
 # hit here means the allowlist is wrong, not that this check is doing the work.
 FORBIDDEN=(
-  '.github' '.cursor' '.claude' 'docs' 'scripts'
+  '.github' '.cursor' '.claude' 'notes' 'scripts'
   'README.md' 'CLAUDE.md' '.gitignore' '.env'
   'showcase/live-ae/README.md'
 )

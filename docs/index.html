@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Docs — CertusQA Gate quickstart</title>
+  <meta name="description" content="Add CertusQA Gate to a Playwright workflow in one step: four verdicts, a Proof Artifact per failure, a step summary, outputs you can gate on. Report-only by default." />
+  <link rel="canonical" href="https://www.certusqa.com/docs/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="CertusQA Gate — quickstart" />
+  <meta property="og:description" content="A pre-deploy verdict you can prove, from the Playwright suite you already have. One step, report-only by default." />
+  <meta property="og:url" content="https://www.certusqa.com/docs/" />
+  <meta property="og:image" content="https://www.certusqa.com/assets/certusqa-icon-mark.png" />
+  <meta name="twitter:card" content="summary" />
+  <link rel="icon" href="../assets/certusqa-icon-mark.png" />
+  <link rel="stylesheet" href="../assets/fonts.css" />
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <style>
+    .docs { max-width: 880px; margin: 0 auto; padding: 56px 24px 80px; }
+    .docs h1 { font-size: 36px; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 10px; }
+    .docs h2 { font-size: 22px; font-weight: 700; margin: 40px 0 10px; scroll-margin-top: 90px; }
+    .docs h3 { font-size: 16px; font-weight: 700; margin: 22px 0 6px; }
+    .docs p, .docs li { color: var(--ink-2); max-width: 70ch; }
+    .docs p { margin: 10px 0; }
+    .docs ul, .docs ol { margin: 8px 0 8px 22px; }
+    .docs li { margin: 4px 0; }
+    .docs .lede { font-size: 17px; }
+    .docs code { font-family: var(--font-mono); font-size: 0.9em; background: var(--soft); padding: 1px 5px; border-radius: 4px; }
+    .docs pre { background: var(--navy); color: var(--on-dark); border-radius: 10px; padding: 16px 18px; overflow-x: auto; font-family: var(--font-mono); font-size: 13px; line-height: 1.55; margin: 12px 0 18px; }
+    .docs pre code { background: transparent; padding: 0; color: inherit; font-size: inherit; }
+    .docs pre .c { color: #8a96aa; }
+    .docs pre .k { color: var(--emerald-light); }
+    .docs pre .s { color: #fcd34d; }
+    .status { border-left: 3px solid var(--orange); background: #fff7ed; padding: 10px 14px; border-radius: 0 10px 10px 0; margin: 18px 0 8px; font-size: 14.5px; color: var(--ink-2); }
+    .toc { display: flex; flex-wrap: wrap; gap: 8px 18px; font-size: 14px; margin: 18px 0 6px; }
+    .toc a { color: var(--emerald-dark); border-bottom: 1px solid rgba(4,120,87,.3); }
+    .docs-table { overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; margin: 12px 0 18px; }
+    .docs-table table { width: 100%; border-collapse: collapse; font-size: 14px; min-width: 560px; }
+    .docs-table th, .docs-table td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+    .docs-table th { font-size: 12px; text-transform: uppercase; letter-spacing: .05em; color: var(--ink-2); background: var(--soft); }
+    .docs-table tr:last-child td { border-bottom: 0; }
+    .verdict { font-family: var(--font-mono); font-size: 12.5px; padding: 2px 8px; border-radius: 999px; border: 1px solid; white-space: nowrap; }
+    .verdict.clear { color: var(--emerald-dark); border-color: rgba(4,120,87,.4); }
+    .verdict.review { color: #b45309; border-color: rgba(180,83,9,.4); }
+    .verdict.block { color: #b91c1c; border-color: rgba(185,28,28,.4); }
+    .verdict.insufficient { color: var(--ink-2); border-color: var(--line); }
+    .not { border: 1px solid var(--line); border-radius: 10px; padding: 14px 18px; background: var(--soft); }
+    .not li { color: var(--ink); }
+    .docs-links { display: flex; flex-wrap: wrap; gap: 18px; margin-top: 28px; font-size: 14px; }
+    .docs-links a { color: var(--emerald-dark); border-bottom: 1px solid rgba(4,120,87,.35); }
+    @media (max-width: 560px) { .docs h1 { font-size: 28px; } }
+  </style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap nav-inner">
+    <a class="brand" href="../">
+      <img src="../assets/certusqa-icon-mark.png" alt="" />
+      <span class="brand-name">Certus<span class="qa">QA</span></span>
+    </a>
+    <nav class="nav-links" id="navLinks">
+      <a href="../#how">How it works</a>
+      <a href="../#proof">Proof</a>
+      <a href="../proof/">Evidence</a>
+      <a href="../deployshield.html">DeployShield Suite</a>
+    </nav>
+    <div class="nav-cta">
+      <a class="btn btn-primary" href="https://tally.so/r/MePK9X?source=docs-nav&path=demo" rel="noopener">Book a Demo</a>
+      <button class="nav-toggle" id="navToggle" aria-label="Menu" aria-expanded="false" aria-controls="navLinks">☰</button>
+    </div>
+  </div>
+</header>
+
+<main class="docs">
+  <div class="tag">Docs · CertusQA Gate</div>
+  <h1>Quickstart: a verdict on every PR</h1>
+  <p class="lede">CertusQA Gate is a GitHub Action that turns the Playwright JSON report you already produce into a pre-deploy verdict you can prove: one of four states, a Proof Artifact per failure, a summary on the run page, and outputs you can gate on. It starts in report-only mode. It records; it blocks nothing until you say so.</p>
+
+  <!-- Remove this block when the repository is public and v1 is tagged. -->
+  <div class="status"><b>Status, 6 September 2026:</b> the action is complete and its own CI is green on every verdict. The repository is in final review before it is made public and tagged <code>v1</code>. Everything on this page describes what ships; the repository link below works once it is public.</div>
+
+  <div class="toc">
+    <a href="#install">Install</a>
+    <a href="#verdicts">The four verdicts</a>
+    <a href="#output">What you get</a>
+    <a href="#inputs">Inputs and outputs</a>
+    <a href="#enforce">Switching to enforce</a>
+    <a href="#not">What it is not</a>
+  </div>
+
+  <h2 id="install">Install</h2>
+  <p>Two changes. First, make Playwright write its JSON report. In <code>playwright.config</code>:</p>
+<pre><code>reporter: [[<span class="s">'list'</span>], [<span class="s">'json'</span>, { outputFile: <span class="s">'test-results/results.json'</span> }]],</code></pre>
+  <p>Then add one step after your tests, with <code>if: always()</code> so the gate sees the failing run too:</p>
+<pre><code><span class="c"># .github/workflows/e2e.yml</span>
+- <span class="k">name</span>: Playwright
+  <span class="k">run</span>: npx playwright test
+  <span class="k">continue-on-error</span>: true
+
+- <span class="k">name</span>: CertusQA Gate
+  <span class="k">id</span>: gate
+  <span class="k">if</span>: always()
+  <span class="k">uses</span>: certusqa/gate-action@v1
+  <span class="k">with</span>:
+    <span class="k">results</span>: test-results/results.json
+    <span class="k">mode</span>: report-only   <span class="c"># flip to enforce once you have read a few verdicts</span>
+
+- <span class="k">name</span>: Verdict
+  <span class="k">if</span>: always()
+  <span class="k">run</span>: echo <span class="s">"CertusQA Gate says ${{ steps.gate.outputs.verdict }}"</span></code></pre>
+  <p>That is the whole install. No account, no token, no network call: the action reads one file and writes a directory. The full workflow is in the repository under <code>examples/quickstart.yml</code>.</p>
+
+  <h2 id="verdicts">The four verdicts</h2>
+  <div class="docs-table"><table>
+    <thead><tr><th>Verdict</th><th>When</th><th>In enforce mode</th></tr></thead>
+    <tbody>
+      <tr><td><span class="verdict clear">CLEAR_TO_DEPLOY</span></td><td>Every test passed first time and no failure media is on disk.</td><td>Passes.</td></tr>
+      <tr><td><span class="verdict review">REVIEW_ARTIFACTS</span></td><td>A test passed only on retry, or failure screenshots or videos exist. Not an automatic pass; a human decides.</td><td>Passes, unless <code>strict: true</code>.</td></tr>
+      <tr><td><span class="verdict block">BLOCK_DEPLOY</span></td><td>At least one test failed after its retries.</td><td>Fails the job.</td></tr>
+      <tr><td><span class="verdict insufficient">INSUFFICIENT_EVIDENCE</span></td><td>The report is missing, unreadable, or contains no tests.</td><td>Fails the job.</td></tr>
+    </tbody>
+  </table></div>
+  <p>The last row is the one most gates get wrong. A missing report means the tests did not run. A gate that passes then is not a gate, so this one never treats a missing or corrupt report as green, and the counts it reports in that case are empty rather than zero.</p>
+
+  <h2 id="output">What you get</h2>
+  <p>Every run writes one directory, uploads it as a workflow artifact, and appends a summary to the run page.</p>
+<pre><code>certusqa-gate/
+├── gate.json            <span class="c">verdict, counts, failures, media, mode</span>
+├── summary.md           <span class="c">the same summary that lands on the run page</span>
+└── proof/
+    └── pa_unjudged_8f1b8b0e.json   <span class="c">one per failed or flaky test</span></code></pre>
+  <p>These are real files from the action's own test run, on a fixture with one pass, one failure, one flaky test and one skip: <a href="samples/gate.json">gate.json</a>, <a href="samples/summary.md">summary.md</a>, <a href="samples/pa_unjudged_8f1b8b0e.json">a Proof Artifact for the failure</a>, <a href="samples/pa_flaky_9c78f0f0.json">and one for the flaky test</a>.</p>
+  <h3>Proof Artifacts, honestly unjudged</h3>
+  <p>Each artifact has the same shape as the ones the CertusQA engine emits: <code>classification</code>, <code>rootCause</code>, <code>remediation</code>, <code>evidence</code>. From the free action they carry <code>failKind: "unjudged"</code> and <code>confidence: "none"</code>. The action records the failure, its attempts, its sanitised error and its media. Deciding whether it is a regression, a flake or a defect in the test is the judge's job, and the judge is the hosted part of CertusQA.</p>
+  <p>Error text is sanitised before it is written: colour codes are stripped, Playwright's <em>Received</em> block, which is page text, is dropped, and the message is capped. Nothing is sent anywhere.</p>
+
+  <h2 id="inputs">Inputs and outputs</h2>
+  <div class="docs-table"><table>
+    <thead><tr><th>Input</th><th>Default</th><th>Meaning</th></tr></thead>
+    <tbody>
+      <tr><td><code>results</code></td><td><code>test-results/results.json</code></td><td>Playwright JSON reporter output.</td></tr>
+      <tr><td><code>media-dir</code></td><td><code>test-results</code></td><td>Scanned for <code>png</code>, <code>webm</code>, <code>zip</code> failure media.</td></tr>
+      <tr><td><code>mode</code></td><td><code>report-only</code></td><td><code>report-only</code> never fails the job; <code>enforce</code> fails on <code>BLOCK_DEPLOY</code> and <code>INSUFFICIENT_EVIDENCE</code>.</td></tr>
+      <tr><td><code>strict</code></td><td><code>false</code></td><td>In enforce mode, also fail on <code>REVIEW_ARTIFACTS</code>.</td></tr>
+      <tr><td><code>output-dir</code></td><td><code>certusqa-gate</code></td><td>Where the evidence is written.</td></tr>
+      <tr><td><code>artifact-name</code></td><td><code>certusqa-gate</code></td><td>Workflow artifact name; an empty string skips the upload.</td></tr>
+      <tr><td><code>working-directory</code></td><td><code>.</code></td><td>Base for the paths above.</td></tr>
+    </tbody>
+  </table></div>
+  <p>Outputs: <code>verdict</code>, <code>report-status</code> (<code>parsed</code>, <code>absent</code> or <code>unparseable</code>), <code>passed</code>, <code>failed</code>, <code>flaky</code>, <code>skipped</code>, <code>output-dir</code>. Use them in a later step, a required check, or a deploy job's <code>if:</code>.</p>
+
+  <h2 id="enforce">Switching to enforce</h2>
+  <p>Run in report-only for a week. Read the verdicts on the run page. When they match what you would have decided, change one line:</p>
+<pre><code>    <span class="k">mode</span>: enforce
+    <span class="k">strict</span>: false   <span class="c"># true to block on REVIEW_ARTIFACTS as well</span></code></pre>
+  <p>The order of the action's three steps is the reason this is safe: it computes the verdict and writes the evidence first, uploads it second, and enforces last. By the time the job goes red, the evidence is already saved.</p>
+
+  <h2 id="not">What it is not</h2>
+  <div class="not"><ul>
+    <li><b>It does not run your tests.</b> It reads the report Playwright wrote.</li>
+    <li><b>It does not decide why a test failed.</b> That classification is the CertusQA judge's, and it arrives with the hosted console.</li>
+    <li><b>It does not phone home.</b> No network calls, no account. The whole action is one dependency-free file you can read.</li>
+    <li><b>It does not repair anything.</b> Self-healing locators are part of the managed service, where a person is in the loop.</li>
+  </ul></div>
+
+  <div class="docs-links">
+    <a href="https://github.com/certusqa/gate-action" rel="noopener">Repository</a>
+    <a href="../proof/">The benchmark behind the judge</a>
+    <a href="../deployshield.html">Managed option: DeployShield Suite</a>
+    <a href="https://tally.so/r/MePK9X?source=docs-footer&path=demo" rel="noopener">See the judge on your app</a>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer-inner">
+      <div class="brand">
+        <img src="../assets/certusqa-icon-mark.png" alt="" style="height:26px;width:26px;" />
+        <span class="brand-name">Certus<span class="qa">QA</span></span>
+      </div>
+      <div class="footer-links">
+        <a href="/">Platform</a>
+        <a href="/deployshield">DeployShield Suite</a>
+        <a href="/docs/">Docs</a>
+        <a href="/proof/">Evidence</a>
+        <a href="/terms">Terms</a>
+        <a href="/privacy">Privacy</a>
+        <a href="mailto:hello@certusqa.com">Contact</a>
+      </div>
+    </div>
+    <div class="footer-bottom">© <span id="year"></span> CertusQA</div>
+  </div>
+</footer>
+<script src="../assets/site.js"></script>
+</body>
+</html>

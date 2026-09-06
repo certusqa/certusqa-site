@@ -12,6 +12,8 @@ preview-*.png
 
 # private audit — never publish (repo is deployed to certusqa.com)
 docs/AUDIT-*.md
+# Local notes (audits, scratch). docs/ is PUBLISHED as of 2026-09-06; notes/ never is.
+notes/
 
 # Cursor rules — keep locally, never deploy (this repo is served at certusqa.com)
 .cursor/

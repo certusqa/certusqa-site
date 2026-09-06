@@ -4,7 +4,7 @@
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: geolocation=(), microphone=(), camera=()
-  Content-Security-Policy: default-src 'self'; script-src 'self' 'sha256-atf1EYXd1jcGxRG0wbCR8+jF1QgmxVN2LWCH/Afhf98=' 'sha256-z1m1EV3sKS+AtL+2Ropi80DB4e/AoQNeI2Haz6O2q6Y=' 'sha256-m3EIq9RjYnGVu8ED6s5P99JfkY5att82lVdw6NTPDL8=' 'sha256-rnSilqx70ysJSINaYijSOVvGOzG2uzSgg0sneaLAnns='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; media-src 'self'; frame-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'self'; upgrade-insecure-requests
+  Content-Security-Policy: default-src 'self'; script-src 'self' https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; media-src 'self'; frame-src 'self'; connect-src 'self' https://cloudflareinsights.com; object-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'self'; upgrade-insecure-requests
 
 /.cursor/*
   Cache-Control: no-store, max-age=0

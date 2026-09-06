@@ -35,7 +35,7 @@
       <a href="#pricing">Pricing</a>
     </nav>
     <div class="nav-cta">
-      <a class="btn btn-primary" href="https://tally.so/r/MePK9X">Book a Spot</a>
+      <a class="btn btn-primary" href="https://tally.so/r/MePK9X?source=deployshield-1&path=design-partner" rel="noopener">Book a Spot</a>
       <button class="nav-toggle" id="navToggle" aria-label="Menu" aria-expanded="false" aria-controls="navLinks">☰</button>
     </div>
   </div>
@@ -51,7 +51,7 @@
       <h1>A <span class="accent">Passed build</span> before production.</h1>
       <p class="subhead">Premium QA automation for SaaS startups. <b>No existing tests required.</b> Just reliable tests that catch bugs before your users do — wired into your pipeline so broken code can't ship.</p>
       <div class="hero-actions">
-        <a class="btn btn-primary" href="https://tally.so/r/MePK9X">Book a Design Partner Spot →</a>
+        <a class="btn btn-primary" href="https://tally.so/r/MePK9X?source=deployshield-2&path=design-partner" rel="noopener">Book a Design Partner Spot →</a>
         <a class="btn btn-ghost" href="#included">See what's included</a>
       </div>
       <p class="hero-trust">2 design partner spots · testimonial + case study in exchange · first suite live in a week</p>
@@ -247,7 +247,7 @@
         <li><svg viewBox="0 0 24 24"><path d="m5 13 4 4L19 7"/></svg> Test maintenance &amp; updates</li>
         <li><svg viewBox="0 0 24 24"><path d="m5 13 4 4L19 7"/></svg> Human review on every flagged run</li>
       </ul>
-      <a class="btn btn-primary" href="https://tally.so/r/MePK9X">Book a Design Partner Spot →</a>
+      <a class="btn btn-primary" href="https://tally.so/r/MePK9X?source=deployshield-3&path=design-partner" rel="noopener">Book a Design Partner Spot →</a>
       <div class="partner-note">Design partner offer (2 spots): <b>$3,540/mo</b> for your first 3 months, then $7,200/mo — <b>rate locked for 12 months</b>. Full DeployShield scope. In exchange: a short testimonial + case-study rights.</div>
     </div>
   </div>
@@ -270,7 +270,7 @@
     <h2>Ready for <span>green builds</span>?</h2>
     <p>Book a design partner spot. We'll review your app, identify critical flows, and have your first suite running within a week. Currently accepting 2 new partners per month.</p>
     <div class="hero-actions">
-      <a class="btn btn-primary" href="https://tally.so/r/MePK9X">Book a Design Partner Spot →</a>
+      <a class="btn btn-primary" href="https://tally.so/r/MePK9X?source=deployshield-4&path=design-partner" rel="noopener">Book a Design Partner Spot →</a>
       <a class="btn btn-ghost" href="mailto:hello@certusqa.com">hello@certusqa.com</a>
     </div>
   </div>
@@ -299,20 +299,7 @@
   </div>
 </footer>
 
-<script>
-  document.getElementById('year').textContent = new Date().getFullYear();
-  var t = document.getElementById('navToggle'), l = document.getElementById('navLinks');
-  if (t && l) t.addEventListener('click', function () {
-    var open = l.classList.toggle('open');
-    t.setAttribute('aria-expanded', open ? 'true' : 'false');
-  });
-  if (l && t) l.querySelectorAll('a').forEach(function (a) {
-    a.addEventListener('click', function () {
-      l.classList.remove('open');
-      t.setAttribute('aria-expanded', 'false');
-    });
-  });
-</script>
+<script src="assets/site.js"></script>
 
 </body>
 </html>

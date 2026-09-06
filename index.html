@@ -38,7 +38,7 @@
       <a href="deployshield.html">DeployShield Suite</a>
     </nav>
     <div class="nav-cta">
-      <a class="btn btn-primary" href="mailto:hello@certusqa.com?subject=Live%20Sandbox%20Demo%20Request">Book a Demo</a>
+      <a class="btn btn-primary" href="https://tally.so/r/MePK9X?source=home-nav&path=demo" rel="noopener">Book a Demo</a>
       <button class="nav-toggle" id="navToggle" aria-label="Menu" aria-expanded="false" aria-controls="navLinks">☰</button>
     </div>
   </div>
@@ -53,9 +53,41 @@
       <span class="category-tag">Standalone Agentic GenAI QA Platform</span>
       <h1>Tests That Evolve With Your App <span class="accent">and Reveal Your Bugs.</span></h1>
       <p class="subhead">We write your end-to-end suite, run it on every deploy, and repair it as your product changes — while <b>a real regression gets reported, never rewritten</b>. <b>No existing tests required. Standard Playwright specs, in your repo: if you fire us, your suite still runs.</b></p>
-      <div class="hero-actions">
-        <a class="btn btn-primary" href="mailto:hello@certusqa.com?subject=Live%20Sandbox%20Demo%20Request">Book a Live Sandbox Demo →</a>
-        <a class="btn btn-ghost" href="#showcase">Watch the 45s walkthrough</a>
+      <div class="cta" data-cta data-source="home-hero">
+        <div class="cta-paths" role="tablist" aria-label="Choose how to start">
+          <button type="button" class="cta-path is-active" role="tab" data-path="demo" aria-selected="true">See it catch a bug</button>
+          <button type="button" class="cta-path" role="tab" data-path="sandbox" aria-selected="false">Try the sandbox now</button>
+          <button type="button" class="cta-path" role="tab" data-path="partner" aria-selected="false">Design partner spot</button>
+        </div>
+        <div class="cta-panel" data-panel="demo">
+          <p>30 minutes, our sandbox or your staging URL. You keep the report. No card, no production access, nothing to install.</p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" data-lead="demo" href="https://tally.so/r/MePK9X">Book the 30-minute demo →</a>
+            <a class="btn btn-ghost" href="#showcase">Watch the 45s walkthrough</a>
+          </div>
+        </div>
+        <div class="cta-panel" data-panel="sandbox" hidden>
+          <p>This is the real triage report from the last sandbox run. Click a finding to see what the engine did with it, then take the file with you.</p>
+          <div class="triage" data-triage>
+            <div class="cta-links">
+              <a href="showcase/live-ae/triage-report.json" download="certusqa-triage-report.json">Download the Proof Artifact (JSON)</a>
+              <a href="showcase/live-ae/player">Open the captioned live run</a>
+            </div>
+          </div>
+          <div class="cta-links">
+            <a href="showcase/live-ae/triage-report.json" download="certusqa-triage-report.json">Download this Proof Artifact</a>
+            <a href="showcase/live-ae/exec-narrative.md">Read the run narrative</a>
+            <a data-lead="sandbox" href="https://tally.so/r/MePK9X">Get this on your staging URL →</a>
+          </div>
+        </div>
+        <div class="cta-panel" data-panel="partner" hidden>
+          <p><b>Two design-partner spots.</b> $3,540/mo for your first 3 months, then $7,200/mo, rate locked for 12 months. First suite live in a week. In exchange: a short testimonial once it has blocked a real bug.</p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" data-lead="design-partner" href="https://tally.so/r/MePK9X">Reserve a spot →</a>
+            <a class="btn btn-ghost" href="deployshield.html#pricing">What is included</a>
+          </div>
+          <p class="cta-fine">Scope and remedy for the green-build guarantee are in the <a href="/terms#green-build">Terms</a>.</p>
+        </div>
       </div>
       <p class="hero-trust">No existing tests needed · The specs are yours · Gate starts in report-only · Verify every number yourself</p>
     </div>
@@ -235,7 +267,7 @@
       Prefer full screen?
       <a href="showcase/">Open the walkthrough</a>
       ·
-      <a href="mailto:hello@certusqa.com?subject=Live%20Sandbox%20Demo%20Request">Book a live sandbox demo</a>
+      <a href="https://tally.so/r/MePK9X?source=home-showcase&path=demo" rel="noopener">Book a live sandbox demo</a>
     </p>
 
     <div class="live-ae" id="live-run">
@@ -250,14 +282,14 @@
       </div>
       <div class="showcase-frame showcase-frame--video">
         <iframe
-          src="showcase/live-ae/player.html"
+          src="showcase/live-ae/player"
           title="CertusQA live showcase — nine engines with voiceover captions"
           loading="lazy"
           allow="autoplay"
         ></iframe>
       </div>
       <p class="showcase-note">
-        <a href="showcase/live-ae/player.html">Open captioned player</a>
+        <a href="showcase/live-ae/player">Open captioned player</a>
         ·
         <a href="showcase/live-ae/exec-narrative.md">Executive voiceover script</a>
         ·
@@ -277,7 +309,7 @@
       <h2>Every finding ships as evidence your team can act on</h2>
       <p>No chat message, no vibes. Each run emits a versioned Proof Artifact — JSON + Markdown — with root cause, severity, and the gate call included.</p>
       <ul class="proof-list">
-        <li><svg viewBox="0 0 24 24"><path d="m9 12 2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg> Real output from a sandbox bug-hunt — expected Rs. 500, observed Rs. 250, caught and blocked.</li>
+        <li><svg viewBox="0 0 24 24"><path d="m9 12 2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg> Real output from a sandbox bug-hunt — expected Rs. 500, observed Rs. 250 (drift injected on purpose), caught and blocked.</li>
         <li><svg viewBox="0 0 24 24"><path d="m9 12 2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg> From a ticket to a runnable spec to a gate verdict — authored, run, and blocked automatically.</li>
         <li><svg viewBox="0 0 24 24"><path d="m9 12 2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg> Past regression recalled on a later PR — forced back into the run and blocked again (never shipped twice).</li>
         <li><svg viewBox="0 0 24 24"><path d="m9 12 2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg> Deny-by-default scopes + live browser automation: agents can't soften a failing test, and every action is audited.</li>
@@ -298,8 +330,8 @@
   <span class="k">"observed"</span>: <span class="r">"Rs. 250"</span>,
   <span class="k">"gate"</span>:     <span class="r">"BLOCK_DEPLOY"</span>
 }</div>
-        <div class="proof-cap"><b>Real output from a sandbox bug-hunt.</b> Root cause, severity, and gate call included — the evidence your team acts on.</div>
-        <div class="lifecycle-line">Latest sandbox run · <b>1</b> defect caught · <b>0</b> shipped · <b>1</b> selector self-healed · selector bank advisory</div>
+        <div class="proof-cap"><b>Real output from a sandbox bug-hunt.</b> Root cause, severity, and gate call included — the evidence your team acts on. The Rs. 500 → Rs. 250 drift was injected on purpose so the gate is visible on a healthy site; the detection, heals and verdict are unscripted.</div>
+        <div class="lifecycle-line">Latest sandbox run · <b>1</b> defect caught · <b>0</b> shipped · <b>2</b> selectors self-healed · selector bank advisory</div>
       </div>
     </div>
   </div>
@@ -372,9 +404,23 @@
   <div class="wrap">
     <h2>See it catch a real bug in <span>30 minutes</span>.</h2>
     <p>We run the full loop against our sandbox — or point it at your staging URL and show you your own app. You keep the report either way. No credit card, no production access, nothing to install.</p>
-    <div class="hero-actions">
-      <a class="btn btn-primary" href="mailto:hello@certusqa.com?subject=Live%20Sandbox%20Demo%20Request">Book a Live Sandbox Demo →</a>
-      <a class="btn btn-ghost" href="mailto:hello@certusqa.com">hello@certusqa.com</a>
+    <div class="cta" data-cta data-source="home-footer-band">
+      <div class="cta-paths" role="tablist" aria-label="Choose how to start">
+        <button type="button" class="cta-path is-active" role="tab" data-path="demo" aria-selected="true">See it catch a bug</button>
+        <button type="button" class="cta-path" role="tab" data-path="partner" aria-selected="false">Design partner spot</button>
+      </div>
+      <div class="cta-panel" data-panel="demo">
+        <div class="hero-actions">
+          <a class="btn btn-primary" data-lead="demo" href="https://tally.so/r/MePK9X">Book the 30-minute demo →</a>
+          <a class="btn btn-ghost" href="mailto:hello@certusqa.com">Or email hello@certusqa.com</a>
+        </div>
+      </div>
+      <div class="cta-panel" data-panel="partner" hidden>
+        <div class="hero-actions">
+          <a class="btn btn-primary" data-lead="design-partner" href="https://tally.so/r/MePK9X">Reserve a design partner spot →</a>
+          <a class="btn btn-ghost" href="deployshield.html#pricing">See pricing</a>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -404,20 +450,8 @@
   </div>
 </footer>
 
-<script>
-  document.getElementById('year').textContent = new Date().getFullYear();
-  var t = document.getElementById('navToggle'), l = document.getElementById('navLinks');
-  if (t && l) t.addEventListener('click', function () {
-    var open = l.classList.toggle('open');
-    t.setAttribute('aria-expanded', open ? 'true' : 'false');
-  });
-  if (l && t) l.querySelectorAll('a').forEach(function (a) {
-    a.addEventListener('click', function () {
-      l.classList.remove('open');
-      t.setAttribute('aria-expanded', 'false');
-    });
-  });
-</script>
+<script src="assets/site.js"></script>
+<script src="assets/cta.js"></script>
 
 </body>
 </html>

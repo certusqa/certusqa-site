@@ -38,7 +38,7 @@
 
 <main class="legal">
   <h1>Privacy Policy</h1>
-  <p class="meta">Last updated: 2 August 2026 · Contact: <a href="mailto:hello@certusqa.com">hello@certusqa.com</a></p>
+  <p class="meta">Last updated: 6 September 2026 · Contact: <a href="mailto:hello@certusqa.com">hello@certusqa.com</a></p>
   <div class="banner">
     <strong>Draft for design-partner use — not legal advice.</strong>
     This page describes how CertusQA handles information on the public site and in DeployShield delivery.
@@ -50,7 +50,7 @@
 
   <h2>What we collect</h2>
   <ul>
-    <li><strong>Site visitors:</strong> standard server/CDN logs (IP, user agent, path) via Cloudflare. We do not load third-party analytics or ad trackers on this static site.</li>
+    <li><strong>Site visitors:</strong> standard server/CDN logs (IP, user agent, path) via Cloudflare, plus Cloudflare Web Analytics, a cookieless, privacy-first page-view counter that does not fingerprint or track you across sites. We do not load ad trackers or any other third-party analytics.</li>
     <li><strong>Intake &amp; scheduling:</strong> if you use our Tally form or Calendly link, those providers process the fields you submit (name, email, company, notes).</li>
     <li><strong>Billing:</strong> Stripe processes payment details when you purchase DeployShield.</li>
     <li><strong>Client delivery:</strong> staging URLs, test credentials, CI logs, screenshots, and failure artifacts needed to run and maintain your suite — under your agreement and, where applicable, a DPA.</li>
@@ -93,6 +93,6 @@
     <div class="footer-bottom">© <span id="year"></span> CertusQA</div>
   </div>
 </footer>
-<script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+<script src="assets/site.js"></script>
 </body>
 </html>

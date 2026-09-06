@@ -55,3 +55,21 @@ DNS / email / Pages go-live steps live in the private ops repo.
   To route demos through **Calendly** instead, swap those `href`s.
 - **Services page (`deployshield.html`)** CTAs → Tally intake `https://tally.so/r/MePK9X` (the existing lead funnel).
 - The **one-pager** button points to `https://certusqa.com`.
+
+## Conversion component (2026-09-06)
+
+Every CTA on `/` goes to the Tally intake `https://tally.so/r/MePK9X` with three query params
+appended by `assets/cta.js`: `source` (which block: `home-hero`, `home-footer-band`, `home-nav`,
+`home-showcase`, `deployshield-N`), `path` (`demo` | `sandbox` | `design-partner`) and `page`.
+**Tally ignores unknown params**, so attribution is empty until you add three Hidden fields named
+`source`, `path` and `page` to the form (Tally → form → add block → Hidden fields). No `mailto:`
+CTAs remain; the email address stays as a plain contact link.
+
+The "Try the sandbox now" tab fetches `showcase/live-ae/triage-report.json` (same origin, allowed
+by `connect-src 'self'`) and renders the artifacts. Without JS the panel still shows the download
+and player links.
+
+All inline scripts were extracted to `assets/site.js`, `assets/cta.js`, `showcase/storyboard.js`,
+`showcase/live-ae/player.js` and `contract/contract.js`, so the CSP is `script-src 'self'` plus
+the Cloudflare Web Analytics origin. Add a new `<script>` as an external file; the leak gate fails
+on any unhashed inline script anywhere in the tree.

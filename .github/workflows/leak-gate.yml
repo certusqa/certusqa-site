@@ -170,14 +170,30 @@ jobs:
       # year has been rendering blank on both legal pages. That is cosmetic; the
       # same failure on a page that does real work is not, and it would be just
       # as invisible.
+      # 2026-09-06: the walk is recursive. The original `readdirSync(".")` only saw
+      # root-level pages, so showcase/live-ae/player.html shipped with an inline
+      # script no hash covered — its scene rail and transcript were dead on the
+      # live site, inside an iframe on the homepage, and this check said "ok".
+      # Inline scripts are now extracted to external files (script-src 'self'),
+      # so the expected count here is zero; the hash path stays for any future
+      # exception, but it must be allow-listed or the build fails.
       - name: Inline scripts are hash-allowlisted in the CSP
         run: |
           set -euo pipefail
           node -e '
-            const fs = require("fs"), crypto = require("crypto");
+            const fs = require("fs"), path = require("path"), crypto = require("crypto");
             const headers = fs.readFileSync("_headers", "utf8");
             const allowed = new Set([...headers.matchAll(/'"'"'sha256-([A-Za-z0-9+\/=]+)'"'"'/g)].map((m) => m[1]));
-            const pages = fs.readdirSync(".").filter((f) => f.endsWith(".html"));
+            const SKIP = new Set([".git", "node_modules", "dist", ".cursor", ".claude"]);
+            const pages = [];
+            (function walk(dir) {
+              for (const ent of fs.readdirSync(dir, { withFileTypes: true })) {
+                if (SKIP.has(ent.name)) continue;
+                const p = path.join(dir, ent.name);
+                if (ent.isDirectory()) walk(p);
+                else if (ent.name.endsWith(".html") && !ent.name.endsWith(".draft.html")) pages.push(p); // *.draft.html is gitignored, never published
+              }
+            })(".");
             let bad = 0;
             for (const page of pages) {
               const html = fs.readFileSync(page, "utf8");

@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Evidence — CertusQA judge benchmark</title>
+  <meta name="description" content="The frozen 37-case benchmark behind CertusQA's accuracy claims: per-class precision and recall, the four misses, the run history, and the judge and engine commit that produced them." />
+  <link rel="canonical" href="https://www.certusqa.com/proof/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="CertusQA — Evidence" />
+  <meta property="og:description" content="Per-class precision and recall of the judge on a frozen, hand-labelled 37-case suite. Misses published, not hidden." />
+  <meta property="og:url" content="https://www.certusqa.com/proof/" />
+  <meta property="og:image" content="https://www.certusqa.com/assets/certusqa-icon-mark.png" />
+  <meta name="twitter:card" content="summary" />
+  <link rel="icon" href="../assets/certusqa-icon-mark.png" />
+  <link rel="stylesheet" href="../assets/fonts.css" />
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <style>
+    .evidence { max-width: 880px; margin: 0 auto; padding: 56px 24px 80px; }
+    .evidence h1 { font-size: 36px; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 10px; }
+    .evidence h2 { font-size: 22px; font-weight: 700; margin: 40px 0 10px; }
+    .evidence p { color: var(--ink-2); max-width: 70ch; margin: 10px 0; }
+    .evidence .lede { font-size: 17px; }
+    .ev-meta { display: flex; flex-wrap: wrap; gap: 8px 18px; font-family: var(--font-mono); font-size: 12.5px; color: var(--ink-2); margin: 16px 0 8px; }
+    .ev-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin: 22px 0; }
+    .ev-stat { border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; background: var(--soft); }
+    .ev-stat b { display: block; font-size: 26px; font-weight: 800; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+    .ev-stat span { font-size: 12.5px; color: var(--ink-2); }
+    .ev-stat.bad b { color: var(--orange-dark); }
+    .ev-stat.good b { color: var(--emerald-dark); }
+    .ev-table { overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; }
+    .ev-table table { width: 100%; border-collapse: collapse; font-size: 14px; min-width: 560px; }
+    .ev-table th, .ev-table td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+    .ev-table th { font-size: 12px; text-transform: uppercase; letter-spacing: .05em; color: var(--ink-2); background: var(--soft); }
+    .ev-table tr:last-child td { border-bottom: 0; }
+    .ev-table td.num { font-variant-numeric: tabular-nums; text-align: right; }
+    .ev-table th.num { text-align: right; }
+    .ev-table td.mono, .ev-table .mono { font-family: var(--font-mono); font-size: 12.5px; }
+    .ev-table tr.floor td:first-child::after { content: " · gate floor 1.0"; font-size: 11px; color: var(--emerald-dark); }
+    .ev-table tr.weak td.num.recall { color: var(--orange-dark); font-weight: 700; }
+    .ev-notes { border-left: 3px solid var(--emerald); background: #ecfdf5; padding: 12px 16px; border-radius: 0 10px 10px 0; }
+    .ev-notes li { margin: 6px 0; color: var(--ink-2); font-size: 14.5px; }
+    .ev-links { display: flex; flex-wrap: wrap; gap: 18px; margin-top: 28px; font-size: 14px; }
+    .ev-links a { color: var(--emerald-dark); border-bottom: 1px solid rgba(4,120,87,.35); }
+    .ev-fallback { font-size: 14px; color: var(--ink-2); }
+    @media (max-width: 560px) { .evidence h1 { font-size: 28px; } }
+  </style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap nav-inner">
+    <a class="brand" href="../">
+      <img src="../assets/certusqa-icon-mark.png" alt="" />
+      <span class="brand-name">Certus<span class="qa">QA</span></span>
+    </a>
+    <nav class="nav-links" id="navLinks">
+      <a href="../#how">How it works</a>
+      <a href="../#loop">Agentic loop</a>
+      <a href="../#showcase">Walkthrough</a>
+      <a href="../#proof">Proof</a>
+      <a href="../#engines">Engines</a>
+      <a href="../deployshield.html">DeployShield Suite</a>
+    </nav>
+    <div class="nav-cta">
+      <a class="btn btn-primary" href="https://tally.so/r/MePK9X?source=proof-nav&path=demo" rel="noopener">Book a Demo</a>
+      <button class="nav-toggle" id="navToggle" aria-label="Menu" aria-expanded="false" aria-controls="navLinks">☰</button>
+    </div>
+  </div>
+</header>
+
+<main class="evidence">
+  <div class="tag">Evidence</div>
+  <h1>The benchmark behind the numbers</h1>
+  <p class="lede">Every accuracy figure on certusqa.com comes from one frozen, hand-labelled suite run against the judge that classifies test failures. This page publishes the whole result, misses included, so you do not have to take the headline on trust.</p>
+
+  <div class="ev-meta" id="ev-meta"></div>
+
+  <div class="ev-stats" id="ev-stats"></div>
+
+  <h2>Per-class precision and recall</h2>
+  <p>Support is the number of hand-labelled cases in each class. The two classes marked with a gate floor must reach recall 1.0 or the evaluation fails: a missed real bug or a guessed pass is the error we treat as unacceptable.</p>
+  <div class="ev-table"><table id="ev-classes">
+    <thead><tr><th>Class</th><th class="num">Support</th><th class="num">Predicted</th><th class="num">Precision</th><th class="num">Recall</th><th class="num">F1</th></tr></thead>
+    <tbody></tbody>
+  </table></div>
+
+  <h2>The misses</h2>
+  <p>Every case the judge got wrong, by class. Case bodies are not published; the direction of each miss is.</p>
+  <div class="ev-table"><table id="ev-misses">
+    <thead><tr><th>Artifact</th><th>Human label</th><th>Judge said</th><th class="num">Confidence</th></tr></thead>
+    <tbody></tbody>
+  </table></div>
+
+  <h2>Run history</h2>
+  <p>Rows with a different suite fingerprint are the earlier 12-case suite and are not comparable to the 37-case runs.</p>
+  <div class="ev-table"><table id="ev-history">
+    <thead><tr><th>Evaluated</th><th class="num">Cases</th><th class="num">Accuracy</th><th class="num">Macro F1</th><th>Judge</th><th>Suite</th></tr></thead>
+    <tbody></tbody>
+  </table></div>
+
+  <h2>Read this honestly</h2>
+  <ul class="ev-notes" id="ev-notes"></ul>
+
+  <p class="ev-fallback" id="ev-fallback">This page renders <a href="../showcase/evidence/golden-eval.json">golden-eval.json</a>. If the tables above are empty, open the file directly; it is the same data.</p>
+
+  <div class="ev-links">
+    <a href="../showcase/evidence/golden-eval.json" download="certusqa-golden-eval.json">Download the evidence (JSON)</a>
+    <a href="../showcase/live-ae/triage-report.json" download="certusqa-triage-report.json">Download a sample Proof Artifact</a>
+    <a href="../#evidence">Back to what we have measured, and not</a>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer-inner">
+      <div class="brand">
+        <img src="../assets/certusqa-icon-mark.png" alt="" style="height:26px;width:26px;" />
+        <span class="brand-name">Certus<span class="qa">QA</span></span>
+      </div>
+      <div class="footer-links">
+        <a href="/">Platform</a>
+        <a href="/deployshield">DeployShield Suite</a>
+        <a href="/terms">Terms</a>
+        <a href="/privacy">Privacy</a>
+        <a href="mailto:hello@certusqa.com">Contact</a>
+      </div>
+    </div>
+    <div class="footer-bottom">© <span id="year"></span> CertusQA</div>
+  </div>
+</footer>
+<script src="../assets/site.js"></script>
+<script src="proof.js"></script>
+</body>
+</html>

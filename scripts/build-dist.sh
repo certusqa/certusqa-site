@@ -44,7 +44,7 @@ DIST="${DIST:-$ROOT/dist}"
 # The allowlist. Adding a file to the repo does NOT publish it; adding it here
 # does. Keep this list boring and explicit.
 # ---------------------------------------------------------------------------
-DIRS=(assets contract showcase)
+DIRS=(assets contract showcase proof)
 FILES=(
   index.html deployshield.html privacy.html terms.html 404.html
   _headers _redirects robots.txt sitemap.xml

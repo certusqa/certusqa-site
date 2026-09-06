@@ -51,8 +51,9 @@
   <h2>What we collect</h2>
   <ul>
     <li><strong>Site visitors:</strong> standard server/CDN logs (IP, user agent, path) via Cloudflare, plus Cloudflare Web Analytics, a cookieless, privacy-first page-view counter that does not fingerprint or track you across sites. We do not load ad trackers or any other third-party analytics.</li>
-    <li><strong>Intake &amp; scheduling:</strong> if you use our Tally form or Calendly link, those providers process the fields you submit (name, email, company, notes).</li>
-    <li><strong>Billing:</strong> Stripe processes payment details when you purchase DeployShield.</li>
+    <li><strong>Intake &amp; scheduling:</strong> every “book a demo” or “reserve a spot” button on this site opens our Tally intake form, which redirects to Calendly to pick a time. Those providers process the fields you submit (name, email, company, notes). The link also carries three non-personal parameters (<code>source</code>, <code>path</code>, <code>page</code>) so we know which page and button you came from.</li>
+    <li><strong>Billing:</strong> this site has no checkout. If you purchase DeployShield after a kickoff call, we send a Stripe Payment Link and Stripe processes your payment details; we never see your card number.</li>
+    <li><strong>Sandbox showcase:</strong> the “Try the sandbox” panel and the walkthrough load recorded artifacts from this site only. Nothing you click there is sent anywhere, and downloading the sample report collects nothing.</li>
     <li><strong>Client delivery:</strong> staging URLs, test credentials, CI logs, screenshots, and failure artifacts needed to run and maintain your suite — under your agreement and, where applicable, a DPA.</li>
   </ul>
 
@@ -60,7 +61,7 @@
   <p>To respond to inquiries, schedule kickoffs, bill for services, deliver and maintain automated regression coverage, and improve our service quality. We do not sell personal information.</p>
 
   <h2>AI tooling</h2>
-  <p>When Premium / agent features are in scope, staging UI text and logs may be processed by AI tooling (including Cursor) as described in your agreement and our subprocessor list. We treat page content as untrusted and apply scrubbing controls where implemented. Agents target non-production environments unless a Production Rider is signed.</p>
+  <p>When AI-assisted authoring or self-healing is in scope under your agreement, staging UI text and logs may be processed by AI tooling (including Cursor) as described in that agreement and our subprocessor list. We treat page content as untrusted and apply scrubbing controls where implemented. Agents target non-production environments unless a Production Rider is signed.</p>
 
   <h2>Retention</h2>
   <p>Marketing/lead records are kept as needed to respond to you. Evidence packs from delivery default to <strong>90 days</strong> unless your agreement says otherwise, or you request earlier deletion.</p>

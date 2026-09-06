@@ -110,6 +110,8 @@
   <span class="k">if</span>: always()
   <span class="k">run</span>: echo <span class="s">"CertusQA Gate says ${{ steps.gate.outputs.verdict }}"</span></code></pre>
   <p>That is the whole install. No account, no token, no network call: the action reads one file and writes a directory. The full workflow is in the repository under <code>examples/quickstart.yml</code>.</p>
+  <h3>Optional: record runs on the platform</h3>
+  <p>Add <code>api-key: ${{ secrets.CERTUSQA_API_KEY }}</code> and the action signs the run and uploads it after the evidence is written. History, trends and the judge's classification then live on the platform, and the step outputs <code>run-id</code> and <code>run-url</code>. The secret never leaves the runner except in the request to the platform, which stores only a hash; the request itself is signed with a key derived from it. What is sent is the same <code>gate.json</code> and Proof Artifacts you get locally, with the GitHub run, commit and PR number as the reference. Keys are issued by CertusQA today; self-serve signup follows.</p>
 
   <h2 id="verdicts">The four verdicts</h2>
   <div class="docs-table"><table>
@@ -146,9 +148,11 @@
       <tr><td><code>output-dir</code></td><td><code>certusqa-gate</code></td><td>Where the evidence is written.</td></tr>
       <tr><td><code>artifact-name</code></td><td><code>certusqa-gate</code></td><td>Workflow artifact name; an empty string skips the upload.</td></tr>
       <tr><td><code>working-directory</code></td><td><code>.</code></td><td>Base for the paths above.</td></tr>
+      <tr><td><code>api-key</code></td><td><em>empty</em></td><td>Optional platform key from a secret. Set: the run is uploaded after the evidence is written. Unset: no network call.</td></tr>
+      <tr><td><code>api-url</code></td><td><code>https://app.certusqa.com/api/v1/runs</code></td><td>Only for a self-hosted or test platform.</td></tr>
     </tbody>
   </table></div>
-  <p>Outputs: <code>verdict</code>, <code>report-status</code> (<code>parsed</code>, <code>absent</code> or <code>unparseable</code>), <code>passed</code>, <code>failed</code>, <code>flaky</code>, <code>skipped</code>, <code>output-dir</code>. Use them in a later step, a required check, or a deploy job's <code>if:</code>.</p>
+  <p>Outputs: <code>verdict</code>, <code>report-status</code> (<code>parsed</code>, <code>absent</code> or <code>unparseable</code>), <code>passed</code>, <code>failed</code>, <code>flaky</code>, <code>skipped</code>, <code>output-dir</code>, and with an <code>api-key</code>, <code>run-id</code> and <code>run-url</code>. Use them in a later step, a required check, or a deploy job's <code>if:</code>.</p>
 
   <h2 id="enforce">Switching to enforce</h2>
   <p>Run in report-only for a week. Read the verdicts on the run page. When they match what you would have decided, change one line:</p>
@@ -160,7 +164,7 @@
   <div class="not"><ul>
     <li><b>It does not run your tests.</b> It reads the report Playwright wrote.</li>
     <li><b>It does not decide why a test failed.</b> That classification is the CertusQA judge's, and it arrives with the hosted console.</li>
-    <li><b>It does not phone home.</b> No network calls, no account. The whole action is one dependency-free file you can read.</li>
+    <li><b>It does not phone home unless you ask it to.</b> Without <code>api-key</code> there is no network call and no account. With it, exactly one signed POST of <code>gate.json</code> and <code>proof/*.json</code> to the platform, nothing else, and a refused upload is a warning, never a failed step. The whole action is three small dependency-free files you can read.</li>
     <li><b>It does not repair anything.</b> Self-healing locators are part of the managed service, where a person is in the loop.</li>
   </ul></div>
 

@@ -8,3 +8,13 @@
 /.cursor/*   /   301
 /.git/*      /   301
 /.env        /   301
+
+# Repo furniture that the root-serving deploy (before 2026-09-06) published and
+# that Cloudflare's edge cache kept serving with s-maxage=604800 after the
+# allowlist build removed it. Same idea as the dotfile guard above: these
+# paths must never resolve, whatever an edge cache still holds.
+/README.md            /   301
+/scripts/*            /   301
+/.github/*            /   301
+/CLAUDE.md            /   301
+/notes/*              /   301

@@ -2,6 +2,14 @@
 
 **Live site (`index.html`) is unchanged.** This folder holds a preview-only build of brief v3.
 
+## Pick what to implement
+
+Interactive table (checkboxes + export):
+[`comparison-checklist.html`](comparison-checklist.html)
+
+Markdown version for editing/sending back:
+[`comparison-checklist.md`](comparison-checklist.md)
+
 ## Open locally
 
 From the repo root:
@@ -16,6 +24,7 @@ Then:
 |---|---|
 | **Current (live)** | http://127.0.0.1:8765/index.html |
 | **Proposed (v3)** | http://127.0.0.1:8765/redesign-review/homepage-v3-preview.html |
+| **Choose items** | http://127.0.0.1:8765/redesign-review/comparison-checklist.html |
 
 The preview has an orange banner and a link back to the current homepage.
 

@@ -32,7 +32,7 @@ certusqa-site/
 ├── robots.txt · sitemap.xml
 ├── scripts/build-dist.sh       ← the deploy allowlist; assembles dist/ (dist/ is gitignored)
 ├── notes/                      ← local notes and audits — gitignored, never published
-└── .github/workflows/leak-gate.yml ← CI: secrets, engine paths, legal pages, inline scripts, allowlist
+└── .github/workflows/leak-gate.yml ← CI: secrets, engine paths, legal pages, inline scripts, allowlist; then the gated deploy of dist/
 ```
 
 Pages, cross-linked in nav + footer:
@@ -67,11 +67,18 @@ DNS / email / Pages go-live steps live in the private ops repo.
 
 ## Deploy — Cloudflare Pages
 
-Production branch `main`. **Build command `bash scripts/build-dist.sh`, build output directory
-`dist`.** The script copies only the directories and files named in its allowlist, prunes
-dotfiles and repo furniture, and refuses to build if a required page is missing or a forbidden
-path lands in `dist/`. `_headers` and `_redirects` are in that allowlist because Pages reads
-them from the output directory; dropping either silently removes the CSP or the dotfile guard.
+Deployed by the `deploy` job in `.github/workflows/leak-gate.yml`, which runs only after every
+leak-gate step has passed on a push to `main`: it builds `dist/` with `bash scripts/build-dist.sh`
+and uploads it with `wrangler pages deploy` (Direct Upload). Cloudflare's own Git integration must
+have automatic deployments switched off for this project, because it deploys on push without
+consulting CI; that is how two pushes with a red gate went live on 2026-09-07. The job needs the
+repository secrets `CLOUDFLARE_API_TOKEN` (Pages: Edit) and `CLOUDFLARE_ACCOUNT_ID`; without them
+it fails and nothing deploys, which is the intended default. A red gate now stops a deploy.
+
+The build script copies only the directories and files named in its allowlist, prunes dotfiles
+and repo furniture, and refuses to build if a required page is missing or a forbidden path lands
+in `dist/`. `_headers` and `_redirects` are in that allowlist because Pages reads them from the
+output directory; dropping either silently removes the CSP or the dotfile guard.
 
 Until 2026-08-11 the project published the repo root, which served `README.md`, `.gitignore`
 and the leak-gate workflow at certusqa.com. If the dashboard ever shows *no build command /

@@ -1,8 +1,10 @@
 # Public-repo leak gate.
 #
-# Everything committed here is published: Cloudflare Pages serves this
-# directory from its root, so a mistake is live on certusqa.com before anyone
-# reviews it. The rules this enforces were already written down — in
+# Everything committed here is published: the deploy job at the bottom of this
+# file uploads dist/ to Cloudflare Pages on every green push to main, so a
+# mistake is live on certusqa.com before anyone reviews it (and before this
+# job existed, the Git integration deployed even on a red gate). The rules
+# this enforces were already written down — in
 # .gitignore, in the four-repo rule file, and in NOTES.md as a manual grep run
 # before pushing. A gate a human has to remember is a gate that holds until the
 # day it matters.
@@ -216,7 +218,8 @@ jobs:
       # allowed; an anchor to anything else on that host (the root, /client/,
       # /console, /dashboard, /pack, /fixtures, /wiki, /api) is the leak this
       # step exists to catch. This step was red from 2026-09-07 to the day this
-      # rule was narrowed.
+      # rule was narrowed, and the Git-integration deploy shipped anyway; the
+      # deploy job below is what makes a red gate actually stop a deploy.
       - name: No link to the private ops console
         run: |
           set -euo pipefail
@@ -228,3 +231,35 @@ jobs:
             exit 1
           fi
           echo "clean: no anchor to the ops console ($(printf '%s\n' "$hits" | grep -c 'app\.certusqa\.com/app/' || true) allowed /app/ link(s))"
+
+  # Deploy on green. Cloudflare's Git integration deploys on push without
+  # consulting this workflow, which is how two red gates shipped on 2026-09-07.
+  # This job is the replacement: it runs only after leak-gate passed, only on
+  # main, builds dist/ with the same allowlist, and uploads it directly.
+  # Prerequisites (one-time, in the GitHub repo and the Cloudflare dashboard):
+  #   secrets CLOUDFLARE_API_TOKEN (Pages: Edit) and CLOUDFLARE_ACCOUNT_ID;
+  #   Pages project certusqa-site → Settings → Builds & deployments →
+  #   automatic deployments OFF for the production branch, so this job is the
+  #   only deployer. Until the secrets exist this job fails and nothing deploys,
+  #   which is the intended default: no silent publish.
+  deploy:
+    needs: leak-gate
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    concurrency:
+      group: pages-deploy-certusqa-site
+      cancel-in-progress: false
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build dist from the allowlist
+        run: DIST=dist bash scripts/build-dist.sh
+
+      - name: Deploy dist to Cloudflare Pages
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy dist --project-name=certusqa-site --branch=main --commit-hash=${{ github.sha }} --commit-dirty=false

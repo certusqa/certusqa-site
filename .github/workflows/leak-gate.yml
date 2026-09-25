@@ -210,13 +210,21 @@ jobs:
           '
 
       # The standing rule is that certusqa.com never links to the Access-gated
-      # ops console. Naming the host in prose is a deliberate disclosure; an
-      # anchor is the thing the rule forbids.
+      # operator console. Since 2026-09-07 the same host also serves the public
+      # self-serve platform under /app/ (signup, login, connect, runs), which the
+      # docs page must link to. So: anchors to app.certusqa.com/app/... are
+      # allowed; an anchor to anything else on that host (the root, /client/,
+      # /console, /dashboard, /pack, /fixtures, /wiki, /api) is the leak this
+      # step exists to catch. This step was red from 2026-09-07 to the day this
+      # rule was narrowed.
       - name: No link to the private ops console
         run: |
           set -euo pipefail
-          if grep -rnE '<a[^>]+href="[^"]*app\.certusqa\.com' --include='*.html' .; then
-            echo "::error::Public site links to the private ops console."
+          hits="$(grep -rnoE '<a[^>]+href="[^"]*app\.certusqa\.com[^"]*"' --include='*.html' . || true)"
+          bad="$(printf '%s\n' "$hits" | grep -vE 'app\.certusqa\.com/app/' | grep -v '^$' || true)"
+          if [[ -n "$bad" ]]; then
+            printf '%s\n' "$bad"
+            echo "::error::Public site links to the private ops console (only app.certusqa.com/app/... is public)."
             exit 1
           fi
-          echo "clean: no anchor to the ops console"
+          echo "clean: no anchor to the ops console ($(printf '%s\n' "$hits" | grep -c 'app\.certusqa\.com/app/' || true) allowed /app/ link(s))"

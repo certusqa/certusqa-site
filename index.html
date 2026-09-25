@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>CertusQA — Tests That Evolve With Your App</title>
-<meta name="description" content="A standalone agentic GenAI QA platform for SaaS teams. We write your end-to-end Playwright suite, run it on every deploy, and repair it as your product changes — while a real regression is reported, never rewritten. No existing tests required, and the specs stay in your repo." />
+<meta name="description" content="A standalone agentic GenAI QA platform for SaaS teams. We write your automated regression suite, run it on every deploy, and repair it when your UI changes. A real regression is reported, never rewritten. No existing tests required." />
 <meta name="theme-color" content="#0B1220" />
 <link rel="icon" type="image/png" href="assets/certusqa-icon-mark.png" />
 <link rel="canonical" href="https://www.certusqa.com/" />
@@ -12,10 +12,12 @@
 <!-- Open Graph / social -->
 <meta property="og:type" content="website" />
 <meta property="og:title" content="CertusQA — Tests That Evolve With Your App and Reveal Your Bugs" />
-<meta property="og:description" content="We write your end-to-end suite, run it on every deploy, and repair it as your product changes — while a real regression is reported, never rewritten." />
+<meta property="og:description" content="We write your automated regression suite, run it on every deploy, and repair it when your UI changes. A real regression is reported, never rewritten. No existing tests required." />
 <meta property="og:url" content="https://www.certusqa.com/" />
 <meta property="og:image" content="https://www.certusqa.com/assets/certusqa-icon-mark.png" />
 <meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="CertusQA — Tests That Evolve With Your App and Reveal Your Bugs" />
+<meta name="twitter:description" content="We write your automated regression suite, run it on every deploy, and repair it when your UI changes. A real regression is reported, never rewritten. No existing tests required." />
 
 <link rel="stylesheet" href="assets/fonts.css" />
 <link rel="stylesheet" href="assets/styles.css" />
@@ -31,15 +33,15 @@
     </a>
     <nav class="nav-links" id="navLinks">
       <a href="#how">How it works</a>
-      <a href="#loop">Agentic loop</a>
       <a href="#showcase">Walkthrough</a>
       <a href="#proof">Proof</a>
       <a href="docs/">Docs</a>
-      <a href="#engines">Engines</a>
-      <a href="deployshield.html">DeployShield Suite</a>
+      <a href="deployshield.html">DeployShield</a>
     </nav>
     <div class="nav-cta">
-      <a class="btn btn-primary" href="https://tally.so/r/MePK9X?source=home-nav&path=demo" rel="noopener">Book a Demo</a>
+      <div class="cta" data-cta data-source="home-nav">
+        <a class="btn btn-primary" data-lead="demo" href="https://tally.so/r/MePK9X">Book a Demo</a>
+      </div>
       <button class="nav-toggle" id="navToggle" aria-label="Menu" aria-expanded="false" aria-controls="navLinks">☰</button>
     </div>
   </div>
@@ -51,46 +53,17 @@
 <section class="hero">
   <div class="wrap hero-grid">
     <div>
-      <span class="category-tag">Standalone Agentic GenAI QA Platform</span>
+      <span class="category-tag">Standalone Agentic GenAI QA Platform for SaaS Teams</span>
+      <!-- H1 kept per owner selection -->
       <h1>Tests That Evolve With Your App <span class="accent">and Reveal Your Bugs.</span></h1>
-      <p class="subhead">We write your end-to-end suite, run it on every deploy, and repair it as your product changes — while <b>a real regression gets reported, never rewritten</b>. <b>No existing tests required. Standard Playwright specs, in your repo: if you fire us, your suite still runs.</b></p>
+      <p class="subhead">We write your automated regression suite, run it on every deploy, and repair it when your UI changes. A real regression is reported, never rewritten. No existing tests required.</p>
       <div class="cta" data-cta data-source="home-hero">
-        <div class="cta-paths" role="tablist" aria-label="Choose how to start">
-          <button type="button" class="cta-path is-active" role="tab" data-path="demo" aria-selected="true">See it catch a bug</button>
-          <button type="button" class="cta-path" role="tab" data-path="sandbox" aria-selected="false">Try the sandbox now</button>
-          <button type="button" class="cta-path" role="tab" data-path="partner" aria-selected="false">Design partner spot</button>
-        </div>
-        <div class="cta-panel" data-panel="demo">
-          <p>30 minutes, our sandbox or your staging URL. You keep the report. No card, no production access, nothing to install.</p>
-          <div class="hero-actions">
-            <a class="btn btn-primary" data-lead="demo" href="https://tally.so/r/MePK9X">Book the 30-minute demo →</a>
-            <a class="btn btn-ghost" href="#showcase">Watch the 45s walkthrough</a>
-          </div>
-        </div>
-        <div class="cta-panel" data-panel="sandbox" hidden>
-          <p>This is the real triage report from the last sandbox run. Click a finding to see what the engine did with it, then take the file with you.</p>
-          <div class="triage" data-triage>
-            <div class="cta-links">
-              <a href="showcase/live-ae/triage-report.json" download="certusqa-triage-report.json">Download the Proof Artifact (JSON)</a>
-              <a href="showcase/live-ae/player">Open the captioned live run</a>
-            </div>
-          </div>
-          <div class="cta-links">
-            <a href="showcase/live-ae/triage-report.json" download="certusqa-triage-report.json">Download this Proof Artifact</a>
-            <a href="showcase/live-ae/exec-narrative.md">Read the run narrative</a>
-            <a data-lead="sandbox" href="https://tally.so/r/MePK9X">Get this on your staging URL →</a>
-          </div>
-        </div>
-        <div class="cta-panel" data-panel="partner" hidden>
-          <p><b>Two design-partner spots.</b> $3,540/mo for your first 3 months, then $7,200/mo, rate locked for 12 months. First suite live in a week. In exchange: a short testimonial once it has blocked a real bug.</p>
-          <div class="hero-actions">
-            <a class="btn btn-primary" data-lead="design-partner" href="https://tally.so/r/MePK9X">Reserve a spot →</a>
-            <a class="btn btn-ghost" href="deployshield.html#pricing">What is included</a>
-          </div>
-          <p class="cta-fine">Scope and remedy for the green-build guarantee are in the <a href="/terms#green-build">Terms</a>.</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" data-lead="demo" href="https://tally.so/r/MePK9X">Book a 30-min demo</a>
+          <a class="btn btn-ghost" href="#showcase">Watch the 45-second walkthrough</a>
         </div>
       </div>
-      <p class="hero-trust">No existing tests needed · The specs are yours · Gate starts in report-only · Verify every number yourself</p>
+      <p class="hero-trust">No existing tests needed · Specs live in your repo · Gate starts in report-only · Verify every number yourself</p>
     </div>
 
     <div>
@@ -108,104 +81,31 @@
   <span class="k">"observed"</span>: <span class="r">"Rs. 250"</span>,
   <span class="k">"gate"</span>:     <span class="r">"BLOCK_DEPLOY"</span>
 }</div>
-        <div class="lifecycle-line">Every run &nbsp;→&nbsp; <b>Predict</b> · <b>Heal</b> · <b>Hunt</b> · <b>Gate</b></div>
+        <div class="proof-cap">Sandbox run. The Rs. 500 → Rs. 250 price drift was injected on purpose; the detection, heals, and verdict are unscripted.</div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ================= GUARANTEE BAND ================= -->
-<section class="guar-band">
-  <div class="wrap">
-    <div class="section-eyebrow">
-      <div class="lead">Three things that decide whether this clears your security review</div>
-      <div class="sub">The interesting part of a self-healing engine is where it stops</div>
-    </div>
-    <div class="guar-row">
-      <div class="guar-item">
-        <h3>It fixes the test, never the verdict.</h3>
-        <p>Four failure types get repaired in the spec. Two — a real regression, a broken fixture — are reported and left alone. The engine is not allowed to rewrite a product signal.</p>
-      </div>
-      <div class="guar-item">
-        <h3>It cannot force a test green.</h3>
-        <p>No loosening an exact match, no downgrading a visibility check. That's <b>a static check on the proposed diff, not a prompt instruction</b> — deterministic rules plus an AST scan, no LLM calls. Two attempts, then it asks a person.</p>
-      </div>
-      <div class="guar-item">
-        <h3>Your code never leaves your infra.</h3>
-        <p>Runs offline on your own runner. Read-only until you say otherwise. Every capability is denied by default and switched on deliberately.</p>
-      </div>
-    </div>
-    <div class="guar-tax">
-      <div class="half">
-        <span class="lab ok">Repairs automatically</span>
-        <span class="list">drifted locators · moved flows · changed copy · timing races</span>
-      </div>
-      <div class="half">
-        <span class="lab no">Reports only</span>
-        <span class="list">real regressions · broken fixtures</span>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ================= AGENTIC LOOP ================= -->
-<section class="band alt" id="loop">
+<!-- ================= NO LOCK-IN ================= -->
+<section class="band">
   <div class="wrap">
     <div class="band-head">
-      <div class="tag">The Agentic Loop</div>
-      <h2>A ticket in. A deploy verdict out.</h2>
-      <p>One closed loop authors, runs, self-heals, and gates your tests — with guardrails you can prove to leadership.</p>
+      <h2>If you fire us, your suite still runs.</h2>
+      <p>Everything we write is standard Playwright, committed to your repo. No proprietary format. Leave anytime and keep every test.</p>
     </div>
-    <div class="loop-flow">
-      <div class="loop-step"><div class="ls-no">01</div><div class="ls-name">Ticket</div><div class="ls-sub">Structured intent in</div></div>
-      <div class="loop-arrow">→</div>
-      <div class="loop-step"><div class="ls-no">02</div><div class="ls-name">Plan</div><div class="ls-sub">Risk-ranked test plan</div></div>
-      <div class="loop-arrow">→</div>
-      <div class="loop-step"><div class="ls-no">03</div><div class="ls-name">Generate</div><div class="ls-sub">Runnable test specs</div></div>
-      <div class="loop-arrow">→</div>
-      <div class="loop-step"><div class="ls-no">04</div><div class="ls-name">Heal</div><div class="ls-sub">Auto-repairs broken locators</div></div>
-      <div class="loop-arrow">→</div>
-      <div class="loop-step is-gate"><div class="ls-no">05</div><div class="ls-name">Gate</div><div class="ls-sub">Proof-backed BLOCK / SHIP</div></div>
-    </div>
-    <div class="loop-guards">
-      <span class="guard-chip">Max 2 heal attempts</span>
-      <span class="guard-chip">Never softens a failing test</span>
-      <span class="guard-chip">Never learns from guessed passes</span>
-      <span class="guard-chip">Deny-by-default scopes</span>
-      <span class="guard-chip">Regression memory</span>
-      <span class="guard-chip">Live browser automation</span>
-    </div>
-  </div>
-</section>
-
-<!-- ================= PILLARS ================= -->
-<section class="band" id="pillars">
-  <div class="wrap">
-    <div class="band-head">
-      <div class="tag">Four Pillars. Zero Compromise.</div>
-      <h2>The QA work nobody should be doing by hand — running autonomously</h2>
-      <p>Speed, accuracy, cost, and governance in one agentic platform, not a script library.</p>
-    </div>
-    <div class="pillars">
+    <div class="lockin-points">
       <div class="pillar">
-        <div class="pillar-icon"><svg viewBox="0 0 24 24"><path d="M13 2 4 14h7l-1 8 10-14h-7l1-6z"/></svg></div>
-        <h3>Speed</h3>
-        <p><b>Run only what the change touches.</b> Risk-ranked selection skips the specs your diff can't affect.</p>
+        <h3>Standard Playwright specs</h3>
+        <p>Your engineers can read, edit, and run them without us.</p>
       </div>
       <div class="pillar">
-        <div class="pillar-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2"/></svg></div>
-        <h3>Accuracy</h3>
-        <p><b>Know flake from a real bug.</b> The Execution Judge classifies every failure and shows its reasoning — you review only what it wasn't sure about.</p>
+        <h3>Lives in your repo</h3>
+        <p>Version-controlled and reviewed like the rest of your code.</p>
       </div>
       <div class="pillar">
-        <div class="pillar-icon"><svg viewBox="0 0 24 24"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
-        <h3>Cost</h3>
-        <p><b>Maintenance stops being your problem.</b> Drift, moved flows and copy changes are repaired in the spec — and we own the upkeep, not your engineers.</p>
-      </div>
-      <div class="pillar">
-        <div class="pillar-icon"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg></div>
-        <h3>Trust &amp; Governance</h3>
-        <p><b>It never rewrites a product signal.</b> Guessed passes go to a human and never seed what the engine learns from. Deny-by-default scopes stay enforceable.</p>
+        <h3>Runs on your own runner</h3>
+        <p>Read-only until you say otherwise.</p>
       </div>
     </div>
   </div>
@@ -213,42 +113,94 @@
 
 <!-- ================= HOW IT WORKS ================= -->
 <section class="band alt" id="how">
-  <div class="wrap">
+  <div class="wrap" id="loop">
     <div class="band-head">
-      <div class="tag">The Lifecycle</div>
-      <h2>Predict → Heal → Hunt → Gate</h2>
-      <p>Every run follows the same closed loop — and ends in one deploy verdict you can trust.</p>
+      <div class="tag">How it works</div>
+      <h2>From ticket to deploy verdict.</h2>
+      <p>Every run follows the same loop and ends in one deploy verdict, with evidence attached.</p>
     </div>
-    <div class="steps">
+    <div class="steps steps--five" id="engines">
       <div class="step">
-        <div class="no">01</div>
-        <h3>Predict</h3>
-        <p>The Impact Engine risk-ranks your PR and runs only the flows that matter.</p>
-        <span class="arrow">→</span>
+        <div class="no">01 · Write</div>
+        <h3>We author the suite. You don't need existing tests.</h3>
+        <p>A ticket or flow goes in; a runnable test spec comes out, committed to your repo.</p>
+        <div class="step-tags">
+          <span class="step-tag" title="Ticket → runnable spec → gate">Ticket-to-Gate</span>
+        </div>
       </div>
       <div class="step">
-        <div class="no">02</div>
-        <h3>Heal</h3>
-        <p>Broken locators are auto-repaired mid-run, then promoted into a selector bank so the next run skips recovery.</p>
-        <span class="arrow">→</span>
+        <div class="no">02 · Predict</div>
+        <h3>Run only what your change can break.</h3>
+        <p>Each PR is risk-ranked and only the affected flows run. Past regressions are always pulled back in, so a fixed bug can't ship twice.</p>
+        <div class="step-tags">
+          <span class="step-tag" title="Risk-ranked selection (e.g. 3 of 20)">Impact</span>
+          <span class="step-tag" title="Recalls past hotfixes so they can't ship twice">Regression Memory</span>
+        </div>
       </div>
       <div class="step">
-        <div class="no">03</div>
-        <h3>Hunt</h3>
-        <p>The Bug Hunter separates real behavioral regressions from flaky noise.</p>
-        <span class="arrow">→</span>
+        <div class="no">03 · Heal</div>
+        <h3>UI changed? The test adapts mid-run.</h3>
+        <p>Drifted locators, moved flows, changed copy, and timing races are repaired during the run. Lasting locator updates stay human-gated. Two attempts maximum, then a person decides.</p>
+        <div class="step-tags">
+          <span class="step-tag" title="Guardrailed repair · selector bank · Tier-0 flywheel">Self-Healing</span>
+        </div>
       </div>
       <div class="step">
-        <div class="no">04</div>
-        <h3>Gate</h3>
-        <p>You get one proof-backed verdict — <b>SHIP</b> or <b>BLOCK_DEPLOY</b> — with evidence attached.</p>
-        <span class="arrow">→</span>
+        <div class="no">04 · Hunt</div>
+        <h3>Know a flaky test from a real bug.</h3>
+        <p>Real behavioral regressions are separated from flaky noise and reported, never patched over.</p>
+        <div class="step-tags">
+          <span class="step-tag" title="Catches behavioral regressions">Bug Hunter</span>
+        </div>
+      </div>
+      <div class="step">
+        <div class="no">05 · Gate</div>
+        <h3>One deploy verdict, with evidence attached.</h3>
+        <p>Clear to deploy, review, block, or not enough evidence — each backed by a Proof Artifact with root cause and severity. Starts in report-only until you trust it.</p>
+        <div class="step-tags">
+          <span class="step-tag" title="Tests mapped to requirements">Quality Gate</span>
+          <span class="step-tag" title="Evidence for every finding">Proof Artifacts</span>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ================= SHOWCASE WALKTHROUGH ================= -->
+<!-- ================= GUARDRAILS ================= -->
+<section class="guar-band">
+  <div class="wrap">
+    <div class="section-eyebrow">
+      <div class="lead">It fixes the test, never the verdict.</div>
+      <div class="sub">The interesting part of a self-healing engine is where it stops</div>
+    </div>
+    <div class="guar-tax">
+      <div class="half">
+        <span class="lab ok">Repaired automatically</span>
+        <span class="list">drifted locators · moved flows · changed copy · timing races</span>
+      </div>
+      <div class="half">
+        <span class="lab no">Reported, never rewritten</span>
+        <span class="list">real regressions · broken fixtures</span>
+      </div>
+    </div>
+    <div class="guar-row">
+      <div class="guar-item">
+        <h3>It can't force a test green.</h3>
+        <p>No loosening an exact match, no downgrading a visibility check. Enforced by a static check on the proposed diff (deterministic rules plus an AST scan, no LLM calls), not a prompt instruction.</p>
+      </div>
+      <div class="guar-item">
+        <h3>Every failure is judged, with reasoning shown.</h3>
+        <p>The Execution Judge classifies each failure; you review only what it wasn't sure about. Guessed passes go to a human and never feed what the engine learns from.</p>
+      </div>
+      <div class="guar-item">
+        <h3>Deny-by-default.</h3>
+        <p>Every capability is off until you switch it on, and every action is audited.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= SHOWCASE WALKTHROUGH (kept as is) ================= -->
 <section class="band dark" id="showcase">
   <div class="wrap">
     <div class="band-head">
@@ -304,7 +256,7 @@
 
 <!-- ================= PROOF ================= -->
 <section class="band" id="proof">
-  <div class="wrap proof-grid">
+  <div class="wrap proof-grid proof-grid--single">
     <div class="proof-copy">
       <div class="tag">Proof, Not Promises</div>
       <h2>Every finding ships as evidence your team can act on</h2>
@@ -315,30 +267,17 @@
         <li><svg viewBox="0 0 24 24"><path d="m9 12 2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg> Past regression recalled on a later PR — forced back into the run and blocked again (never shipped twice).</li>
         <li><svg viewBox="0 0 24 24"><path d="m9 12 2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg> Deny-by-default scopes + live browser automation: agents can't soften a failing test, and every action is audited.</li>
       </ul>
-    </div>
-    <div>
-      <div class="proof-card">
-        <div class="proof-head">
-          <span class="proof-dot"></span>
-          <span class="proof-file">triage-report.json</span>
-          <span class="proof-badge">Auto-generated</span>
-        </div>
-<div class="proof-code">{
-  <span class="k">"outcome"</span>:  <span class="r">"DEFECT_CONFIRMED"</span>,
-  <span class="k">"category"</span>: <span class="s">"FUNCTIONAL_REGRESSION"</span>,
-  <span class="k">"severity"</span>: <span class="r">"HIGH"</span>,
-  <span class="k">"expected"</span>: <span class="s">"Rs. 500"</span>,
-  <span class="k">"observed"</span>: <span class="r">"Rs. 250"</span>,
-  <span class="k">"gate"</span>:     <span class="r">"BLOCK_DEPLOY"</span>
-}</div>
-        <div class="proof-cap"><b>Real output from a sandbox bug-hunt.</b> Root cause, severity, and gate call included — the evidence your team acts on. The Rs. 500 → Rs. 250 drift was injected on purpose so the gate is visible on a healthy site; the detection, heals and verdict are unscripted.</div>
-        <div class="lifecycle-line">Latest sandbox run · <b>1</b> defect caught · <b>0</b> shipped · <b>2</b> selectors self-healed · selector bank advisory</div>
-      </div>
+      <p class="sandbox-line">
+        Don't want a call?
+        <a href="showcase/live-ae/triage-report.json" download="certusqa-triage-report.json">Download a real Proof Artifact</a>
+        or
+        <a href="showcase/live-ae/player">open the captioned live run</a>.
+      </p>
     </div>
   </div>
 </section>
 
-<!-- ================= EVIDENCE ================= -->
+<!-- ================= EVIDENCE (kept as is) ================= -->
 <section class="band alt" id="evidence">
   <div class="wrap">
     <div class="band-head">
@@ -367,29 +306,7 @@
   </div>
 </section>
 
-<!-- ================= ENGINES ================= -->
-<section class="band alt" id="engines">
-  <div class="wrap">
-    <div class="band-head">
-      <div class="tag">Under the Hood</div>
-      <h2>Nine specialized engines, one agentic platform</h2>
-      <p>Not a script library — a coordinated system where each engine owns one job.</p>
-    </div>
-    <div class="engines-grid">
-      <div class="engine"><span class="no">01</span><span class="tx"><b>Impact</b><span>Risk-ranked selection (e.g. 3 of 20)</span></span></div>
-      <div class="engine"><span class="no">02</span><span class="tx"><b>Regression Memory</b><span>Recalls past hotfixes so they can't ship twice</span></span></div>
-      <div class="engine"><span class="no">03</span><span class="tx"><b>Self-Healing</b><span>Guardrailed repair · selector bank · Tier-0 flywheel</span></span></div>
-      <div class="engine"><span class="no">04</span><span class="tx"><b>Bug Hunter</b><span>Catches behavioral regressions</span></span></div>
-      <div class="engine"><span class="no">05</span><span class="tx"><b>Proof Artifacts</b><span>Evidence for every finding</span></span></div>
-      <div class="engine"><span class="no">06</span><span class="tx"><b>Quality Gate</b><span>Tests mapped to requirements</span></span></div>
-      <div class="engine"><span class="no">07</span><span class="tx"><b>Ticket-to-Gate</b><span>Ticket → runnable spec → gate</span></span></div>
-      <div class="engine"><span class="no">08</span><span class="tx"><b>Sprint Trend</b><span>Flags chronic, deferred fixes</span></span></div>
-      <div class="engine"><span class="no">09</span><span class="tx"><b>Governance</b><span>Execution Judge · offline triage · deny-by-default scopes</span></span></div>
-    </div>
-  </div>
-</section>
-
-<!-- ================= CROSS-SELL ================= -->
+<!-- ================= CROSS-SELL (kept as is; Terms link relative) ================= -->
 <section class="crosssell">
   <div class="wrap crosssell-inner">
     <div class="cs-copy">
@@ -404,24 +321,19 @@
 <section class="cta-band">
   <div class="wrap">
     <h2>See it catch a real bug in <span>30 minutes</span>.</h2>
-    <p>We run the full loop against our sandbox — or point it at your staging URL and show you your own app. You keep the report either way. No credit card, no production access, nothing to install.</p>
+    <p>We run the full loop on your staging URL, or on our sandbox. You keep the report either way.</p>
     <div class="cta" data-cta data-source="home-footer-band">
-      <div class="cta-paths" role="tablist" aria-label="Choose how to start">
-        <button type="button" class="cta-path is-active" role="tab" data-path="demo" aria-selected="true">See it catch a bug</button>
-        <button type="button" class="cta-path" role="tab" data-path="partner" aria-selected="false">Design partner spot</button>
+      <div class="hero-actions cta-band-actions">
+        <a class="btn btn-primary" data-lead="demo" href="https://tally.so/r/MePK9X">Book your 30-min demo</a>
       </div>
-      <div class="cta-panel" data-panel="demo">
-        <div class="hero-actions">
-          <a class="btn btn-primary" data-lead="demo" href="https://tally.so/r/MePK9X">Book the 30-minute demo →</a>
-          <a class="btn btn-ghost" href="mailto:hello@certusqa.com">Or email hello@certusqa.com</a>
-        </div>
-      </div>
-      <div class="cta-panel" data-panel="partner" hidden>
-        <div class="hero-actions">
-          <a class="btn btn-primary" data-lead="design-partner" href="https://tally.so/r/MePK9X">Reserve a design partner spot →</a>
-          <a class="btn btn-ghost" href="deployshield.html#pricing">See pricing</a>
-        </div>
-      </div>
+    </div>
+    <p class="cta-contact">Or email <a href="mailto:hello@certusqa.com">hello@certusqa.com</a></p>
+    <p class="cta-trust-line">No credit card · No production access · Nothing to install for the demo</p>
+    <div class="partner-callout">
+      <b>Design partner spots are open.</b> $3,540/mo for the first 3 months, then $7,200/mo, rate locked for 12 months.
+      <a href="deployshield.html#pricing">See pricing</a> ·
+      <a href="/terms#green-build">Terms</a>.
+      In return, we build the production case study together.
     </div>
   </div>
 </section>
@@ -439,7 +351,6 @@
         <a href="#showcase">Walkthrough</a>
         <a href="#proof">Proof</a>
         <a href="docs/">Docs</a>
-        <a href="#engines">Engines</a>
         <a href="deployshield.html">DeployShield Suite</a>
         <a href="/terms">Terms</a>
         <a href="/privacy">Privacy</a>
@@ -447,7 +358,7 @@
       </div>
     </div>
     <div class="footer-bottom">
-      © <span id="year"></span> CertusQA · Standalone Agentic GenAI QA Platform · 9 Engines · Sandbox-Verified · hello@certusqa.com
+      © <span id="year"></span> CertusQA · Standalone Agentic GenAI QA Platform · Sandbox-Verified · hello@certusqa.com
     </div>
   </div>
 </footer>

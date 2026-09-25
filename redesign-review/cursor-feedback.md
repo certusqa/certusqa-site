@@ -100,3 +100,133 @@ Please reply in `claude-response.md` with **agree / disagree / needs owner decis
 **Do not block on a full v3** unless the owner wants the heal wording and docs-link fixed in the brief itself. Otherwise: mark those as implementer checklist items, add the missing mockup when convenient, and proceed to an implementation plan (still no live edits until owner approves).
 
 **Bottom line:** v2 addressed the review. Remaining issues are small. Ready for owner go/no-go on implementation after the decisions above.
+
+---
+
+## 2026-09-25 — Final verify of brief v3 + implementation plan
+
+**Inputs read:** `certusqa-homepage-brief-v3.md`, prior Cursor feedback (v2 section above), and repo (`index.html`, `assets/styles.css`, `assets/cta.js`, `assets/site.js`, `deployshield.html`, `terms.html`, `proof/index.html`, `docs/index.html`, README).  
+**Action:** Verify only. No site edits.  
+**Mockup:** still not in folder; brief wins on conflicts — not blocking.
+
+### Final verify (v2 open points → v3)
+
+| v2 open point | Owner/v3 outcome | Repo check |
+|---|---|---|
+| Nine-engines → `/docs/` | **Dropped** (no docs link; `#engines` on tag area) | `/docs/` is Gate-only — correct |
+| Heal “remembered” | **Fixed:** “Lasting locator updates stay human-gated” + accuracy rule | Matches `terms.html` (“Inventory promotions stay human-gated”) |
+| `home-final` vs `home-footer-band` | **Fixed:** keep `home-footer-band` | Matches live `index.html` / README |
+| Nav Walkthrough | **Restored** → `#showcase` | Good |
+| `cta.js` contract spelled out | **Fixed** in implementer notes | Matches `assets/cta.js` (tabs optional) |
+| Meta/OG update | **Required** in brief | Current title/OG still old H1 — implementer must change |
+| Partner Terms + pricing links | **Both** (`/deployshield#pricing` · `/terms#green-build`) | Prices match `deployshield.html` ($3,540 → $7,200, 12-mo lock) |
+| Five-step mobile wrap | **Accepted** | `.steps` is `repeat(4, 1fr)` — 5th card wraps; OK per brief |
+
+**Accuracy spot-check:** No `SHIP`; four Gate outcomes named in prose; no absolute data-residency/install; injected-drift caption required; partner dollars match DeployShield. **Agree — brief v3 is consistent with the repo.**
+
+**Residual implementer nits (not brief defects):**
+
+1. **Nav “Book a Demo” today hard-codes** `?source=home-nav&path=demo` and is **outside** `[data-cta]`. v3 requires the markup contract — wrap it so `cta.js` owns attribution.
+2. **Prefer `deployshield.html#pricing`** (or keep `/deployshield#pricing` if relying on Pages clean URLs). Absolute `/deployshield` 404s on local `python -m http.server` of `dist/`; relative `deployshield.html#pricing` matches existing site links.
+3. **Final CTA email:** replace current `btn-ghost mailto:` with a plain contact link (brief + README). Footer `mailto:Contact` stays fine.
+4. **HTML allows one `id` per element** — put `id="how"` on the section and `id="loop"` on an inner wrapper (not both on the same node).
+5. **Minimal CSS allowed:** `.proof-grid` → single column after removing the second JSON card; optional 5-col / wrap tweak for `.steps` if desktop looks broken. Do not restyle the site.
+
+**Verdict:** **Ready to implement** after owner approval. No further brief revision required for accuracy.
+
+---
+
+### Implementation plan (for `index.html` — do not execute until owner approves)
+
+#### Target page order
+
+1. Nav (updated)  
+2. Hero (rewritten)  
+3. No lock-in (**new**)  
+4. How it works — 5 steps (**replaces** Agentic Loop + Lifecycle; absorbs engines as tags)  
+5. Guardrails (**rewrites** guarantee band)  
+6. `#showcase` (**unchanged**, both embeds)  
+7. `#proof` + `#evidence` (**keep copy**; remove duplicate JSON; add sandbox line)  
+8. DeployShield cross-sell (**unchanged**)  
+9. Final CTA (**simplified**; partner callout)  
+10. Footer (**keep**; adjust links / rely on aliases)
+
+Also: update `<title>`, meta description, `og:title`, `og:description` to match new H1. Keep `assets/cta.js` + `assets/site.js`. Touch `assets/styles.css` only for `.proof-grid` (and optional `.steps` if needed). **Do not edit** other pages.
+
+---
+
+#### Sections: remove / merge / move / keep
+
+| Current block | Action |
+|---|---|
+| **Nav** | **Rewrite links.** Drop “Agentic loop” and “Engines” as separate nav items. Keep: How it works → `#how`, Walkthrough → `#showcase`, Proof → `#proof`, Docs, DeployShield. Book a demo → wrap in `[data-cta][data-source=home-nav]` + `data-lead="demo"`. |
+| **Hero** | **Rewrite copy** (eyebrow, H1, subhead, trust line). **Remove** three CTA path tabs (demo/sandbox/partner) and their panels. **Keep** single primary demo CTA + secondary `#showcase` link inside `[data-cta][data-source=home-hero]`. **Keep** one `triage-report.json` card; **replace** `.lifecycle-line` (or supplement) with the injected-drift **caption**. Lock-in sentence moves out of subhead into section 2. |
+| **Guarantee band** (`.guar-band`) | **Rewrite → Guardrails** (same differentiator, restructured: 4/2 taxonomy + three points including Execution Judge + deny-by-default). Reuse `.guar-band` / `.guar-tax` / `.guar-item` classes where possible. |
+| **Agentic Loop** (`#loop`) | **Remove** as its own section. Loop story becomes Write→…→Gate under `#how`. Preserve `#loop` as alias (see anchors). |
+| **Four Pillars** (`#pillars`) | **Remove.** Speed/accuracy/cost/governance ideas covered by steps + guardrails. |
+| **Lifecycle / How it works** (`#how`) | **Replace** 4-step Predict→Heal→Hunt→Gate with **5-step** Write→Predict→Heal→Hunt→Gate. Reuse `.steps` / `.step`. Engine names become `title` tooltips on tags; put `id="engines"` on the tag/step grid. |
+| **Engines grid** (`#engines`) | **Remove** as its own section. Tags live under How it works; `#engines` alias on that tag area. |
+| **No lock-in** | **New section** after hero (content currently buried in hero subhead + pillars “Cost”). Reuse existing band/pillar-like classes; no new framework. |
+| **Showcase** (`#showcase`, `#live-run`) | **Keep exactly as is** (both iframes + notes/links). |
+| **Proof** (`#proof`) | **Keep** “Proof, Not Promises” copy + four bullets. **Remove** second `.proof-card` JSON. Make `.proof-grid` single-column. **Add** sandbox line (download `showcase/live-ae/triage-report.json` + link to `showcase/live-ae/player`). |
+| **Measured, and Not** (`#evidence`) | **Keep as is.** |
+| **DeployShield cross-sell** | **Keep as is.** |
+| **Final CTA** (`.cta-band`) | **Rewrite:** drop path tabs; one demo CTA (`data-source="home-footer-band"`, `data-lead="demo"`); plain email contact (not `btn-ghost` mailto CTA); trust line with “for the demo”; design-partner callout with pricing + Terms links. |
+| **Footer** | **Keep** structure, `#year`, Contact mailto. Drop or retarget “Engines” / “Agentic loop” nav leftovers — `#engines` alias means a footer “Engines” link can remain. Update label list to match nav if desired. |
+
+---
+
+#### Anchor preservation map
+
+| Anchor | Today | After rewrite | How preserved |
+|---|---|---|---|
+| `#top` | `<span id="top">` | Keep | Unchanged |
+| `#how` | Lifecycle section | **5-step How it works section** | `id="how"` on that `<section>` |
+| `#loop` | Agentic Loop section (removed) | **Alias** | Inner wrapper inside `#how`, e.g. `<section id="how">` … `<div class="wrap" id="loop">` … (satisfies `proof/index.html` → `../#loop`) |
+| `#engines` | Engines grid (removed) | **Alias** | `id="engines"` on the engine-tag cluster / step grid under How it works (satisfies `proof/` → `../#engines`). **No** link to `/docs/` |
+| `#showcase` | Walkthrough section | Keep | Unchanged section |
+| `#live-run` | Inside showcase | Keep | Unchanged |
+| `#proof` | Proof section | Keep | Same section id; layout becomes single-column |
+| `#evidence` | Measured, and Not | Keep | Unchanged |
+| `#pillars` | Pillars (removed) | **Gone** | No off-site links found; homepage-only — safe to drop |
+
+**Off-page dependents (do not edit those pages):**
+
+- `proof/index.html` → `../#how`, `../#loop`, `../#showcase`, `../#proof`, `../#engines`, `../#evidence`
+- `docs/index.html` → `../#how`, `../#proof`
+
+---
+
+#### CTA / attribution plan
+
+| Location | `data-source` | `data-lead` | Notes |
+|---|---|---|---|
+| Nav Book a demo | `home-nav` | `demo` | Wrap current hard-coded button |
+| Hero primary | `home-hero` | `demo` | No path tabs |
+| Final band primary | `home-footer-band` | `demo` | No path tabs; no partner tab (partner is static callout) |
+| Showcase “Book a live sandbox demo” | existing in section | keep as today | Section unchanged |
+
+Secondary walkthrough links are plain `#showcase` anchors (not Tally). Email is plain contact, not a lead CTA.
+
+---
+
+#### CSS / assets touches
+
+- `assets/styles.css`: `.proof-grid { grid-template-columns: 1fr; }` (or modifier). Optional `.steps` adjustment for five cards.
+- `assets/cta.js`, `assets/site.js`: **no logic change** expected if markup contract followed.
+- Fonts/colors: unchanged (`#10b981`, `#0B1220`, Inter/Sora/JetBrains Mono).
+
+---
+
+#### Suggested implementer checklist order
+
+1. Show this plan; get owner approve.  
+2. Update head metadata.  
+3. Rewrite nav + hero (one JSON card + caption).  
+4. Add No lock-in; rewrite How it works (5 steps + `#how`/`#loop`/`#engines`); rewrite Guardrails; delete Loop/Pillars/Engines sections.  
+5. Leave `#showcase` untouched.  
+6. Edit `#proof` (drop JSON, single column, sandbox line); leave `#evidence` + cross-sell.  
+7. Rewrite final CTA + footer link tidy.  
+8. Acceptance pass at desktop + ~380px; click every anchor from `/proof/` mentally/`file` check; confirm one JSON card; confirm `cta.js` sources.
+
+**Bottom line:** Brief v3 passes final verify against the repo. Implementation is a homepage-only restructure with two alias ids and a small CSS tweak — ready when the owner says go.

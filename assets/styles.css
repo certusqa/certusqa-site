@@ -395,7 +395,18 @@ section { scroll-margin-top: 80px; }
 .footer .brand-name { font-size: 17px; }
 .footer-links { display: flex; gap: 22px; font-size: 13px; }
 .footer-links a:hover { color: var(--emerald-light); }
-.footer-bottom { margin-top: 24px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.07); font-size: 12px; color: #6b7688; }
+/* #6b7688 measured 4.26:1 against the footer's #070c16 — under the 4.5 AA floor
+   for 12px text. #7c8699 is 5.34:1, and the nearest value to the original. */
+.footer-bottom { margin-top: 24px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.07); font-size: 12px; color: #7c8699; }
+
+/* Keyboard users reach the content without tabbing the whole nav. Off-screen
+   until focused, so it costs the visual design nothing. */
+.skip-link {
+  position: absolute; left: -9999px; top: 0; z-index: 100;
+  background: var(--emerald); color: #04121c; font-weight: 700; font-size: 14px;
+  padding: 12px 20px; border-radius: 0 0 8px 0; text-decoration: none;
+}
+.skip-link:focus { left: 0; }
 
 /* ---------- Responsive ---------- */
 @media (max-width: 900px) {
@@ -434,7 +445,15 @@ section { scroll-margin-top: 80px; }
     display: flex; flex-direction: column; position: absolute; top: 66px; left: 0; right: 0;
     background: var(--navy); padding: 18px 24px; gap: 16px; border-bottom: 1px solid rgba(255,255,255,0.08);
   }
-  .nav-toggle { display: inline-flex; background: none; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; padding: 7px 10px; color: #fff; cursor: pointer; }
+  /* 44x44 minimum: the glyph alone rendered 34x32, which clears WCAG 2.5.8 AA
+     (24x24) but is under the size a thumb reliably hits. align/justify keep the
+     glyph optically centred now that the box is bigger than it is. */
+  .nav-toggle {
+    display: inline-flex; align-items: center; justify-content: center;
+    min-width: 44px; min-height: 44px; padding: 0;
+    background: none; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px;
+    color: #fff; cursor: pointer; font-size: 18px; line-height: 1;
+  }
 }
 @media (max-width: 560px) {
   .hero { padding: 44px 0 52px; }

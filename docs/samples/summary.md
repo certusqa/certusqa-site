@@ -4,13 +4,19 @@ Mode **report-only** (recorded, not enforced) · report parsed · `test-results/
 
 | Passed | Failed | Flaky | Skipped | Total |
 |---:|---:|---:|---:|---:|
-| 1 | 1 | 1 | 1 | 4 |
+| 2 | 1 | 1 | 1 | 5 |
+
+**Configured, not run:** firefox — this verdict covers chromium only.
+
+**Skipped (1):**
+
+- checkout › applies a coupon — the coupon service is not deployed to this environment
 
 | Proof Artifact | Test | Attempts | Error |
 |---|---|---|---|
-| `pa_unjudged_8f1b8b0e` | checkout › price regression (`sample.spec.js:5`) | failed → failed | Error: displayed price expect(received).toBe(expected) // Object.is equality Expected: "Rs. 500" |
-| `pa_flaky_9c78f0f0` | checkout › flaky login (`sample.spec.js:6`) | failed → passed | Error: Timeout 30000ms exceeded waiting for locator(#login) |
+| `pa_unjudged_f12e8e14` | checkout › shows the order total (`checkout.spec.js:17`) | failed → failed | Error: expect(locator).toHaveText(expected) failed Locator: getByTestId('order-total') Expected: "$499" |
+| `pa_flaky_6d6d3a7f` | checkout › greets a returning customer (`checkout.spec.js:23`) | failed → passed | Error: expect(locator).toBeVisible() failed Locator: getByText('Welcome back', { exact: true }) Expected: visible |
 
-2 failure media file(s) under `test-results`.
+9 failure media file(s) under `test-results`, referenced by a failed or flaky test.
 
 Evidence: `certusqa-gate/gate.json`, `proof/*.json`. Classification of each failure as regression, flake or test defect is the CertusQA judge's job, not this action's.

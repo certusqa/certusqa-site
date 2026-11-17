@@ -116,22 +116,30 @@
   <div class="docs-table"><table>
     <thead><tr><th>Verdict</th><th>When</th><th>In enforce mode</th></tr></thead>
     <tbody>
-      <tr><td><span class="verdict clear">CLEAR_TO_DEPLOY</span></td><td>Every test passed first time and no failure media is on disk.</td><td>Passes.</td></tr>
-      <tr><td><span class="verdict review">REVIEW_ARTIFACTS</span></td><td>A test passed only on retry, or failure screenshots or videos exist. Not an automatic pass; a human decides.</td><td>Passes, unless <code>strict: true</code>.</td></tr>
+      <tr><td><span class="verdict clear">CLEAR_TO_DEPLOY</span></td><td>Every test passed first time, and none passed by writing a missing screenshot baseline.</td><td>Passes.</td></tr>
+      <tr><td><span class="verdict review">REVIEW_ARTIFACTS</span></td><td>A test passed only on retry, or a passing test wrote a screenshot baseline instead of comparing one. Not an automatic pass; a human decides.</td><td>Passes, unless <code>strict: true</code>.</td></tr>
       <tr><td><span class="verdict block">BLOCK_DEPLOY</span></td><td>At least one test failed after its retries.</td><td>Fails the job.</td></tr>
       <tr><td><span class="verdict insufficient">INSUFFICIENT_EVIDENCE</span></td><td>The report is missing, unreadable, or contains no tests.</td><td>Fails the job.</td></tr>
     </tbody>
   </table></div>
   <p>The last row is the one most gates get wrong. A missing report means the tests did not run. A gate that passes then is not a gate, so this one never treats a missing or corrupt report as green, and the counts it reports in that case are empty rather than zero.</p>
+  <h3>What a verdict also tells you</h3>
+  <ul>
+    <li><b>It never mistakes a recording for a failure.</b> Only a screenshot, video or trace that a failed or flaky test references counts as failure media. A green run that records video stays <code>CLEAR_TO_DEPLOY</code>.</li>
+    <li><b>It flags green runs that compared nothing.</b> A passing test that wrote a missing screenshot baseline instead of comparing one is named in the summary, and the run is <code>REVIEW_ARTIFACTS</code>.</li>
+    <li><b>It says what it did not run.</b> Projects that are configured but were not run are named beside the counts, and each skipped test is listed with the reason its author gave.</li>
+    <li><b>A shuffled run can be reproduced.</b> If you ran with <code>--shuffle</code>, the summary prints the seed to re-run with.</li>
+    <li><b>It says when a report left the passes out.</b> Playwright's <code>onlyFailures</code> reporter option makes a green run look empty. The verdict is <code>INSUFFICIENT_EVIDENCE</code>, and the summary says why.</li>
+  </ul>
 
   <h2 id="output">What you get</h2>
   <p>Every run writes one directory, uploads it as a workflow artifact, and appends a summary to the run page.</p>
 <pre><code>certusqa-gate/
-├── gate.json            <span class="c">verdict, counts, failures, media, mode</span>
+├── gate.json            <span class="c">verdict, counts, failures, media, mode, run scope</span>
 ├── summary.md           <span class="c">the same summary that lands on the run page</span>
 └── proof/
-    └── pa_unjudged_8f1b8b0e.json   <span class="c">one per failed or flaky test</span></code></pre>
-  <p>These are real files from the action's own test run, on a fixture with one pass, one failure, one flaky test and one skip: <a href="samples/gate.json">gate.json</a>, <a href="samples/summary.md">summary.md</a>, <a href="samples/pa_unjudged_8f1b8b0e.json">a Proof Artifact for the failure</a>, <a href="samples/pa_flaky_9c78f0f0.json">and one for the flaky test</a>.</p>
+    └── pa_unjudged_f12e8e14.json   <span class="c">one per failed or flaky test</span></code></pre>
+  <p>These are real files: the output of v1.1.0 on a Playwright 1.65.1 run of a five-test demo suite, with two passes, one deliberate failure, one deliberately flaky test and one skip, and a second browser configured but not run: <a href="samples/gate.json">gate.json</a>, <a href="samples/summary.md">summary.md</a>, <a href="samples/pa_unjudged_f12e8e14.json">a Proof Artifact for the failure</a>, <a href="samples/pa_flaky_6d6d3a7f.json">and one for the flaky test</a>.</p>
   <h3>Proof Artifacts, honestly unjudged</h3>
   <p>Each artifact has the same shape as the ones the CertusQA engine emits: <code>classification</code>, <code>rootCause</code>, <code>remediation</code>, <code>evidence</code>. From the free action they carry <code>failKind: "unjudged"</code> and <code>confidence: "none"</code>. The action records the failure, its attempts, its sanitised error and its media. Deciding whether it is a regression, a flake or a defect in the test is the judge's job, and the judge is the hosted part of CertusQA.</p>
   <p>Error text is sanitised before it is written: colour codes are stripped, Playwright's <em>Received</em> block, which is page text, is dropped, and the message is capped. Nothing is sent anywhere.</p>
@@ -141,7 +149,7 @@
     <thead><tr><th>Input</th><th>Default</th><th>Meaning</th></tr></thead>
     <tbody>
       <tr><td><code>results</code></td><td><code>test-results/results.json</code></td><td>Playwright JSON reporter output.</td></tr>
-      <tr><td><code>media-dir</code></td><td><code>test-results</code></td><td>Scanned for <code>png</code>, <code>webm</code>, <code>zip</code> failure media.</td></tr>
+      <tr><td><code>media-dir</code></td><td><code>test-results</code></td><td>Scanned for <code>png</code>, <code>webp</code>, <code>webm</code> and <code>zip</code> media. Only files a failed or flaky test references count as failure media.</td></tr>
       <tr><td><code>mode</code></td><td><code>report-only</code></td><td><code>report-only</code> never fails the job; <code>enforce</code> fails on <code>BLOCK_DEPLOY</code> and <code>INSUFFICIENT_EVIDENCE</code>.</td></tr>
       <tr><td><code>strict</code></td><td><code>false</code></td><td>In enforce mode, also fail on <code>REVIEW_ARTIFACTS</code>.</td></tr>
       <tr><td><code>output-dir</code></td><td><code>certusqa-gate</code></td><td>Where the evidence is written.</td></tr>

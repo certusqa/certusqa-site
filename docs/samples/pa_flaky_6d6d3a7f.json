@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.1.0",
   "artifactType": "PROOF_ARTIFACT",
-  "id": "pa_flaky_9c78f0f0",
-  "summary": "Passed only on retry: checkout › flaky login",
+  "id": "pa_flaky_6d6d3a7f",
+  "summary": "Passed only on retry: checkout › greets a returning customer",
   "classification": {
     "category": "FLAKY",
     "severity": "LOW",
@@ -13,8 +13,8 @@
     "statement": "The test failed and then passed on retry. Whether that is a timing race in the test or an intermittent defect in the application is not decided here.",
     "signals": [
       "attempts=failed,passed",
-      "error=Error: Timeout 30000ms exceeded waiting for locator(#login)",
-      "spec=sample.spec.js:6"
+      "error=Error: expect(locator).toBeVisible() failed Locator: getByText('Welcome back', { exact: true }) Expected: visible",
+      "spec=checkout.spec.js:23"
     ]
   },
   "remediation": {
@@ -25,22 +25,26 @@
   },
   "evidence": {
     "test": {
-      "title": "checkout › flaky login",
-      "file": "sample.spec.js",
-      "line": 6,
-      "project": null
+      "title": "checkout › greets a returning customer",
+      "file": "checkout.spec.js",
+      "line": 23,
+      "project": "chromium"
     },
     "attempts": [
       "failed",
       "passed"
     ],
-    "error": "Error: Timeout 30000ms exceeded waiting for locator(#login)",
-    "media": [],
-    "durationMs": 0
+    "error": "Error: expect(locator).toBeVisible() failed Locator: getByText('Welcome back', { exact: true }) Expected: visible",
+    "media": [
+      "test-results/checkout-checkout-greets-a-returning-customer-chromium/test-failed-1.png",
+      "test-results/checkout-checkout-greets-a-returning-customer-chromium/trace.zip",
+      "test-results/checkout-checkout-greets-a-returning-customer-chromium/video.webm"
+    ],
+    "durationMs": 1379
   },
   "gate": {
     "verdict": "BLOCK_DEPLOY",
     "mode": "report-only"
   },
-  "generatedAt": "2026-09-06T13:44:26.669Z"
+  "generatedAt": "2026-11-17T22:10:03.207Z"
 }

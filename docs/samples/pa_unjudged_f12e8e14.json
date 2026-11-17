@@ -1,0 +1,53 @@
+{
+  "schemaVersion": "1.1.0",
+  "artifactType": "PROOF_ARTIFACT",
+  "id": "pa_unjudged_f12e8e14",
+  "summary": "Failed after 2 attempt(s): checkout › shows the order total",
+  "classification": {
+    "category": "NEEDS_TRIAGE",
+    "severity": "HIGH",
+    "outcome": "INCONCLUSIVE",
+    "failKind": "unjudged"
+  },
+  "rootCause": {
+    "statement": "The test failed on every attempt. Whether the application regressed or the test is at fault is not decided here.",
+    "signals": [
+      "attempts=failed,failed",
+      "error=Error: expect(locator).toHaveText(expected) failed Locator: getByTestId('order-total') Expected: \"$499\"",
+      "spec=checkout.spec.js:17"
+    ]
+  },
+  "remediation": {
+    "recommendation": "Triage against the last known-good run. Do not loosen the assertion until the expected value is confirmed.",
+    "confidence": "none",
+    "ownerHint": "unknown",
+    "note": "Classification (regression vs flake vs test defect) is produced by the CertusQA judge, not by this action."
+  },
+  "evidence": {
+    "test": {
+      "title": "checkout › shows the order total",
+      "file": "checkout.spec.js",
+      "line": 17,
+      "project": "chromium"
+    },
+    "attempts": [
+      "failed",
+      "failed"
+    ],
+    "error": "Error: expect(locator).toHaveText(expected) failed Locator: getByTestId('order-total') Expected: \"$499\"",
+    "media": [
+      "test-results/checkout-checkout-shows-the-order-total-chromium-retry1/test-failed-1.png",
+      "test-results/checkout-checkout-shows-the-order-total-chromium-retry1/trace.zip",
+      "test-results/checkout-checkout-shows-the-order-total-chromium-retry1/video.webm",
+      "test-results/checkout-checkout-shows-the-order-total-chromium/test-failed-1.png",
+      "test-results/checkout-checkout-shows-the-order-total-chromium/trace.zip",
+      "test-results/checkout-checkout-shows-the-order-total-chromium/video.webm"
+    ],
+    "durationMs": 4627
+  },
+  "gate": {
+    "verdict": "BLOCK_DEPLOY",
+    "mode": "report-only"
+  },
+  "generatedAt": "2026-11-17T22:10:03.206Z"
+}

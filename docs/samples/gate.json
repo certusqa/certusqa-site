@@ -1,52 +1,84 @@
 {
   "schemaVersion": "1.0.0",
   "product": "CertusQA Gate",
-  "generatedAt": "2026-09-06T13:44:26.669Z",
+  "generatedAt": "2026-11-17T22:10:03.207Z",
   "mode": "report-only",
   "strict": false,
   "verdict": "BLOCK_DEPLOY",
   "reportStatus": "parsed",
   "reportPath": "test-results/results.json",
   "summary": {
-    "passed": 1,
+    "passed": 2,
     "failed": 1,
     "flaky": 1,
     "skipped": 1,
-    "total": 4
+    "total": 5
   },
   "note": null,
   "failures": [
     {
-      "title": "checkout › price regression",
-      "file": "sample.spec.js",
-      "line": 5,
+      "title": "checkout › shows the order total",
+      "file": "checkout.spec.js",
+      "line": 17,
       "status": "unexpected",
       "attempts": [
         "failed",
         "failed"
       ],
-      "error": "Error: displayed price expect(received).toBe(expected) // Object.is equality Expected: \"Rs. 500\""
+      "error": "Error: expect(locator).toHaveText(expected) failed Locator: getByTestId('order-total') Expected: \"$499\""
     },
     {
-      "title": "checkout › flaky login",
-      "file": "sample.spec.js",
-      "line": 6,
+      "title": "checkout › greets a returning customer",
+      "file": "checkout.spec.js",
+      "line": 23,
       "status": "flaky",
       "attempts": [
         "failed",
         "passed"
       ],
-      "error": "Error: Timeout 30000ms exceeded waiting for locator(#login)"
+      "error": "Error: expect(locator).toBeVisible() failed Locator: getByText('Welcome back', { exact: true }) Expected: visible"
     }
   ],
   "proofArtifacts": [
-    "pa_unjudged_8f1b8b0e",
-    "pa_flaky_9c78f0f0"
+    "pa_unjudged_f12e8e14",
+    "pa_flaky_6d6d3a7f"
   ],
+  "updateSnapshots": "default",
+  "baselineWritten": [],
+  "projectsConfigured": [
+    "chromium",
+    "firefox"
+  ],
+  "projectsRun": [
+    "chromium"
+  ],
+  "projectsNotRun": [
+    "firefox"
+  ],
+  "shuffleSeed": null,
   "media": [
-    "test-results/sample-checkout-price-regression/test-failed-1.png",
-    "test-results/sample-checkout-price-regression/video.webm"
+    "test-results/checkout-checkout-greets-a-returning-customer-chromium/test-failed-1.png",
+    "test-results/checkout-checkout-greets-a-returning-customer-chromium/trace.zip",
+    "test-results/checkout-checkout-greets-a-returning-customer-chromium/video.webm",
+    "test-results/checkout-checkout-shows-the-order-total-chromium-retry1/test-failed-1.png",
+    "test-results/checkout-checkout-shows-the-order-total-chromium-retry1/trace.zip",
+    "test-results/checkout-checkout-shows-the-order-total-chromium-retry1/video.webm",
+    "test-results/checkout-checkout-shows-the-order-total-chromium/test-failed-1.png",
+    "test-results/checkout-checkout-shows-the-order-total-chromium/trace.zip",
+    "test-results/checkout-checkout-shows-the-order-total-chromium/video.webm"
   ],
+  "failureMedia": [
+    "test-results/checkout-checkout-greets-a-returning-customer-chromium/test-failed-1.png",
+    "test-results/checkout-checkout-greets-a-returning-customer-chromium/trace.zip",
+    "test-results/checkout-checkout-greets-a-returning-customer-chromium/video.webm",
+    "test-results/checkout-checkout-shows-the-order-total-chromium-retry1/test-failed-1.png",
+    "test-results/checkout-checkout-shows-the-order-total-chromium-retry1/trace.zip",
+    "test-results/checkout-checkout-shows-the-order-total-chromium-retry1/video.webm",
+    "test-results/checkout-checkout-shows-the-order-total-chromium/test-failed-1.png",
+    "test-results/checkout-checkout-shows-the-order-total-chromium/trace.zip",
+    "test-results/checkout-checkout-shows-the-order-total-chromium/video.webm"
+  ],
+  "recordedMedia": [],
   "mediaDir": "test-results",
   "outputDirRelative": "certusqa-gate"
 }
